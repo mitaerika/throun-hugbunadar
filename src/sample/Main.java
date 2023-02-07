@@ -1,11 +1,13 @@
 package sample;
 
+//packages for javafx
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//packages for database connection
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
