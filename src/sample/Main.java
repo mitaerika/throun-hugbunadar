@@ -15,13 +15,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 
-import java.sql.*;
-
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Vidmot/sample.fxml"));
         primaryStage.setTitle("Day Trips");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
