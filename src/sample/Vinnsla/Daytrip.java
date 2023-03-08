@@ -12,9 +12,10 @@ public class Daytrip extends DaytripController{
     String photo;
     int available_seats;
     String location;
-    Review[] reviews;
-    //Vantar ennþá activity, location, review og hotel.
-    public Daytrip(String dTitle1, Date date1, Date start_time1, Date end_time1, String description1, int price1, String photo1, int available_seats1, String location1, Review[] reviews) {
+    String reviews;
+    final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
+    final String[] hotel = new String[]{"Hotel1", "Hotel2", "Hotel3"};
+    public Daytrip(String dTitle1, Date date1, Date start_time1, Date end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String reviews) {
         this.dTitle = dTitle1;
         this.date = date1;
         this.start_time = start_time1;
@@ -29,7 +30,7 @@ public class Daytrip extends DaytripController{
     public String getdTitle() {
         return this.dTitle;
     }
-    public Review[] getReviews() {
+    public String getReviews() {
         return this.reviews;
     }
     public int getPrice() {
@@ -46,6 +47,15 @@ public class Daytrip extends DaytripController{
     }
     public int getAvailable_seats() {
         return this.available_seats;
+    }
+    public String[] getActivity() {
+        return activity;
+    }
+    public String[] getHotel() {
+        return hotel;
+    }
+    public String getLocation() {
+        return location;
     }
 
 }
