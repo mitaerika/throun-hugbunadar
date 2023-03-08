@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -13,11 +13,12 @@
    <children>
       <AnchorPane prefHeight="199.0" prefWidth="209.0">
          <children>
-            <ButtonBar layoutX="7.0" layoutY="80.0" prefHeight="40.0" prefWidth="200.0">
+            <ButtonBar layoutX="5.0" layoutY="80.0" prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button mnemonicParsing="false" text="Button" />
               </buttons>
             </ButtonBar>
+            <Label layoutX="33.0" layoutY="63.0" prefHeight="17.0" prefWidth="143.0" text="Daytrips in Iceland" textAlignment="CENTER" textFill="#25079d" />
          </children>
       </AnchorPane>
    </children>
