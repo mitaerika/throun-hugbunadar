@@ -2,7 +2,7 @@ package sample.Vinnsla;
 
 import java.util.Date;
 
-public class Daytrip {
+public class Daytrip extends DaytripController{
     String dTitle;
     Date date;
     Date start_time;
