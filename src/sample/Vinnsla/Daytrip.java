@@ -12,10 +12,10 @@ public class Daytrip {
     String photo;
     int available_seats;
     String location;
-    Review[] reviews;
+    String reviews;
     final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
     final String[] hotel = new String[]{"Hotel1", "Hotel2", "Hotel3"};
-    public Daytrip(String dTitle1, Date date1, Date start_time1, Date end_time1, String description1, int price1, String photo1, int available_seats1, String location1, Review[] reviews) {
+    public Daytrip(String dTitle1, Date date1, Date start_time1, Date end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String reviews) {
         this.dTitle = dTitle1;
         this.date = date1;
         this.start_time = start_time1;
@@ -30,7 +30,7 @@ public class Daytrip {
     public String getdTitle() {
         return this.dTitle;
     }
-    public Review[] getReviews() {
+    public String getReviews() {
         return this.reviews;
     }
     public int getPrice() {
@@ -56,9 +56,6 @@ public class Daytrip {
     }
     public String getLocation() {
         return location;
-    }
-    public Review[] getReview(){
-        return reviews;
     }
 
 }
