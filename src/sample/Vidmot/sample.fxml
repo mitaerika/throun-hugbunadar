@@ -15,10 +15,10 @@
          <children>
             <ButtonBar layoutX="5.0" layoutY="80.0" prefHeight="40.0" prefWidth="200.0">
               <buttons>
+                  <ScrollBar orientation="VERTICAL" />
                 <Button mnemonicParsing="false" text="Button" />
               </buttons>
             </ButtonBar>
-            <Label layoutX="33.0" layoutY="63.0" prefHeight="17.0" prefWidth="143.0" text="Daytrips in Iceland" textAlignment="CENTER" textFill="#25079d" />
          </children>
       </AnchorPane>
    </children>
