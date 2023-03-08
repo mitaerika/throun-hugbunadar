@@ -1,6 +1,6 @@
 package sample.Vinnsla;
 
-public class Customer {
+public class Customer extends CustomerController{
     int id;
     String name;
     String email;
