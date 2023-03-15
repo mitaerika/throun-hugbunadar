@@ -151,9 +151,63 @@ public class DaytripController {
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
+        return i+1;
+
+    }
+    public Daytrip[] sortByTime(Daytrip[] listi, Boolean uppEdaNidur) {
+
+        int low = 0;
+        int high = listi.length;
+        sortPrice(listi, low, high, uppEdaNidur);
+        return listi;
+
+    }
+
+    public void sortTime(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
+        if (low < high)
+        {
+            /* pi is partitioning index, arr[pi] is
+              now at right place */
+            int pi;
+            if(uppEdaNidur) {pi = sortByTimeRecursiveUpp(listi, low, high);}
+            else{pi = sortByTimeRecursiveNidur(listi, low, high);}
+
+
+            // Recursively sort elements before
+            // partition and after partition
+            sortTime(listi, low, pi-1, uppEdaNidur);
+            sortTime(listi, pi+1, high, uppEdaNidur);
+        }
+    }
+
+    private int sortByTimeRecursiveNidur(Daytrip[] listi, int low, int high) {
+        //Calendar pivot = listi[high].getStartTime();
+        int i = (low-1); // index of smaller element
+        for (int j=low; j<high; j++)
+        {
+            // If current element is smaller than or
+            // equal to pivot
+            if (listi[j].getPrice() >= pivot)
+            {
+                i++;
+
+                // swap arr[i] and arr[j]
+                Daytrip temp = listi[i];
+                listi[i] = listi[j];
+                listi[j] = temp;
+            }
+        }
+
+        // swap arr[i+1] and arr[high] (or pivot)
+        Daytrip temp = listi[i+1];
+        listi[i+1] = listi[high];
+        listi[high] = temp;
 
         return i+1;
 
+    }
+
+    private int sortByTimeRecursiveUpp(Daytrip[] listi, int low, int high) {
     }
 
 
