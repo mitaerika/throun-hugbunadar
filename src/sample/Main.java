@@ -32,16 +32,18 @@ public class Main extends Application {
         Connection conn = null;
         try
         {
-            conn = DriverManager.getConnection("jdbc:sqlite:daytrip.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:daytripDB.db");
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("DROP TABLE IF EXISTS booking");
-            stmt.executeUpdate("CREATE TABLE booking(key integer primary key,value double)");
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO booking VALUES(?,?)");
-            ResultSet r = stmt.executeQuery(
-                    "SELECT * FROM booking"
+            //stmt.executeUpdate("DROP TABLE IF EXISTS booking");
+            //stmt.executeUpdate("CREATE TABLE booking(key integer primary key,value double)");
+            //PreparedStatement pstmt = conn.prepareStatement("INSERT INTO booking VALUES(?,?)");
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT title,date,price FROM Daytrip WHERE price<10000"
             );
-            r.next();
-            System.out.println("Niðurstaða leitar: "+r.getInt(1));
+            while (rs.next()) {
+                System.out.println(rs.getString(1)+", "+rs.getString(2)+", "+rs.getInt(3));
+                System.out.println("");
+            }
         }
         catch(SQLException e)
         {
