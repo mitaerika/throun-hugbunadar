@@ -1,6 +1,8 @@
 package sample.Vinnsla;
 
-public class Booking extends BookingController{
+import sample.Vidmot.BookingController;
+
+public class Booking extends BookingController {
     int number;
     int booked_seats;
     int total_cost;

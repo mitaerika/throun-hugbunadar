@@ -1,4 +1,4 @@
-package sample.Vinnsla;
+package sample.Vidmot;
 
 public class BookingController {
     /* public Booking addBooking(Daytrip daytrip, Customer customer){
