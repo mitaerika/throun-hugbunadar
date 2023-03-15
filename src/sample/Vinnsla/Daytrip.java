@@ -58,6 +58,9 @@ public class Daytrip extends DaytripController{
         return location;
     }
 
+    public void setPrice(int newPrice) {
+        this.price = newPrice;
+    }
 }
 
 
