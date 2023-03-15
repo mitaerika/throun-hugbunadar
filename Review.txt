@@ -1,0 +1,17 @@
+Jöklaganga,10,"Þetta var ein flottasta ganga sem ég hef nokkurn tímann farið í. Veðrið var yndislegt, og ég hef sjaldan séð neitt jafn fagurt og endurspeglun ljóssins á víðtæka ísnum. Ég mæli eindregið með þessari upplifun."
+Jöklaganga,5,"Þetta var svakalegt flott, en þetta var ofboðslega erfitt. Ég og eiginmaður minn gátum varla haldið í við leiðsögumanninn. Maturinn var heldur ekkert sérstakur. Mæli samt með þessu, þó að verðið sé kannski aðeins of hátt."
+Jöklaganga,1,"Amma mín dróg mig með í þessa göngu og þetta var ömurlegt. Endalaus klaki og snjór, fokking ískalt, hræðilegur matur og alveg alltof erfitt. Skil ekkert í þessari þráhyggju um náttúru eða whatever."
+Hekluganga,1," sá ekkert eldgos, lame."
+Hekluganga,8,"Frábær ganga, magnað útsýni en leiðsögumaðurinn var fremur dónalegur fyrir minn smekk. "
+Hekluganga,10,"Allt var fullkomið. Ég og unnusta mín skruppum í þessa ferð og áttum yndislega stund. Við erum afar forvitin um eldogs og fjöll, og leiðsögumaðurinn svaraði öllum spurningum okkar og sýndi okkur frábæra hluti. Við ætlum að kíkja aftur í sumar í betra veðri!"
+Skoðunarferð á bóndabæ,10,"Krakkarnir mínir elskuðu ferðina! Þau gátu eytt mörgum klukkutímum bara í að klappa dýrunum, hlaupa á fallegu engjunum og að sjálfsögðu var hápunktur ferðarinnar að fara á hestbak. Yndislega ljúf fjölskyldu ferð."
+Gistiferð undir stjörnuhimni,9,"Þetta var frekar köld og óþægileg nótt, en hún var algjörlega þess virði. Þessi staðsetning er yndisleg og kósý, og það er svo stjörnubjart þarna! Við hlógum og sungum, og áttum frábæra stund."
+Hvalaskoðun,8,"Þetta var mjög flott ferð, en drykkirnir voru fáranlega dýrir. Góður matur, fengum að sjá fullt af hvölum. Mæli með að fela áfengi inn á sér ef maður fer í þetta."
+Dagur Rjúpunnar,5,Við fundum bara fjórar rjúpur og bara einn af okkur hitti skotinu sínu. Ég hef enga hugmynd hvernig við erum að fara að skipta einni rjúpu á milli okkar. Annars var þetta bara fínt.
+Hellaskoðanir,10,"Gaur, þetta var fucking epic. Ég hef aldrei skoðað svona helli áður en ég gat alveg svona öskrað og það bergmálaði og við félagarnir náðum alveg næstum því að villast! Fucking amazing 10/10"
+Rútuferð um Gullna hringinn,4,"Hver nennir að skoða náttúru þegar maður gæti spilað tölvuleiki?
+"
+Fræðiferð um Reykjavík,9,Leiðsögumaður okkar var afar faglegur og virðist hafa endalausa þekkingu um bæjarlíf seinustu alda. Ég lærði heilmikið af nýjum staðreyndum um þessa fagra borg og get hreinlega sagt að þetta var yndisleg ferð. 
+Ganga að Laugarfellslaug,7,Þetta var ágætis ganga og frábær laug með gullfallegu útsýni. Mér finnst verðið hinsvegar kjánalega hátt og mæli frekar með því að fara bara í þessa ferð á eigin bíl án leiðsögumanns.
+Dagsferð til Vestmannaeyja,8,Þetta var skemmtileg ferð og leiðsögumaðurinn hafði ansi margar tillögur um hluti til þess að skoða. Þegar leið á daginn fór mér samt að leiðast. Það er kannski aðeins og langur tími að vera heilan dag þarna.
+Skotsvæði,10,Það er ekkert sem jafnast á við það að skjóta byssu. Myndi gera það á hverjum einasta degi ef ég gæti.
