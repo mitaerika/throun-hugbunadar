@@ -181,13 +181,13 @@ public class DaytripController {
     }
 
     private int sortByTimeRecursiveNidur(Daytrip[] listi, int low, int high) {
-        //Calendar pivot = listi[high].getStartTime();
+        long pivot = listi[high].getStartTime().getTimeInMillis();
         int i = (low-1); // index of smaller element
         for (int j=low; j<high; j++)
         {
             // If current element is smaller than or
             // equal to pivot
-            if (listi[j].getPrice() >= pivot)
+            if (listi[j].getStartTime().getTimeInMillis() >= pivot)
             {
                 i++;
 
@@ -208,6 +208,29 @@ public class DaytripController {
     }
 
     private int sortByTimeRecursiveUpp(Daytrip[] listi, int low, int high) {
+        long pivot = listi[high].getStartTime().getTimeInMillis();
+        int i = (low-1); // index of smaller element
+        for (int j=low; j<high; j++)
+        {
+            // If current element is smaller than or
+            // equal to pivot
+            if (listi[j].getStartTime().getTimeInMillis() <= pivot)
+            {
+                i++;
+
+                // swap arr[i] and arr[j]
+                Daytrip temp = listi[i];
+                listi[i] = listi[j];
+                listi[j] = temp;
+            }
+        }
+
+        // swap arr[i+1] and arr[high] (or pivot)
+        Daytrip temp = listi[i+1];
+        listi[i+1] = listi[high];
+        listi[high] = temp;
+
+        return i+1;
     }
 
 
