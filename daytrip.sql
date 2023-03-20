@@ -3,7 +3,7 @@ BEGIN TRANSACTION;
 -- review must be separate from daytrip to accomodate multiple reviews per daytrip
 CREATE TABLE Daytrip (
 	title varchar(100),
-	date Date,
+	date_trip Date,
 	start_time Time,
 	end_time Time,
 	description varchar(1000),
