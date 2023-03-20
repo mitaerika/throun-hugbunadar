@@ -1,6 +1,3 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
--- review must be separate from daytrip to accomodate multiple reviews per daytrip
 CREATE TABLE Daytrip
     ( title varchar(100)
     , date_trip Date
@@ -57,11 +54,10 @@ CREATE TABLE Hotel
     , daytrip_title varchar(50)
     , FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
     );
-COMMIT;
 
+PRAGMA foreign_keys=ON;
 BEGIN TRANSACTION;
-COMMIT;
-
+-- review must be separate from daytrip to accomodate multiple reviews per daytrip
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-01','06:00:00','11:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-04','12:00:00','17:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-07','12:00:00','17:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
@@ -102,7 +98,9 @@ INSERT INTO Daytrip VALUES('Dagsferð til Vestmannaeyja','2023-04-21','08:00:00'
 INSERT INTO Daytrip VALUES('Dagsferð til Vestmannaeyja','2023-04-26','08:00:00','21:00:00','Allt landið tók andköf þegar heimaeyjargosið hófst. Enda er það líklegast það sem Heimaey er frægust fyrir, það eða þjóðhátíð. Núna bjóðum við upp á að kíkja í dagsferð til Heimaey. Þar er hægt að skoða bæjinn, fara í sund, labba í náttúrunni, kíkja í Herjólfsdal, og auðvitað smakka það sem heimamenn hafa upp á að bjóða. Það verður leiðsögumaður, en það er afar líklegt að hópurinn muni skiptast upp yfir daginn. Sniðugt að klæðast eftir veðri, taka með sér sundföt og smá nesti, og mjög mikilvægt að hafa á hreinu hvenær skipið kemur og fer.',23999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Skotsvæði','2023-04-01','08:00:00','16:00:00','Á íslandi eru um það bil þrjátíu byssur fyrir hverja hundruð íbúa, sem kemur kannski á óvart því Ísland er afar friðsælt land. Við höfum þó afar gaman af byssum, og því eru skotsvæði allstaðar um landið. Í þessari ferð verður farið með rútu að skotsvæði út á landi og eytt nokkrum tímum þar. Hægt er að skjóta með boga og allskyns riflum, og þar verður sérfræðingur sem getur kennt að miða betur. Börn yngri en 15 eru ekki leyfð.',8999, null, 12, null,'Norðaustur', null);
 INSERT INTO Daytrip VALUES('Skotsvæði','2023-04-02','08:00:00','16:00:00','Á íslandi eru um það bil þrjátíu byssur fyrir hverja hundruð íbúa, sem kemur kannski á óvart því Ísland er afar friðsælt land. Við höfum þó afar gaman af byssum, og því eru skotsvæði allstaðar um landið. Í þessari ferð verður farið með rútu að skotsvæði út á landi og eytt nokkrum tímum þar. Hægt er að skjóta með boga og allskyns riflum, og þar verður sérfræðingur sem getur kennt að miða betur. Börn yngri en 15 eru ekki leyfð.',8999, null, 12, null,'Norðaustur', null);
+END TRANSACTION;
 
+BEGIN TRANSACTION;
 INSERT INTO Review VALUES('0000','Jöklaganga',10,'Þetta var ein flottasta ganga sem ég hef nokkurn tímann farið í. Veðrið var yndislegt, og ég hef sjaldan séð neitt jafn fagurt og endurspeglun ljóssins á víðtæka ísnum. Ég mæli eindregið með þessari upplifun.');
 INSERT INTO Review VALUES('0001','Jöklaganga',5,'Þetta var svakalegt flott, en þetta var ofboðslega erfitt. Ég og eiginmaður minn gátum varla haldið í við leiðsögumanninn. Maturinn var heldur ekkert sérstakur. Mæli samt með þessu, þó að verðið sé kannski aðeins of hátt.');
 INSERT INTO Review VALUES('0002','Jöklaganga',1,'Amma mín dróg mig með í þessa göngu og þetta var ömurlegt. Endalaus klaki og snjór, fokking ískalt, hræðilegur matur og alveg alltof erfitt. Skil ekkert í þessari þráhyggju um náttúru eða whatever.');
