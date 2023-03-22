@@ -1,9 +1,10 @@
 package sample.Vinnsla;
 
-import java.util.Calendar;
-import java.util.Date;
+import sample.Vidmot.DaytripController;
 
-public class Daytrip extends DaytripController{
+import java.util.Calendar;
+
+public class Daytrip extends DaytripController {
     String dTitle;
     Calendar date;
     Calendar start_time;
@@ -38,6 +39,7 @@ public class Daytrip extends DaytripController{
     }
     public int getRating() {
         //Meðal einkunn
+        //köllum á einhverja aðferð úr database manager
         return this.rating;
     }
     public int getPrice() {

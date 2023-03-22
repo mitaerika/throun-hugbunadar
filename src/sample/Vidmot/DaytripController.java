@@ -1,4 +1,6 @@
-package sample.Vinnsla;
+package sample.Vidmot;
+
+import sample.Vinnsla.Daytrip;
 
 public class DaytripController {
 
