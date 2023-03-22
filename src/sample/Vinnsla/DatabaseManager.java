@@ -4,6 +4,9 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class DatabaseManager {
@@ -26,21 +29,24 @@ public class DatabaseManager {
             String desc = rs.getString(5);
             int price = rs.getInt(6);
             String filename = rs.getString(7);
-            int available_seats = rs.getInt(8);
+            int seats = rs.getInt(8);
             // ! need to fix activity
             String activity = "";
             String location = rs.getString(10);
-            // ! need to fix hotel
-            String hotel = "";
+            // ! need to fix reviews
+            String review = "";
+            // ! need to get rating
+            int rating = 10;
             // ! need to convert String to Calendar/Time for startdate
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            DateTimeFormatter fdate = DateTimeFormatter.ofPattern( "YYYY-MM-DD" );
+            DateTimeFormatter ftime = DateTimeFormatter.ofPattern( "hh:mm:ss" );
+            LocalDate ld = LocalDate.parse(date, fdate);
+            LocalTime startT = LocalTime.parse(starttime, ftime);
+            LocalTime endT = LocalTime.parse(endtime, ftime);
             // ! need to create Daytrip instance consisting of info above
-            Daytrip temp = new Daytrip();
+            Daytrip temp = new Daytrip(title, ld, startT, endT, desc, price, filename, seats, location, review, rating);
             dt[n] = temp;
         }
         return dt;
     }
-
-
 }
