@@ -20,23 +20,19 @@ public class DaytripController {
      */
     public int sortByPriceRecursiveUpp(Daytrip[] listi, int low, int high) {
         int pivot = listi[high].getPrice();
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
             if (listi[j].getPrice() <= pivot)
             {
                 i++;
 
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
@@ -49,23 +45,19 @@ public class DaytripController {
      */
     public int sortByPriceRecursiveNidur(Daytrip[] listi, int low, int high) {
         int pivot = listi[high].getPrice();
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
             if (listi[j].getPrice() >= pivot)
             {
                 i++;
 
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
@@ -79,15 +71,10 @@ public class DaytripController {
     public void sortPrice(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
         if (low < high)
         {
-            /* pi is partitioning index, arr[pi] is
-              now at right place */
             int pi;
             if(uppEdaNidur) {pi = sortByPriceRecursiveUpp(listi, low, high);}
             else{pi = sortByPriceRecursiveNidur(listi, low, high);}
 
-
-            // Recursively sort elements before
-            // partition and after partition
             sortPrice(listi, low, pi-1, uppEdaNidur);
             sortPrice(listi, pi+1, high, uppEdaNidur);
         }
@@ -106,15 +93,11 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir rating. Boolean 
     private void sortRating(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
         if (low < high)
         {
-            /* pi is partitioning index, arr[pi] is
-              now at right place */
             int pi;
             if(uppEdaNidur) {pi = sortByRatingRecursiveUpp(listi, low, high);}
             else{pi = sortByRatingRecursiveNidur(listi, low, high);}
 
 
-            // Recursively sort elements before
-            // partition and after partition
             sortRating(listi, low, pi-1, uppEdaNidur);
             sortRating(listi, pi+1, high, uppEdaNidur);
         }
@@ -122,23 +105,17 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir rating. Boolean 
 
     private int sortByRatingRecursiveNidur(Daytrip[] listi, int low, int high) {
         int pivot = listi[high].getRating();
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
             if (listi[j].getRating() >= pivot)
             {
                 i++;
-
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
-
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
@@ -152,20 +129,16 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir rating. Boolean 
         int i = (low-1); // index of smaller element
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
             if (listi[j].getRating() <= pivot)
             {
                 i++;
 
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
@@ -187,15 +160,10 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
     public void sortTime(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
         if (low < high)
         {
-            /* pi is partitioning index, arr[pi] is
-              now at right place */
             int pi;
             if(uppEdaNidur) {pi = sortByTimeRecursiveUpp(listi, low, high);}
             else{pi = sortByTimeRecursiveNidur(listi, low, high);}
 
-
-            // Recursively sort elements before
-            // partition and after partition
             sortTime(listi, low, pi-1, uppEdaNidur);
             sortTime(listi, pi+1, high, uppEdaNidur);
         }
@@ -203,23 +171,18 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
 
     private int sortByTimeRecursiveNidur(Daytrip[] listi, int low, int high) {
         long pivot = listi[high].getStartTime().getTimeInMillis();
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
             if (listi[j].getStartTime().getTimeInMillis() >= pivot)
             {
                 i++;
-
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
@@ -230,23 +193,20 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
 
     private int sortByTimeRecursiveUpp(Daytrip[] listi, int low, int high) {
         long pivot = listi[high].getStartTime().getTimeInMillis();
-        int i = (low-1); // index of smaller element
+        int i = (low-1);
         for (int j=low; j<high; j++)
         {
-            // If current element is smaller than or
-            // equal to pivot
+
             if (listi[j].getStartTime().getTimeInMillis() <= pivot)
             {
                 i++;
 
-                // swap arr[i] and arr[j]
                 Daytrip temp = listi[i];
                 listi[i] = listi[j];
                 listi[j] = temp;
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
         Daytrip temp = listi[i+1];
         listi[i+1] = listi[high];
         listi[high] = temp;
