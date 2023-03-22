@@ -1,9 +1,12 @@
 package sample.Vinnsla;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
+import java.util.Calendar;
 
 public class DatabaseManager {
-
-    public static void main(String[] args )
+    public static void main(String[] args)
             throws Exception
     {
         Connection conn = null;
@@ -14,7 +17,7 @@ public class DatabaseManager {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:daytripDB.db");
             stmt = conn.createStatement();
-            r = stmt.executeQuery("SELECT * FROM Daytrip;");
+            r = stmt.executeQuery("SELECT title FROM Daytrip;");
             if( r.next() ) System.out.println(r.getDouble(1));
         }
         catch( Exception e )
