@@ -1,63 +1,22 @@
-CREATE TABLE Daytrip
-    ( title varchar(100)
-    , date_trip Date
-    , start_time Time
-    , end_time Time
-    , description varchar(1000)
-    , price int
-    , photo varchar(50)
-    , available_seats int
-    , activity_name varchar(50)
-    , location_name varchar(50)
-    , hotel_name varchar(120)
-    , PRIMARY KEY(title, date, start_time)
-    , FOREIGN KEY(activity_name) REFERENCES Activity(name)
-    , FOREIGN KEY(hotel_name) REFERENCES Hotel(name)
-    );
-CREATE TABLE Booking
-    ( number int(3)
-    , booked_seats int
-    , total_cost int
-    , daytrip_title varchar(100)
-    , daytrip_date Date
-    , daytrip_start_time Time
-    , daytrip_end_time Time
-    , daytrip_price int
-    , hotel_name varchar(120)
-    , cust_id char(4)
-    , PRIMARY KEY(number)
-    , FOREIGN KEY(daytrip_title,daytrip_date, daytrip_start_time, daytrip_end_time, daytrip_price) REFERENCES Daytrip(title, date, start_time, end_time, price)
-	, FOREIGN KEY(hotel_name) REFERENCES Hotel(name)
-    );
-CREATE TABLE Customer
-    ( id char(4) PRIMARY KEY
-    , name varchar(100)
-    , email varchar(50)
-    , phone int
-    , booking_number char(3)
-    , FOREIGN KEY (booking_number) REFERENCES Booking(number)
-    );
-CREATE TABLE Review
-    ( number char(4) PRIMARY KEY
-    , daytrip_title varchar(100)
-    , rating int(2)
-    , text varchar(800)
-    , FOREIGN KEY(daytrip_title) REFERENCES Daytrip(title)
-    );
-CREATE TABLE Activity
-    ( name varchar(50) PRIMARY KEY
-    , daytrip_title varchar(50)
-    , FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
-    );
-CREATE TABLE Hotel
-    ( name varchar(120) PRIMARY KEY
-    , daytrip_title varchar(50)
-    , FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
-    );
-
-PRAGMA foreign_keys=ON;
+PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 -- review must be separate from daytrip to accomodate multiple reviews per daytrip
+CREATE TABLE Daytrip (
+	title varchar(100),
+	date_trip Date,
+	start_time Time,
+	end_time Time,
+	description varchar(1000),
+	price int,
+	photo varchar(50),
+	available_seats int,
+	activity_name varchar(50),
+	location_name varchar(50),
+	hotel_name varchar(120),
+	PRIMARY KEY(title, date_trip, start_time),
+	FOREIGN KEY(activity_name) REFERENCES Activity(name),
+	FOREIGN KEY(hotel_name) REFERENCES Hotel(name)
+);
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-01','06:00:00','11:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-04','12:00:00','17:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Jöklaganga','2023-04-07','12:00:00','17:00:00','Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.',20999, null, 12, null,'Suður', null);
@@ -98,9 +57,39 @@ INSERT INTO Daytrip VALUES('Dagsferð til Vestmannaeyja','2023-04-21','08:00:00'
 INSERT INTO Daytrip VALUES('Dagsferð til Vestmannaeyja','2023-04-26','08:00:00','21:00:00','Allt landið tók andköf þegar heimaeyjargosið hófst. Enda er það líklegast það sem Heimaey er frægust fyrir, það eða þjóðhátíð. Núna bjóðum við upp á að kíkja í dagsferð til Heimaey. Þar er hægt að skoða bæjinn, fara í sund, labba í náttúrunni, kíkja í Herjólfsdal, og auðvitað smakka það sem heimamenn hafa upp á að bjóða. Það verður leiðsögumaður, en það er afar líklegt að hópurinn muni skiptast upp yfir daginn. Sniðugt að klæðast eftir veðri, taka með sér sundföt og smá nesti, og mjög mikilvægt að hafa á hreinu hvenær skipið kemur og fer.',23999, null, 12, null,'Suður', null);
 INSERT INTO Daytrip VALUES('Skotsvæði','2023-04-01','08:00:00','16:00:00','Á íslandi eru um það bil þrjátíu byssur fyrir hverja hundruð íbúa, sem kemur kannski á óvart því Ísland er afar friðsælt land. Við höfum þó afar gaman af byssum, og því eru skotsvæði allstaðar um landið. Í þessari ferð verður farið með rútu að skotsvæði út á landi og eytt nokkrum tímum þar. Hægt er að skjóta með boga og allskyns riflum, og þar verður sérfræðingur sem getur kennt að miða betur. Börn yngri en 15 eru ekki leyfð.',8999, null, 12, null,'Norðaustur', null);
 INSERT INTO Daytrip VALUES('Skotsvæði','2023-04-02','08:00:00','16:00:00','Á íslandi eru um það bil þrjátíu byssur fyrir hverja hundruð íbúa, sem kemur kannski á óvart því Ísland er afar friðsælt land. Við höfum þó afar gaman af byssum, og því eru skotsvæði allstaðar um landið. Í þessari ferð verður farið með rútu að skotsvæði út á landi og eytt nokkrum tímum þar. Hægt er að skjóta með boga og allskyns riflum, og þar verður sérfræðingur sem getur kennt að miða betur. Börn yngri en 15 eru ekki leyfð.',8999, null, 12, null,'Norðaustur', null);
-END TRANSACTION;
 
-BEGIN TRANSACTION;
+CREATE TABLE Booking (
+	num int(3), 
+	booked_seats int,
+	daytrip_title varchar(100),
+	daytrip_date Date,
+	daytrip_start_time Time,
+	daytrip_end_time Time,
+	daytrip_price int,
+	hotel_name varchar(120),
+	total_cost int,
+	cust_id char(4),
+	PRIMARY KEY(num)
+	FOREIGN KEY(daytrip_title, daytrip_date, daytrip_start_time, daytrip_end_time, daytrip_price) REFERENCES Daytrip(title, date_trip, start_time, end_time, price)
+	FOREIGN KEY(hotel_name) REFERENCES Hotel(name)
+);
+
+CREATE TABLE Customer (
+	id char(4) PRIMARY KEY,
+	name varchar(100),
+	email varchar(50),
+	phone int,
+	booking_number char(3),
+	FOREIGN KEY (booking_number) REFERENCES Booking(num)
+);
+
+CREATE TABLE Review (
+	num char(4) PRIMARY KEY,
+	daytrip_title varchar(100),
+	rating int(2),
+	comment_text varchar(800),
+	FOREIGN KEY(daytrip_title) REFERENCES Daytrip(title)
+);
 INSERT INTO Review VALUES('0000','Jöklaganga',10,'Þetta var ein flottasta ganga sem ég hef nokkurn tímann farið í. Veðrið var yndislegt, og ég hef sjaldan séð neitt jafn fagurt og endurspeglun ljóssins á víðtæka ísnum. Ég mæli eindregið með þessari upplifun.');
 INSERT INTO Review VALUES('0001','Jöklaganga',5,'Þetta var svakalegt flott, en þetta var ofboðslega erfitt. Ég og eiginmaður minn gátum varla haldið í við leiðsögumanninn. Maturinn var heldur ekkert sérstakur. Mæli samt með þessu, þó að verðið sé kannski aðeins of hátt.');
 INSERT INTO Review VALUES('0002','Jöklaganga',1,'Amma mín dróg mig með í þessa göngu og þetta var ömurlegt. Endalaus klaki og snjór, fokking ískalt, hræðilegur matur og alveg alltof erfitt. Skil ekkert í þessari þráhyggju um náttúru eða whatever.');
@@ -117,3 +106,16 @@ INSERT INTO Review VALUES('0012','Fræðiferð um Reykjavík',9,'Leiðsögumaðu
 INSERT INTO Review VALUES('0013','Ganga að Laugarfellslaug',7,'Þetta var ágætis ganga og frábær laug með gullfallegu útsýni. Mér finnst verðið hinsvegar kjánalega hátt og mæli frekar með því að fara bara í þessa ferð á eigin bíl án leiðsögumanns.');
 INSERT INTO Review VALUES('0014','Dagsferð til Vestmannaeyja',8,'Þetta var skemmtileg ferð og leiðsögumaðurinn hafði ansi margar tillögur um hluti til þess að skoða. Þegar leið á daginn fór mér samt að leiðast. Það er kannski aðeins og langur tími að vera heilan dag þarna.');
 INSERT INTO Review VALUES('0015','Skotsvæði',10,'Það er ekkert sem jafnast á við það að skjóta byssu. Myndi gera það á hverjum einasta degi ef ég gæti.');
+CREATE TABLE Activity (
+	name varchar(50) PRIMARY KEY,
+	daytrip_title varchar(50),
+	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
+);
+CREATE TABLE Hotel (
+	name varchar(120) PRIMARY KEY,
+	daytrip_title varchar(50),
+	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
+);
+END TRANSACTION;
+COMMIT;
+PRAGMA foreign_keys=ON;

@@ -2,10 +2,14 @@ package sample;
 
 //packages for javafx
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Vinnsla.DatabaseManager;
+import sample.Vinnsla.Daytrip;
 
 //packages for database connection
 import java.sql.Connection;
@@ -16,6 +20,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 public class Main extends Application {
+    static String url = "jdbc:sqlite:daytripDB.db";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,24 +31,18 @@ public class Main extends Application {
         int variableName = 4;
     }
 
-
-    public static void main(String[] args) throws Exception {
+    public static void connectToDatabase() throws Exception{
         Class.forName("org.sqlite.JDBC");
         Connection conn = null;
         try
         {
-            conn = DriverManager.getConnection("jdbc:sqlite:daytripDB.db");
+            conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
-            //stmt.executeUpdate("DROP TABLE IF EXISTS booking");
-            //stmt.executeUpdate("CREATE TABLE booking(key integer primary key,value double)");
-            //PreparedStatement pstmt = conn.prepareStatement("INSERT INTO booking VALUES(?,?)");
             ResultSet rs = stmt.executeQuery(
-                    "SELECT title,date,price FROM Daytrip WHERE price<10000"
+                    "SELECT * FROM Daytrip WHERE available_seats>0"
             );
-            while (rs.next()) {
-                System.out.println(rs.getString(1)+", "+rs.getString(2)+", "+rs.getInt(3));
-                System.out.println("");
-            }
+            DatabaseManager dbManager = new DatabaseManager();
+            dbManager.createDaytripObjects(rs);
         }
         catch(SQLException e)
         {
@@ -61,6 +60,11 @@ public class Main extends Application {
                 System.err.println(e);
             }
         }
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        connectToDatabase();
         launch(args);
     }
 }
