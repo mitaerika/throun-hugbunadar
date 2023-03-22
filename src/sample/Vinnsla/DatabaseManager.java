@@ -3,34 +3,44 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DatabaseManager {
-    public static void main(String[] args)
-            throws Exception
-    {
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet r = null;
-        try
-        {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:daytripDB.db");
-            stmt = conn.createStatement();
-            r = stmt.executeQuery("SELECT title FROM Daytrip;");
-            if( r.next() ) System.out.println(r.getDouble(1));
+    public Daytrip[] createDaytripObjects(ResultSet rs) throws SQLException {
+        // get n as size of resultSet
+        int n = 0;
+        while (rs.next()) {
+            n++;
         }
-        catch( Exception e )
-        {
-            e.printStackTrace();
+        // create array of N daytrips
+        Daytrip[] dt = new Daytrip[n];
+        // resets pointer to the default position at the start of resultSet
+        rs.beforeFirst();
+        n = 0;
+        while (rs.next()) {
+            String title = rs.getString(1);
+            String date = rs.getString(2);
+            String starttime = rs.getString(3);
+            String endtime = rs.getString(4);
+            String desc = rs.getString(5);
+            int price = rs.getInt(6);
+            String filename = rs.getString(7);
+            int available_seats = rs.getInt(8);
+            // ! need to fix activity
+            String activity = "";
+            String location = rs.getString(10);
+            // ! need to fix hotel
+            String hotel = "";
+            // ! need to convert String to Calendar/Time for startdate
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            // ! need to create Daytrip instance consisting of info above
+            Daytrip temp = new Daytrip();
+            dt[n] = temp;
         }
-        finally
-        {
-            if( r!=null ) r.close();
-            if( stmt!=null ) stmt.close();
-            if( conn!=null ) conn.close();
-        }
+        return dt;
     }
-// db.sql fyrir create table etc
+
 
 }
