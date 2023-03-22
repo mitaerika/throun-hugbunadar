@@ -1,6 +1,10 @@
 package sample.Vinnsla;
 
 public class DaytripController {
+
+    /*
+    Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir verði. Boolean breytan ákvarðar hvort það er flokkað hækkandi eða lækkandi.
+     */
         public Daytrip[] sortByPrice(Daytrip[] listi, Boolean uppEdaNidur) {
 
             int low = 0;
@@ -9,6 +13,9 @@ public class DaytripController {
             return listi;
 
     }
+    /*
+    Notað af sortPrice til að flokka verð
+     */
     public int sortByPriceRecursiveUpp(Daytrip[] listi, int low, int high) {
         int pivot = listi[high].getPrice();
         int i = (low-1); // index of smaller element
@@ -35,6 +42,9 @@ public class DaytripController {
         return i+1;
 
     }
+    /*
+    Notað af sortPrice til að flokka verð
+     */
     public int sortByPriceRecursiveNidur(Daytrip[] listi, int low, int high) {
         int pivot = listi[high].getPrice();
         int i = (low-1); // index of smaller element
@@ -61,6 +71,9 @@ public class DaytripController {
         return i+1;
 
     }
+    /*
+    Endurkvæmt fylki sem flokkar eftir verði.
+     */
     public void sortPrice(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
         if (low < high)
         {
@@ -77,6 +90,9 @@ public class DaytripController {
             sortPrice(listi, pi+1, high, uppEdaNidur);
         }
     }
+    /*
+Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir rating. Boolean breytan ákvarðar hvort það er flokkað hækkandi eða lækkandi.
+ */
     public Daytrip[] sortByRating(Daytrip[] listi, Boolean uppEdaNidur) {
 
         int low = 0;
@@ -154,6 +170,9 @@ public class DaytripController {
         return i+1;
 
     }
+    /*
+Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean breytan ákvarðar hvort það er flokkað hækkandi eða lækkandi.
+ */
     public Daytrip[] sortByTime(Daytrip[] listi, Boolean uppEdaNidur) {
 
         int low = 0;
