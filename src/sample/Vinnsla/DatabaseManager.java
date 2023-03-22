@@ -6,7 +6,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DatabaseManager {
+public class DatabaseManager implements IDatabaseManager{
+
     public Daytrip[] createDaytripObjects(ResultSet rs) throws SQLException {  //resultsettið sem var í main.
                                                                                //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
         // get n as size of resultSet
