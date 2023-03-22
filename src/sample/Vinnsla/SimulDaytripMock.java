@@ -1,4 +1,7 @@
 package sample.Vinnsla;
 
-public class SimulDaytripMock {
+import java.util.Calendar;
+
+public class SimulDaytripMock{
+    //Daytrip daytrip = new Daytrip();
 }
