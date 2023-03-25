@@ -11,10 +11,7 @@ public class MockDatabaseManager implements IDatabaseManager{
     private Daytrip daytrip1;
     private Daytrip daytrip2;
     private ObservableList<Daytrip> daytrips;
-    @Override
-    public ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {
-        return null;
-    }
+
     //Before
     public void setUp() {
         Daytrip daytrip1 = new Daytrip("Jöklaganga","2023-04-01", "06:00:00", "11:00:00","Íslensku Jöklarnir eru einar af frægustu náttúruperlum þjóðar okkar, enda eru þeir svakalegt dæmi um hið svakalega afl sem náttúran hefur. Það eru fáar upplifanir jafn magnaðar og að fara í jöklagöngu. Þar færðu útsýni líkt engu öðru, endalaus snjór og ís í allar áttir, sólargeislarnir endarspeglaðir allstaðar frá. Á göngunni verður skoðað íshelli, sprungur, og allskyns aðra hluti. Leiðsögumaðurinn hefur gengið þar um í mörg, mörg ár og veit um allskyns leyndarmál falin í jöklinum. Matur er innifalinn í ferð. Til þess að koma með þarf góða gönguskó, hlýja úlpu, snjóbuxur, húfu, vettlinga, góðan bakpoka, og það er mælt með að fólk sé í góðu formi og reynslumikið í fjallgöngum.",20999, null, 12, "Suður",null, 4);

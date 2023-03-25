@@ -8,7 +8,38 @@ import java.util.Calendar;
 
 public class DatabaseManager implements IDatabaseManager{
 
-    public ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {  //resultsettið sem var í main.
+    public static void connectToDatabase() throws Exception{
+        Class.forName("org.sqlite.JDBC");
+        Connection conn = null;
+        try
+        {
+            conn = DriverManager.getConnection("jdbc:sqlite:daytripDB.db");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT * FROM Daytrip WHERE available_seats>0"
+            );
+            createDaytripObjects(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(conn != null)
+                    conn.close();
+            }
+            catch(SQLException e)
+            {
+                System.err.println(e);
+            }
+        }
+    }
+
+
+    public static ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {  //resultsettið sem var í main.
                                                                                //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
         ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
 
