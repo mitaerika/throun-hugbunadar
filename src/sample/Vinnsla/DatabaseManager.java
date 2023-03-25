@@ -18,7 +18,7 @@ public class DatabaseManager implements IDatabaseManager{
             ResultSet rs = stmt.executeQuery(
                     "SELECT * FROM Daytrip WHERE available_seats>0"
             );
-            createDaytripObjects(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+            createDaytripObservableList(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
         }
         catch(SQLException e)
         {
@@ -39,7 +39,7 @@ public class DatabaseManager implements IDatabaseManager{
     }
 
 
-    public static ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {  //resultsettið sem var í main.
+    public static ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException {  //resultsettið sem var í main.
                                                                                //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
         ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
 
@@ -50,7 +50,7 @@ public class DatabaseManager implements IDatabaseManager{
             String endtime = rs.getString(4);
             String desc = rs.getString(5);
             int price = rs.getInt(6);
-            String filename = title;
+            String filename = title+".png";
             int available_seats = rs.getInt(8);
             // ! need to fix activity
             String activity = "";
