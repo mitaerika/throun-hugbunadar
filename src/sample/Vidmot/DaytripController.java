@@ -156,7 +156,7 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
         return listi;
 
     }
-    /*
+/*
     public void sortTime(Daytrip[] listi, int low, int high, Boolean uppEdaNidur) {
         if (low < high)
         {
@@ -168,7 +168,8 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
             sortTime(listi, pi+1, high, uppEdaNidur);
         }
     }
-
+    */
+/*
     private int sortByTimeRecursiveNidur(Daytrip[] listi, int low, int high) {
         long pivot = listi[high].getStartTime().getTimeInMillis();
         int i = (low-1);
@@ -213,6 +214,6 @@ Tekur inn Daytrip fylki, ásamt boolean breytu og flokkar eftir tíma. Boolean b
 
         return i+1;
     }
-    */
 
+*/
 }

@@ -41,8 +41,8 @@ public class Main extends Application {
             ResultSet rs = stmt.executeQuery(
                     "SELECT * FROM Daytrip WHERE available_seats>0"
             );
-            DatabaseManager dbManager = new DatabaseManager();
-            dbManager.createDaytripObjects(rs);
+            DatabaseManager dbManager = new DatabaseManager(); //tilvik af db manager
+            dbManager.createDaytripObjects(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
         }
         catch(SQLException e)
         {
@@ -64,7 +64,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws Exception {
-        connectToDatabase();
+        connectToDatabase(); //hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
         launch(args);
     }
 }
