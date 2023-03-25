@@ -2,22 +2,11 @@ package sample;
 
 //packages for javafx
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
-import sample.Vinnsla.Daytrip;
-
-//packages for database connection
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 public class Main extends Application {
 
@@ -29,8 +18,6 @@ public class Main extends Application {
         primaryStage.show();
         DatabaseManager.connectToDatabase();//hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
     }
-
-
 
     public static void main(String[] args) throws Exception {
         launch(args);

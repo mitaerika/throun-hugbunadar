@@ -2,15 +2,14 @@ package sample.Vinnsla;
 
 import javafx.collections.ObservableList;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import sample.Vinnsla.Daytrip;
-import sample.Vidmot.DaytripController;
-
 public class MockDatabaseManager implements IDatabaseManager{
     private Daytrip daytrip1;
     private Daytrip daytrip2;
     private ObservableList<Daytrip> daytrips;
+
+    public MockDatabaseManager(ObservableList<Daytrip> daytrips) {
+        this.daytrips = daytrips;
+    }
 
     //Before
     public void setUp() {

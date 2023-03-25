@@ -116,6 +116,5 @@ CREATE TABLE Hotel (
 	daytrip_title varchar(50),
 	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
 );
-END TRANSACTION;
 COMMIT;
 PRAGMA foreign_keys=ON;

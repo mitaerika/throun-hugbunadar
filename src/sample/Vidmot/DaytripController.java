@@ -34,7 +34,7 @@ public class DaytripController {
         FilteredList<Daytrip> filteredList = daytrips.filtered(Daytrip -> Daytrip.getLocation().equals(location));
 
         // Print the filtered list
-        filteredList.forEach(System.out::println);  // Output: Alice, Charlie, David, Eva (names containing 'a')
+        filteredList.forEach(System.out::println);
         return filteredList;
     }
 
