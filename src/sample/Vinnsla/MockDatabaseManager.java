@@ -34,9 +34,9 @@ public class MockDatabaseManager implements IDatabaseManager{
     }
     @Test
     public void testSortingByRating() {
-        dtController.sortByRating(daytrips, true);
-        assertNotNull(daytrips);
-        System.out.println(daytrips);
+        ObservableList<Daytrip> sortedByRating =dtController.sortByRating(daytrips, true);
+        assertNotNull(sortedByRating);
+        sortedByRating.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getRating()));
     }
     @Test
     public void testFilterByLocation() throws ParseException {
