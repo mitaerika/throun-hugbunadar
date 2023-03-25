@@ -19,7 +19,7 @@ public class DatabaseManager implements IDatabaseManager{
             String endtime = rs.getString(4);
             String desc = rs.getString(5);
             int price = rs.getInt(6);
-            String filename = rs.getString(7);
+            String filename = title;
             int available_seats = rs.getInt(8);
             // ! need to fix activity
             String activity = "";
