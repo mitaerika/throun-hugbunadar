@@ -47,11 +47,7 @@ public class Daytrip extends DaytripController {
     public String[] getReviews() {
         return this.reviews;
     }
-    public double getRating() {
-        //Meðal einkunn
-        //köllum á einhverja aðferð úr database manager
-        return this.rating;
-    }
+    public double getRating() { return this.rating; }
     public int getPrice() {
         return this.price;
     }
