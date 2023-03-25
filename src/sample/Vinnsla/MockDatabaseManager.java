@@ -2,7 +2,6 @@ package sample.Vinnsla;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

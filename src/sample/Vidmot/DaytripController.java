@@ -2,11 +2,8 @@ package sample.Vidmot;
 
 import javafx.collections.transformation.FilteredList;
 import sample.Vinnsla.Daytrip;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.Comparator;
-import java.util.Locale;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
@@ -33,8 +30,6 @@ public class DaytripController {
     public ObservableList<Daytrip> filterByLocation(ObservableList<Daytrip> daytrips, String location){
         // Filter ObservableList by the search query
         FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
-
         return filteredList;
     }
-
 }
