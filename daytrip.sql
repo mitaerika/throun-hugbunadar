@@ -112,9 +112,45 @@ CREATE TABLE Activity (
 	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
 );
 CREATE TABLE Hotel (
-	name varchar(120) PRIMARY KEY,
 	daytrip_title varchar(50),
+	name varchar(120),
 	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
 );
+INSERT INTO Hotel VALUES('Jöklaganga','Fosshotel Reykjavík');
+INSERT INTO Hotel VALUES('Jöklaganga','Exeter Hotel');
+INSERT INTO Hotel VALUES('Jöklaganga','Grand Hotel');
+INSERT INTO Hotel VALUES('Hekluganga','Grand Hotel');
+INSERT INTO Hotel VALUES('Hekluganga','Skuggi Hotel');
+INSERT INTO Hotel VALUES('Hekluganga','Hotel Reykjavik Centrum');
+INSERT INTO Hotel VALUES('Skoðunarferð á bóndabæ','Hotel Reykjavik Centrum');
+INSERT INTO Hotel VALUES('Skoðunarferð á bóndabæ','Hotel Klettur');
+INSERT INTO Hotel VALUES('Skoðunarferð á bóndabæ','Fosshotel Reykjavík');
+INSERT INTO Hotel VALUES('Gönguferð undir stjörnuhimni','Hotel Borg');
+INSERT INTO Hotel VALUES('Gönguferð undir stjörnuhimni','Grand Hotel');
+INSERT INTO Hotel VALUES('Gönguferð undir stjörnuhimni','Hotel Klettur');
+INSERT INTO Hotel VALUES('Hvalaskoðun','Hotel Klettur');
+INSERT INTO Hotel VALUES('Hvalaskoðun','Hotel Oddsson');
+INSERT INTO Hotel VALUES('Hvalaskoðun','Hotel Reykjavik Centrum');
+INSERT INTO Hotel VALUES('Dagur Rjúpunnar','Eyja Guldsmeden Hotel');
+INSERT INTO Hotel VALUES('Dagur Rjúpunnar','Reykjavik Lights');
+INSERT INTO Hotel VALUES('Dagur Rjúpunnar','Hotel Klettur');
+INSERT INTO Hotel VALUES('Hellaskoðanir','Skuggi Hotel');
+INSERT INTO Hotel VALUES('Hellaskoðanir','Fosshotel Lind');
+INSERT INTO Hotel VALUES('Hellaskoðanir','Hotel Oddsson');
+INSERT INTO Hotel VALUES('Rútuferð um Gullna hringinn','Exeter Hotel');
+INSERT INTO Hotel VALUES('Rútuferð um Gullna hringinn','Reykjavik Lights');
+INSERT INTO Hotel VALUES('Rútuferð um Gullna hringinn','Skuggi Hotel');
+INSERT INTO Hotel VALUES('Fræðiferð um Reykjavík','Hotel Oddsson');
+INSERT INTO Hotel VALUES('Fræðiferð um Reykjavík','Fosshotel Reykjavík');
+INSERT INTO Hotel VALUES('Fræðiferð um Reykjavík','Hotel Klettur');
+INSERT INTO Hotel VALUES('Ganga að Laugarfellslaug','Fosshotel Lind');
+INSERT INTO Hotel VALUES('Ganga að Laugarfellslaug','Exeter Hotel');
+INSERT INTO Hotel VALUES('Ganga að Laugarfellslaug','Hotel Reykjavik Centrum');
+INSERT INTO Hotel VALUES('Dagsferð til Vestmannaeyja','Eyja Guldsmeden Hotel');
+INSERT INTO Hotel VALUES('Dagsferð til Vestmannaeyja','Hotel Reykjavik Centrum');
+INSERT INTO Hotel VALUES('Dagsferð til Vestmannaeyja','Hotel Oddsson');
+INSERT INTO Hotel VALUES('Skotsvæði','Grand Hotel');
+INSERT INTO Hotel VALUES('Skotsvæði','Fosshotel Reykjavík');
+INSERT INTO Hotel VALUES('Skotsvæði','Skuggi Hotel');
 COMMIT;
 PRAGMA foreign_keys=ON;

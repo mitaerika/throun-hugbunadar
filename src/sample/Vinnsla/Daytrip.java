@@ -20,9 +20,9 @@ public class Daytrip extends DaytripController {
     String location;
     String[] reviews;
     double rating;
+    String[] hotels = new String[3];
     final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
-    final String[] hotel = new String[]{"Hotel1", "Hotel2", "Hotel3"};
-    public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating) {
+    public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels) {
         this.dTitle = dTitle1;
         this.date = date1;
         this.start_time = start_time1;
@@ -34,9 +34,10 @@ public class Daytrip extends DaytripController {
         this.location = location1;
         this.reviews = reviews;
         this.rating = rating;
+        this.hotels = hotels;
     }
 
-    public Daytrip(String title, LocalDate date, LocalTime starttime, LocalTime endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating) {
+    public Daytrip(String title, LocalDate date, LocalTime starttime, LocalTime endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating, String[] hotels) {
         super();
     }
 
@@ -70,7 +71,7 @@ public class Daytrip extends DaytripController {
         return activity;
     }
     public String[] getHotel() {
-        return hotel;
+        return hotels;
     }
     public String getLocation() {
         return location;

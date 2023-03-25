@@ -105,6 +105,17 @@ public class DatabaseManager implements IDatabaseManager{
         return rating/n;
     }
 
+    public static String[] fetchHotelsForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT name FROM Hotel, Daytrip WHERE Daytrip.title ="+title+" AND Daytrip.title = Hotel.daytrip_title";
+        ResultSet rs = executeQuery(query);
+        String[] hotels = new String[3];
+        int n = 0;
+        while (rs.next()) {
+            hotels[n++] = rs.getString(1);
+        }
+        return hotels;
+    }
+
     public static LocalTime toLocalTime(String temp){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
         return LocalTime.parse(temp, timeFormatter);
@@ -135,12 +146,10 @@ public class DatabaseManager implements IDatabaseManager{
             String location = rs.getString(10);
             double rating = fetchRatingForDaytrip(title);
             String[] reviews = fetchReviewsForDaytrip(title);
+            String[] hotels = fetchHotelsForDaytrip(title);
             // ! need to fix activity
             String activity = "";
-            // ! need to fix hotel
-            String hotel = "";
-
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, activity, location, reviews, rating);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, activity, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
             dtList.add(temp);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.
