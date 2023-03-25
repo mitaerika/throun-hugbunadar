@@ -4,6 +4,9 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class DatabaseManager implements IDatabaseManager{
@@ -102,15 +105,29 @@ public class DatabaseManager implements IDatabaseManager{
         return rating/n;
     }
 
+    public static LocalTime toLocalTime(String temp){
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        return LocalTime.parse(temp, timeFormatter);
+    }
+
+    public static LocalDate toLocalDate(String temp){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(temp, dateFormatter);
+    }
 
     public static ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException, ClassNotFoundException {  //resultsettið sem var í main.
                                                                                //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
         ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
         while (rs.next()) {                               // hér búum við til daytrip hlutinn
             String title = rs.getString(1);    //náum í upplýsingar úr resultset línu.
-            String date = rs.getString(2);
-            String starttime = rs.getString(3);
-            String endtime = rs.getString(4);
+            String tempDate = rs.getString(2);
+            String tempStartTime = rs.getString(3);
+            String tempEndtime = rs.getString(4);
+            // convert String to LocalDate and LocalTime
+            LocalDate date = toLocalDate(tempDate);
+            LocalTime starttime = toLocalTime(tempStartTime);
+            LocalTime endtime = toLocalTime(tempEndtime);
+
             String desc = rs.getString(5);
             int price = rs.getInt(6);
             String filename = title+".png";
@@ -122,12 +139,9 @@ public class DatabaseManager implements IDatabaseManager{
             String activity = "";
             // ! need to fix hotel
             String hotel = "";
-            // ! need to convert String to Calendar/Time for startdate
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
 
             Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, activity, location, reviews, rating);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
-            dtList.add(temp);        //setjum daytrip inn í fylki dt
+            dtList.add(temp);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.
     }
