@@ -1,5 +1,7 @@
 package sample.Vinnsla;
 
+import javafx.collections.ObservableList;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,8 +9,8 @@ public class MockDatabaseManager implements IDatabaseManager{
     private Daytrip daytrip1;
     private Daytrip daytrip2;
     @Override
-    public Daytrip[] createDaytripObjects(ResultSet rs) throws SQLException {
-        return new Daytrip[0];
+    public ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {
+        return null;
     }
     //Before
     public void setUp() {
