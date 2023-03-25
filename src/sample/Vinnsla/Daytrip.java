@@ -38,7 +38,7 @@ public class Daytrip extends DaytripController {
         super();
     }
 
-    public String getdTitle() {
+    public String getTitle() {
         return this.dTitle;
     }
     public String getReviews() {

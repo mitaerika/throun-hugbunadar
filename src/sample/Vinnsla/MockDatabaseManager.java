@@ -2,6 +2,7 @@ package sample.Vinnsla;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +41,9 @@ public class MockDatabaseManager implements IDatabaseManager{
     @Test
     public void testFilterByLocation() throws ParseException {
         String searchQuery = "Suður";
-        dtController.filterByLocation(daytrips,searchQuery);
-        assertNotNull(daytrips);
-        //assertEquals("Suður", daytrips);
-
-        System.out.println(daytrips);
+        ObservableList<Daytrip> filteredByLocation = dtController.filterByLocation(daytrips,searchQuery);
+        assertNotNull(filteredByLocation);
+        filteredByLocation.forEach((Daytrip)->assertEquals(searchQuery, Daytrip.getLocation()));
+        filteredByLocation.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getLocation()));
     }
 }

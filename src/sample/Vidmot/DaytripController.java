@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Comparator;
+import java.util.Locale;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
@@ -31,10 +32,8 @@ public class DaytripController {
 
     public ObservableList<Daytrip> filterByLocation(ObservableList<Daytrip> daytrips, String location){
         // Filter ObservableList by the search query
-        FilteredList<Daytrip> filteredList = daytrips.filtered(Daytrip -> Daytrip.getLocation().equals(location));
+        FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
 
-        // Print the filtered list
-        filteredList.forEach(System.out::println);
         return filteredList;
     }
 
