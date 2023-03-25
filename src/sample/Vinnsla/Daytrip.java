@@ -4,7 +4,6 @@ import sample.Vidmot.DaytripController;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 
 public class Daytrip extends DaytripController {
     String dTitle;
@@ -16,11 +15,11 @@ public class Daytrip extends DaytripController {
     String photo;
     int available_seats;
     String location;
-    String reviews;
-    int rating;
+    String[] reviews;
+    double rating;
     final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
     final String[] hotel = new String[]{"Hotel1", "Hotel2", "Hotel3"};
-    public Daytrip(String dTitle1, String date1, String start_time1, String end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String reviews, int rating) {
+    public Daytrip(String dTitle1, String date1, String start_time1, String end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating) {
         this.dTitle = dTitle1;
         this.date = date1;
         this.start_time = start_time1;
@@ -34,17 +33,17 @@ public class Daytrip extends DaytripController {
         this.rating = rating;
     }
 
-    public Daytrip(String title, String date, String starttime, String endtime, String desc, int price, String filename, int available_seats, String activity, String location, String hotel, Calendar cal, SimpleDateFormat sdf) {
+    public Daytrip(String title, String date, String starttime, String endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating) {
         super();
     }
 
     public String getTitle() {
         return this.dTitle;
     }
-    public String getReviews() {
+    public String[] getReviews() {
         return this.reviews;
     }
-    public int getRating() {
+    public double getRating() {
         //Meðal einkunn
         //köllum á einhverja aðferð úr database manager
         return this.rating;

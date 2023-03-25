@@ -7,10 +7,10 @@ import java.util.Comparator;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
-    Comparator<Daytrip> comparatorRating = Comparator.comparingInt(Daytrip::getRating);
+    Comparator<Daytrip> comparatorRating = Comparator.comparingDouble(Daytrip::getRating);
 
-    public ObservableList<Daytrip> sortByPrice(ObservableList<Daytrip> daytrips, Boolean upOrDown) {
-        if (upOrDown) {
+    public ObservableList<Daytrip> sortByPrice(ObservableList<Daytrip> daytrips, Boolean descending) {
+        if (descending) {
             daytrips.sort(comparatorPrice.reversed());
             return daytrips;
         }
