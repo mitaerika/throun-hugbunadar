@@ -4,6 +4,7 @@ import sample.Vidmot.DaytripController;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 
 public class Daytrip extends DaytripController {
     String dTitle;
@@ -76,6 +77,8 @@ public class Daytrip extends DaytripController {
     public void setPrice(int newPrice) {
         this.price = newPrice;
     }
+
+
 }
 
 
