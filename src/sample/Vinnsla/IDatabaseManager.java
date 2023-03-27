@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface IDatabaseManager {
-    ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException;
+    static ObservableList<Daytrip> createDaytripObjects(ResultSet rs) throws SQLException {
+        return null;
+    }
 
 }
