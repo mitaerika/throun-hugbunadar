@@ -1,51 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="406.0" prefWidth="610.0">
+      <HBox prefHeight="400.0" prefWidth="600.0">
          <children>
-            <VBox prefHeight="406.0" prefWidth="200.0">
+            <VBox prefHeight="406.0" prefWidth="160.0">
                <children>
-                  <Label prefHeight="50.0" prefWidth="219.0" text="Dagsferðir" />
+                  <Label prefHeight="30.0" prefWidth="200.0" text="Ferðadagsetning" textAlignment="CENTER" />
+                  <DatePicker id="datepicker" fx:id="datePicker" prefHeight="26.0" prefWidth="201.0" promptText="Veldu dagsetningu">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></DatePicker>
+                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" text="Landshluti" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
+                  <ComboBox fx:id="locationPicker" prefHeight="25.0" prefWidth="194.0" promptText="Veldu landshluta">
+                     <VBox.margin>
+                        <Insets bottom="4.0" />
+                     </VBox.margin></ComboBox>
+                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" text="Tegund afþreying" textAlignment="CENTER" />
+                  <CheckBox mnemonicParsing="false" text="CheckBox">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="CheckBox">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="CheckBox">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="CheckBox">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Label prefHeight="30.0" prefWidth="200.0" text="Brottfarartími" />
+                  <RadioButton fx:id="morning" mnemonicParsing="false" text="~ 12:00">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="departureTime" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="afternoon" mnemonicParsing="false" text="12:01 ~ 18:00" toggleGroup="$departureTime">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="night" mnemonicParsing="false" text="18:01 ~" toggleGroup="$departureTime">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <Button fx:id="filter" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" text="Þrengja leit" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
 
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="202.0">
+            <VBox prefHeight="356.0" prefWidth="249.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <DatePicker prefHeight="26.0" prefWidth="204.0" />
+                  <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="291.0" text="Raða eftir:" VBox.vgrow="ALWAYS" />
                   <HBox prefHeight="25.0" prefWidth="202.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
+                        <Label prefHeight="17.0" prefWidth="43.0" text="Verði" />
+                        <RadioButton fx:id="priceDescending" mnemonicParsing="false" text="Lækkandi">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sortByPrice" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="priceAscending" mnemonicParsing="false" text="Hækkandi" toggleGroup="$sortByPrice">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin></RadioButton>
                      </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </HBox>
                   <HBox prefHeight="25.0" prefWidth="202.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
+                        <Label text="Einkunn" />
+                        <RadioButton fx:id="ratingDescending" mnemonicParsing="false" text="Lækkandi">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sortByRating" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="ratingAscending" mnemonicParsing="false" text="Hækkandi" toggleGroup="$sortByRating">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin></RadioButton>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </HBox>
+                  <Label prefHeight="20.0" prefWidth="291.0" text="Leitarniðurstaða" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <ListView fx:id="searchResult" prefHeight="275.0" prefWidth="229.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></ListView>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
-            <VBox prefHeight="406.0" prefWidth="200.0">
+            <VBox alignment="CENTER" prefHeight="406.0" prefWidth="190.0">
                <children>
-                  <Label prefHeight="51.0" prefWidth="199.0" text="Mínar dagsferðir" textAlignment="CENTER" />
-                  <ListView prefHeight="295.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" text="Bóka ferð" textAlignment="JUSTIFY" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="180.0" text="Mínar dagsferðir" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></Label>
+                  <ListView fx:id="cart" fixedCellSize="0.0" prefHeight="344.0" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></ListView>
+                  <Button fx:id="bookDaytrip" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" text="Ganga frá bókun" textAlignment="CENTER" />
                </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
          </children>
       </HBox>
