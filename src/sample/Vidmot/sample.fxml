@@ -140,7 +140,7 @@
                      </VBox.margin></Label>
                   <ListView fx:id="cart" fixedCellSize="0.0" prefHeight="344.0" prefWidth="150.0">
                      <VBox.margin>
-                        <Insets />
+                        <Insets bottom="10.0" />
                      </VBox.margin></ListView>
                   <Button fx:id="bookDaytrip" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" text="Ganga frá bókun" textAlignment="CENTER" />
                </children>
