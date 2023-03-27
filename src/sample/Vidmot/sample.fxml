@@ -4,14 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.Controller">
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0">
          <children>
             <VBox prefHeight="406.0" prefWidth="160.0">
                <children>
                   <Label prefHeight="30.0" prefWidth="200.0" text="Ferðadagsetning" textAlignment="CENTER" />
-                  <DatePicker id="datepicker" fx:id="datePicker" prefHeight="26.0" prefWidth="201.0" promptText="Veldu dagsetningu">
+                  <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="201.0" promptText="Veldu dagsetningu">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin></DatePicker>
@@ -60,7 +60,7 @@
                         <Insets bottom="8.0" left="3.0" right="3.0" top="3.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <Button fx:id="filter" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" text="Þrengja leit" VBox.vgrow="ALWAYS">
+                  <Button fx:id="filterButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" text="Þrengja leit" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -142,7 +142,7 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></ListView>
-                  <Button fx:id="bookDaytrip" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" text="Ganga frá bókun" textAlignment="CENTER" />
+                  <Button fx:id="finalizeBooking" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" text="Ganga frá bókun" textAlignment="CENTER" />
                </children>
                <HBox.margin>
                   <Insets />

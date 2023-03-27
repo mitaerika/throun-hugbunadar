@@ -15,7 +15,7 @@ public class Daytrip extends DaytripController {
     LocalTime end_time;
     String description;
     int price;
-    Image photo;
+    String photo;
     int available_seats;
     String location;
     String[] reviews;
@@ -29,7 +29,7 @@ public class Daytrip extends DaytripController {
         this.end_time = end_time1;
         this.description = description1;
         this.price = price1;
-        this.photo = new Image(photo1);
+        this.photo = photo1;
         this.available_seats = available_seats1;
         this.location = location1;
         this.reviews = reviews;

@@ -3,11 +3,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
 public class DatabaseManager implements IDatabaseManager{
     private static final String JDBCdriver = "org.sqlite.JDBC";
@@ -67,10 +65,10 @@ public class DatabaseManager implements IDatabaseManager{
         return rs;
     }
 
-    public static void fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
+    public static ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Daytrip WHERE available_seats>0";
         ResultSet rs = executeQuery(query);
-        createDaytripObservableList(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+        return createDaytripObservableList(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
     public static String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
@@ -117,7 +115,7 @@ public class DatabaseManager implements IDatabaseManager{
     }
 
     public static LocalTime toLocalTime(String temp){
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return LocalTime.parse(temp, timeFormatter);
     }
 
@@ -141,7 +139,7 @@ public class DatabaseManager implements IDatabaseManager{
 
             String desc = rs.getString(5);
             int price = rs.getInt(6);
-            String filename = title+".png";
+            String filename = "file:src/image/"+title+".png";
             int available_seats = rs.getInt(8);
             String location = rs.getString(10);
             double rating = fetchRatingForDaytrip(title);
