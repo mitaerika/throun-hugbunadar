@@ -4,6 +4,7 @@ import javafx.collections.transformation.FilteredList;
 import sample.Vinnsla.Daytrip;
 import javafx.collections.ObservableList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
@@ -18,8 +19,8 @@ public class DaytripController {
         return daytrips;
     }
 
-    public ObservableList<Daytrip> sortByRating (ObservableList<Daytrip> daytrips, Boolean upOrDown) {
-        if(upOrDown){
+    public ObservableList<Daytrip> sortByRating(ObservableList<Daytrip> daytrips, Boolean descending) {
+        if(descending){
             daytrips.sort(comparatorRating.reversed());
             return daytrips;
         }
@@ -32,4 +33,6 @@ public class DaytripController {
         FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
         return filteredList;
     }
+
+
 }

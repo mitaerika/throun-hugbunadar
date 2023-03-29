@@ -2,12 +2,14 @@ package sample.Vinnsla;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sample.Vidmot.DaytripController;
 
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
@@ -36,11 +38,21 @@ public class MockDatabaseManager implements IDatabaseManager{
         daytrips = null;
     }
     @Test
-    public void testSortingByRating() {
+    public void testSortingByRatingDescending() {
         ObservableList<Daytrip> sortedByRating = dtController.sortByRating(daytrips, true);
         // assertNotNull(sortedByRating); unnecessary
-
+        Comparator<Daytrip> ratingComparatorDesc = Comparator.comparing(Daytrip::getRating).reversed();
+        SortedList<Daytrip> daytripsSortedByRatingDesc = new SortedList<>(daytrips,ratingComparatorDesc);
+        assertEquals(sortedByRating,daytripsSortedByRatingDesc);
         sortedByRating.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getRating()));
+    }
+    @Test
+    public void testSortingByPriceAscending() {
+        ObservableList<Daytrip> sortedByPrice = dtController.sortByPrice(daytrips, false);
+        Comparator<Daytrip> priceComparatorAsc = Comparator.comparing(Daytrip::getPrice);
+        SortedList<Daytrip> daytripsSortedByPriceAsc = new SortedList<>(daytrips,priceComparatorAsc);
+        assertEquals(sortedByPrice, daytripsSortedByPriceAsc);
+        sortedByPrice.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getPrice()));
     }
     @Test
     public void testFilterByLocation() throws ParseException {
