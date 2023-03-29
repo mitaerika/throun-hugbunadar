@@ -39,6 +39,7 @@ public class MockDatabaseManager implements IDatabaseManager{
     public void testSortingByRating() {
         ObservableList<Daytrip> sortedByRating = dtController.sortByRating(daytrips, true);
         // assertNotNull(sortedByRating); unnecessary
+
         sortedByRating.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getRating()));
     }
     @Test
