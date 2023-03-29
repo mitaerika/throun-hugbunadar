@@ -2,13 +2,13 @@ package sample.Vinnsla;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sample.Vidmot.DaytripController;
 
 import java.text.ParseException;
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 import static sample.Vinnsla.DatabaseManager.toLocalDate;
@@ -38,14 +38,14 @@ public class MockDatabaseManager implements IDatabaseManager{
     @Test
     public void testSortingByRating() {
         ObservableList<Daytrip> sortedByRating = dtController.sortByRating(daytrips, true);
-        assertNotNull(sortedByRating);
+        // assertNotNull(sortedByRating); unnecessary
         sortedByRating.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getRating()));
     }
     @Test
     public void testFilterByLocation() throws ParseException {
         String searchQuery = "Suður";
         ObservableList<Daytrip> filteredByLocation = dtController.filterByLocation(daytrips,searchQuery);
-        assertNotNull(filteredByLocation);
+        // assertNotNull(filteredByLocation); unnecessary
         filteredByLocation.forEach((Daytrip)->assertEquals(searchQuery, Daytrip.getLocation()));
         filteredByLocation.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getLocation()));
     }
