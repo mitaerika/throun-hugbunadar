@@ -33,6 +33,14 @@ public class DaytripController {
         FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
         return filteredList;
     }
+    public ObservableList<Daytrip> filterByActivity(String activity, ObservableList<Daytrip> daytrips) {
+
+        //FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrips.forEach(daytrip.getActivity());
+        return daytrips;
+    }
+    public void addToCart(Daytrip daytrip, int Seats) {
+        //Eftir að koma kóði
+    }
 
 
 }

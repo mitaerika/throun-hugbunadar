@@ -11,6 +11,8 @@ public class SimulDaytripMock{
         s.testSortingByRatingDescending();
         s.testSortingByPriceAscending();
         s.testFilterByLocation();
+        s.testFilterByLocation2();
         s.tearDown();
+
     }
 }
