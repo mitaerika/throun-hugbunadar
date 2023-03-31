@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -45,6 +46,9 @@ public class Controller implements Initializable {
     @FXML
     private ListView<String> myListView;
 
+
+    private Daytrip dagsferd;
+
         @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
             DatabaseManager dbm = new DatabaseManager();
@@ -63,5 +67,66 @@ public class Controller implements Initializable {
             }
             myListView.setItems(list);
         System.out.println("list populated");
+            //locationPicker.getItems().removeAll(locationPicker.getItems());
+            //locationPicker.getItems().addAll("Norðaustur","Norðvestur", "Suður", "Suðvestur");
     }
+
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
+     * @param event sér um að breyta dagsferðunum.
+     */
+    public void verdAscend(ActionEvent event) {
+        if(priceAscending.isSelected()){
+            System.err.println("ascend verd alert");
+        }
+
+    }
+
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá lægsta verði í það hæsta.
+     * @param event sér um að breyta dagsferðunum.
+     */
+    public void verdDescend(ActionEvent event) {
+        if(priceDescending.isSelected()){
+            System.err.println("descend verd alert");
+        }
+    }
+
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá hæstu einkunn í þá hæstu.
+     * @param event sér um að breyta dagsferðunum.
+     */
+    public void einkunnDescend(ActionEvent event) {
+        if(ratingDescending.isSelected()){
+            System.err.println("descend einkunn alert");
+        }
+
+    }
+
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá lægstu einkunn í þá hæstu.
+     * @param event sér um að breyta dagsferðunum.
+     */
+    public void einkunnAscend(ActionEvent event) {
+        if(ratingAscending.isSelected()){
+            System.err.println("rating ascend alert");
+        }
+
+    }
+
+    public void filterLocation(ActionEvent event){
+        if(locationPicker.isPressed()){
+            System.err.println("Nú á að fara að velja einhverja staðsetningu");
+        }
+    }
+
+    public void threngjaLeit(ActionEvent event){
+        if(filterButton.isPressed()){
+            System.err.println("Allir handlerar sameinast hér. ");
+        }
+    }
+
+
+
+
 }

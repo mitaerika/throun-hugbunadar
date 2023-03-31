@@ -53,6 +53,7 @@ public class Daytrip extends DaytripController {
         return this.reviews;
     }
     public double getRating() { return this.rating; }
+
     public int getPrice() {
         return this.price;
     }
