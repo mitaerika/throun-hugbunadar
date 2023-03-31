@@ -14,6 +14,11 @@ public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
     Comparator<Daytrip> comparatorRating = Comparator.comparingDouble(Daytrip::getRating);
 
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
+     * @param daytrips sér um að breyta dagsferðunum.
+     * @param descending minnkar
+     */
     public ObservableList<Daytrip> sortByPrice(ObservableList<Daytrip> daytrips, Boolean descending) {
         if (descending) {
             daytrips.sort(comparatorPrice.reversed());
@@ -23,6 +28,11 @@ public class DaytripController {
         return daytrips;
     }
 
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
+     * @param daytrips sér um að breyta dagsferðunum.
+     * @param descending minnkar
+     */
     public ObservableList<Daytrip> sortByRating(ObservableList<Daytrip> daytrips, Boolean descending) {
         if(descending){
             daytrips.sort(comparatorRating.reversed());
@@ -32,11 +42,13 @@ public class DaytripController {
         return daytrips;
     }
 
+    /**
+     * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
+     * @param daytrips sér um að breyta dagsferðunum.
+     * @param location er staðsetningin
+     */
     public ObservableList<Daytrip> filterByLocation(ObservableList<Daytrip> daytrips, String location){
         // Filter ObservableList by the search query
-        FilteredList<Daytrip> filteredList = daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
-        return filteredList;
+        return daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
     }
-
-
 }

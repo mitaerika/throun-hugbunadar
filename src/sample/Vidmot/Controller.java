@@ -67,8 +67,8 @@ public class Controller implements Initializable {
             }
             myListView.setItems(list);
         System.out.println("list populated");
-            //locationPicker.getItems().removeAll(locationPicker.getItems());
-            //locationPicker.getItems().addAll("Norðaustur","Norðvestur", "Suður", "Suðvestur");
+            locationPicker.getItems().removeAll(locationPicker.getItems());
+            locationPicker.getItems().addAll("Norðaustur","Norðvestur", "Suður", "Suðvestur");
     }
 
     /**
@@ -93,7 +93,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Þetta er handler fyrir að raða dagsferðum frá hæstu einkunn í þá hæstu.
+     * Þetta er handler fyrir að raða dagsferðum frá hæstu einkunn í þá lægstu.
      * @param event sér um að breyta dagsferðunum.
      */
     public void einkunnDescend(ActionEvent event) {
@@ -114,19 +114,24 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * Þetta er handler fyrir að velja dagsferðir útfrá staðsetningu sinni.
+     * @param event sér um að breyta dagsferðunum.
+     */
     public void filterLocation(ActionEvent event){
         if(locationPicker.isPressed()){
             System.err.println("Nú á að fara að velja einhverja staðsetningu");
         }
     }
 
+    /**
+     * Þetta er handler sem að mun sjá um allt sem hinir handlerarnir eru að gera, nema að
+     * núna munu hlutir í rauninnni breytast í listView.
+     * @param event sér um að sía út og raða dagsferðunum.
+     */
     public void threngjaLeit(ActionEvent event){
         if(filterButton.isPressed()){
             System.err.println("Allir handlerar sameinast hér. ");
         }
     }
-
-
-
-
 }
