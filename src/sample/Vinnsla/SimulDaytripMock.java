@@ -1,4 +1,6 @@
+/*
 package sample.Vinnsla;
+
 
 
 import java.text.ParseException;
@@ -14,3 +16,5 @@ public class SimulDaytripMock{
         s.tearDown();
     }
 }
+
+ */

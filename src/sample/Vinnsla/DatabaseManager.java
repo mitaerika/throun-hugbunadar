@@ -12,7 +12,7 @@ public class DatabaseManager implements IDatabaseManager{
     private static Connection conn = null;
     private static final String url = "jdbc:sqlite:daytripDB.db";
 
-    public static void connectToDatabase() throws SQLException, ClassNotFoundException {
+    public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {
             Class.forName(JDBCdriver);
         } catch (ClassNotFoundException e) {
@@ -30,7 +30,7 @@ public class DatabaseManager implements IDatabaseManager{
         }
     }
 
-    public static void disconnectFromDatabase() throws SQLException{
+    public void disconnectFromDatabase() throws SQLException{
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
@@ -40,7 +40,7 @@ public class DatabaseManager implements IDatabaseManager{
         }
     }
 
-    public static ResultSet executeQuery(String queryStmt) throws SQLException, ClassNotFoundException {
+    public ResultSet executeQuery(String queryStmt) throws SQLException, ClassNotFoundException {
         //Declare statement, resultSet as null
         Statement stmt = null;
         ResultSet rs = null;
@@ -49,6 +49,7 @@ public class DatabaseManager implements IDatabaseManager{
             connectToDatabase();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(queryStmt);
+
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeQuery operation : " + e);
             throw e;
@@ -65,46 +66,65 @@ public class DatabaseManager implements IDatabaseManager{
         return rs;
     }
 
-    public static ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
+    public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
         String query = "SELECT * FROM Daytrip WHERE available_seats>0";
-        ResultSet rs = executeQuery(query);
-        return createDaytripObservableList(rs); //aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+        ObservableList<Daytrip> res;
+
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            res = createDaytripObservableList(rs);
+
+        } catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
-    public static String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ="+title+" AND Daytrip.title = Review.daytrip_title";
+    public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
         ResultSet rs = executeQuery(query);
         int n = 0;
-        while (rs.next()) {
-            n++;
-        }
         String[] reviews = new String[n];
-        rs.beforeFirst();
+       // rs.beforeFirst();
         n = 0;
         while (rs.next()) {
             reviews[n++] = rs.getString(1);
+
         }
         return reviews;
     }
 
-    public static double fetchRatingForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT rating FROM Review, Daytrip WHERE Daytrip.title ="+title+" AND Daytrip.title = Review.daytrip_title";
+    public double fetchRatingForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT rating FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
         ResultSet rs = executeQuery(query);
         int n = 0;
-        while (rs.next()) {
-            n++;
-        }
         int rating = 0;
-        rs.beforeFirst();
+        //rs.beforeFirst();
         int i = 0;
         while (rs.next()) {
             rating = rating+rs.getInt(1);
+            n++;
         }
-        return rating/n;
+        return n > 0 ? rating/n : 0;
     }
 
-    public static String[] fetchHotelsForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT name FROM Hotel, Daytrip WHERE Daytrip.title ="+title+" AND Daytrip.title = Hotel.daytrip_title";
+    public String[] fetchHotelsForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT name FROM Hotel, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Hotel.daytrip_title";
         ResultSet rs = executeQuery(query);
         String[] hotels = new String[3];
         int n = 0;
@@ -114,21 +134,22 @@ public class DatabaseManager implements IDatabaseManager{
         return hotels;
     }
 
-    public static LocalTime toLocalTime(String temp){
+    public LocalTime toLocalTime(String temp){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return LocalTime.parse(temp, timeFormatter);
     }
 
-    public static LocalDate toLocalDate(String temp){
+    public LocalDate toLocalDate(String temp){
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(temp, dateFormatter);
     }
 
-    public static ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException, ClassNotFoundException {  //resultsettið sem var í main.
+    public ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException, ClassNotFoundException {  //resultsettið sem var í main.
                                                                                //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
         ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
         while (rs.next()) {                               // hér búum við til daytrip hlutinn
-            String title = rs.getString(1);    //náum í upplýsingar úr resultset línu.
+            String title = rs.getString(1);
+            //náum í upplýsingar úr resultset línu.
             String tempDate = rs.getString(2);
             String tempStartTime = rs.getString(3);
             String tempEndtime = rs.getString(4);
@@ -147,7 +168,8 @@ public class DatabaseManager implements IDatabaseManager{
             String[] hotels = fetchHotelsForDaytrip(title);
             // ! need to fix activity
             String activity = "";
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, activity, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            System.err.println(temp.getTitle());
             dtList.add(temp);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.

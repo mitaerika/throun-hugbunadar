@@ -72,7 +72,8 @@ CREATE TABLE Booking (
 	PRIMARY KEY(num)
 	FOREIGN KEY(daytrip_title, daytrip_date, daytrip_start_time, daytrip_end_time, daytrip_price) REFERENCES Daytrip(title, date_trip, start_time, end_time, price)
 	FOREIGN KEY(hotel_name) REFERENCES Hotel(name)
-);
+)
+;
 
 CREATE TABLE Customer (
 	id char(4) PRIMARY KEY,

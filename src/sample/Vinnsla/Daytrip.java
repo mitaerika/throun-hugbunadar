@@ -37,9 +37,14 @@ public class Daytrip extends DaytripController {
         this.hotels = hotels;
     }
 
+    /*
     public Daytrip(String title, LocalDate date, LocalTime starttime, LocalTime endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating, String[] hotels) {
         super();
+        System.err.println("test");
+
     }
+
+     */
 
     public String getTitle() {
         return this.dTitle;

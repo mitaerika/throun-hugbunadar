@@ -1,3 +1,4 @@
+/*
 package sample.Vinnsla;
 
 import javafx.collections.FXCollections;
@@ -13,8 +14,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
-import static sample.Vinnsla.DatabaseManager.toLocalDate;
-import static sample.Vinnsla.DatabaseManager.toLocalTime;
+import sample.Vinnsla.DatabaseManager;
 
 public class MockDatabaseManager implements IDatabaseManager{
     private ObservableList<Daytrip> daytrips = FXCollections.observableArrayList();
@@ -63,3 +63,5 @@ public class MockDatabaseManager implements IDatabaseManager{
         filteredByLocation.forEach((Daytrip)->System.out.println(Daytrip.getTitle()+" "+Daytrip.getLocation()));
     }
 }
+
+ */

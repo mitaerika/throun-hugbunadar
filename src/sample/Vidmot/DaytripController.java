@@ -1,10 +1,14 @@
 package sample.Vidmot;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.fxml.Initializable;
 import sample.Vinnsla.Daytrip;
 import javafx.collections.ObservableList;
+
+import java.net.URL;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
