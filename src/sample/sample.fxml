@@ -28,15 +28,15 @@
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin></DatePicker>
-                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" text="Landshluti" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
+                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: WHITE;" text="Landshluti" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
                   <ComboBox fx:id="locationPicker" onAction="#filterLocation" prefHeight="25.0" prefWidth="194.0" promptText="Veldu landshluta">
                      <VBox.margin>
-                        <Insets bottom="4.0" />
+                        <Insets bottom="4.0" top="5.0" />
                      </VBox.margin>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets></ComboBox>
-                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" text="Tegund afþreying" textAlignment="CENTER">
+                  <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: WHITE;" text="Tegund afþreying" textAlignment="CENTER">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -83,7 +83,7 @@
                      </VBox.margin>
                   </RadioButton>
                   <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="291.0" text="Raða eftir:" />
-                  <Label prefHeight="21.0" prefWidth="149.0" text="Verði">
+                  <Label prefHeight="21.0" prefWidth="149.0" style="-fx-background-color: WHITE;" text="Verði">
                      <padding>
                         <Insets top="4.0" />
                      </padding>
@@ -104,7 +104,7 @@
                         <Insets left="40.0" />
                      </padding>
                   </RadioButton>
-                  <Label prefHeight="21.0" prefWidth="143.0" text="Einkunn">
+                  <Label prefHeight="21.0" prefWidth="143.0" style="-fx-background-color: WHITE;" text="Einkunn">
                      <VBox.margin>
                         <Insets bottom="5.0" top="10.0" />
                      </VBox.margin>
@@ -181,7 +181,7 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></ListView>
-                  <Button fx:id="finalizeBooking" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" text="Ganga frá bókun" textAlignment="CENTER">
+                  <Button fx:id="finalizeBooking" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" style="-fx-background-color: LIGHTBLUE;" text="Ganga frá bókun" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font></Button>

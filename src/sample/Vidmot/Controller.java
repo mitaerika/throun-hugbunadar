@@ -73,9 +73,9 @@ public class Controller implements Initializable {
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
-     * @param event sér um að breyta dagsferðunum.
+     * @param priceEventA sér um að breyta dagsferðunum.
      */
-    public void verdAscend(ActionEvent event) {
+    public void verdAscend(ActionEvent priceEventA) {
         if(priceAscending.isSelected()){
             System.err.println("ascend verd alert");
         }
@@ -84,9 +84,9 @@ public class Controller implements Initializable {
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá lægsta verði í það hæsta.
-     * @param event sér um að breyta dagsferðunum.
+     * @param verdEventD sér um að breyta dagsferðunum.
      */
-    public void verdDescend(ActionEvent event) {
+    public void verdDescend(ActionEvent verdEventD) {
         if(priceDescending.isSelected()){
             System.err.println("descend verd alert");
         }
@@ -94,20 +94,19 @@ public class Controller implements Initializable {
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá hæstu einkunn í þá lægstu.
-     * @param event sér um að breyta dagsferðunum.
+     * @param einkunnEventD sér um að breyta dagsferðunum.
      */
-    public void einkunnDescend(ActionEvent event) {
+    public void einkunnDescend(ActionEvent einkunnEventD) {
         if(ratingDescending.isSelected()){
             System.err.println("descend einkunn alert");
         }
-
     }
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá lægstu einkunn í þá hæstu.
-     * @param event sér um að breyta dagsferðunum.
+     * @param einkunnEventA sér um að breyta dagsferðunum.
      */
-    public void einkunnAscend(ActionEvent event) {
+    public void einkunnAscend(ActionEvent einkunnEventA) {
         if(ratingAscending.isSelected()){
             System.err.println("rating ascend alert");
         }
@@ -116,9 +115,9 @@ public class Controller implements Initializable {
 
     /**
      * Þetta er handler fyrir að velja dagsferðir útfrá staðsetningu sinni.
-     * @param event sér um að breyta dagsferðunum.
+     * @param filterEvent sér um að breyta dagsferðunum.
      */
-    public void filterLocation(ActionEvent event){
+    public void filterLocation(ActionEvent filterEvent){
         if(locationPicker.isPressed()){
             System.err.println("Nú á að fara að velja einhverja staðsetningu");
         }
@@ -127,9 +126,9 @@ public class Controller implements Initializable {
     /**
      * Þetta er handler sem að mun sjá um allt sem hinir handlerarnir eru að gera, nema að
      * núna munu hlutir í rauninnni breytast í listView.
-     * @param event sér um að sía út og raða dagsferðunum.
+     * @param threngjaEvent sér um að sía út og raða dagsferðunum.
      */
-    public void threngjaLeit(ActionEvent event){
+    public void threngjaLeit(ActionEvent threngjaEvent){
         if(filterButton.isPressed()){
             System.err.println("Allir handlerar sameinast hér. ");
         }
