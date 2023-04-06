@@ -50,7 +50,7 @@ public class Controller implements Initializable {
     private Daytrip dagsferd;
 
         @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        public void initialize(URL url, ResourceBundle resourceBundle) {
             DatabaseManager dbm = new DatabaseManager();
             ObservableList<String> list = FXCollections.observableArrayList();
             ;//hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
