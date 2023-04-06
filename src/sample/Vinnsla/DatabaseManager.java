@@ -1,3 +1,13 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Utanumhald á gögnunum fyrir allar dagsferðirnar okkar. Hér
+ *  tengjumst við gagnagrunninum. Auk þess aftengjumst við gögnunum hér.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vinnsla;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,27 +83,23 @@ public class DatabaseManager implements IDatabaseManager{
         ObservableList<Daytrip> res;
 
         try {
-            //Connect to DB, create statement, and execute statement
             connectToDatabase();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
             res = createDaytripObservableList(rs);
-
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("Problem occurred at executeQuery operation : " + e);
             throw e;
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            //Close connection
+        }
+        finally {
+            if (rs != null) { rs.close(); }
+            if (stmt != null) { stmt.close(); }
             disconnectFromDatabase();
         }
         return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
+
 
     public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
@@ -104,10 +110,11 @@ public class DatabaseManager implements IDatabaseManager{
         n = 0;
         while (rs.next()) {
             reviews[n++] = rs.getString(1);
-
         }
         return reviews;
     }
+
+
 
     public double fetchRatingForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT rating FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
@@ -174,4 +181,6 @@ public class DatabaseManager implements IDatabaseManager{
         }
         return dtList;               //skilum fylkinu.
     }
+
+
 }

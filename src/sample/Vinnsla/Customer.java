@@ -1,3 +1,13 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Notandinn mun veita upplýsingar um sjálfan sig þegar hann bókar
+ *  dagsferðir sínar. Þetta gerist í lokinn.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vinnsla;
 
 public class Customer {

@@ -1,14 +1,24 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : KLasinn heldur utan um hvað á að vera í hverri einustu dagsferð.
+ *  Í dagsferð er titil, dagsetning, upphafs- og endatími, lýsing, verð,
+ *  mynd af staðnum, laus sæti, staðsetning, endurgjöf, einkunn, hótel og
+ *  athafnir.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vinnsla;
 
-import javafx.scene.image.Image;
 import sample.Vidmot.DaytripController;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
+
 
 public class Daytrip extends DaytripController {
+
     String dTitle;
     LocalDate date;
     LocalTime start_time;
@@ -22,6 +32,8 @@ public class Daytrip extends DaytripController {
     double rating;
     String[] hotels = new String[3];
     final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
+
+
     public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels) {
         this.dTitle = dTitle1;
         this.date = date1;
@@ -37,14 +49,6 @@ public class Daytrip extends DaytripController {
         this.hotels = hotels;
     }
 
-    /*
-    public Daytrip(String title, LocalDate date, LocalTime starttime, LocalTime endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating, String[] hotels) {
-        super();
-        System.err.println("test");
-
-    }
-
-     */
 
     public String getTitle() {
         return this.dTitle;
@@ -53,7 +57,6 @@ public class Daytrip extends DaytripController {
         return this.reviews;
     }
     public double getRating() { return this.rating; }
-
     public int getPrice() {
         return this.price;
     }

@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Klasinn stjórnar hvernig viðmótið virkar hjá dagsferðunum.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vidmot;
 
 import javafx.beans.InvalidationListener;
@@ -6,11 +15,17 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -46,6 +61,8 @@ public class Controller implements Initializable {
     @FXML
     private ListView<String> myListView;
 
+    Stage stage;
+
 
     private Daytrip dagsferd;
 
@@ -57,7 +74,7 @@ public class Controller implements Initializable {
             try {
                 ObservableList<Daytrip> trips = dbm.fetchAvailableDaytrips();
                 for (Daytrip trip : trips) {
-                   // System.err.println(trip.getLocation());
+                    //System.err.println(trip.getLocation());
                     list.add(trip.getTitle());
                 }
             } catch (SQLException e) {
@@ -66,6 +83,7 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
             myListView.setItems(list);
+
         System.out.println("list populated");
             locationPicker.getItems().removeAll(locationPicker.getItems());
             locationPicker.getItems().addAll("Norðaustur","Norðvestur", "Suður", "Suðvestur");
@@ -133,4 +151,31 @@ public class Controller implements Initializable {
             System.err.println("Allir handlerar sameinast hér. ");
         }
     }
+
+
+    public void showTripHandler(ActionEvent tripEvent){
+
+
+    }
+
+
+
+
+
+
+
+    private void createPopupWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PopupGluggi.fxml"));
+        Parent root = loader.load();
+        // Create a new stage for the pop-up window
+        Stage popupStage = new Stage();
+        // Set the scene and show the stage
+        popupStage.setScene(new Scene(root));
+        popupStage.show();
+    }
+
+    public ListView<String> getMyListView() {
+        return myListView;
+    }
+
 }

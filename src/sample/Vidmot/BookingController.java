@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Aðalglugginn fyrir snákaleikinn.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vidmot;
 
 import sample.Vinnsla.Booking;

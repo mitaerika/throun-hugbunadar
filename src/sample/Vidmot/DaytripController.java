@@ -1,3 +1,13 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Aðalglugginn fyrir snákaleikinn.
+ *
+ *
+ *****************************************************************************/
+
+
 package sample.Vidmot;
 
 import javafx.collections.transformation.FilteredList;
@@ -9,6 +19,7 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);

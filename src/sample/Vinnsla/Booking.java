@@ -1,3 +1,12 @@
+/******************************************************************************
+ *  Nafn    : Ásdís, Mita, Sigga og Jökull
+ *  T-póstur: asv29@hi.is
+ *
+ *  Lýsing  : Bókunin gerist hér.
+ *
+ *
+ *****************************************************************************/
+
 package sample.Vinnsla;
 
 import sample.Vidmot.BookingController;
