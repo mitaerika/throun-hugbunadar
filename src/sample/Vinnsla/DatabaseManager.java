@@ -22,6 +22,66 @@ public class DatabaseManager implements IDatabaseManager{
     private static Connection conn = null;
     private static final String url = "jdbc:sqlite:daytripDB.db";
 
+
+    public DatabaseManager() {
+    }
+
+    public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM Daytrip WHERE available_seats>0";
+        ObservableList<Daytrip> res;
+
+        try {
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            res = createDaytripObservableList(rs);
+        }
+        catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        }
+        finally {
+            if (rs != null) { rs.close(); }
+            if (stmt != null) { stmt.close(); }
+            disconnectFromDatabase();
+        }
+        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+    }
+
+    public ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException, ClassNotFoundException {  //resultsettið sem var í main.
+        //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
+        ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
+        while (rs.next()) {                               // hér búum við til daytrip hlutinn
+            String title = rs.getString(1);
+            //náum í upplýsingar úr resultset línu.
+            String tempDate = rs.getString(2);
+            String tempStartTime = rs.getString(3);
+            String tempEndtime = rs.getString(4);
+            // convert String to LocalDate and LocalTime
+            LocalDate date = toLocalDate(tempDate);
+            LocalTime starttime = toLocalTime(tempStartTime);
+            LocalTime endtime = toLocalTime(tempEndtime);
+
+            String desc = rs.getString(5);
+            int price = rs.getInt(6);
+            String filename = "file:src/image/"+title+".png";
+            int available_seats = rs.getInt(8);
+            String location = rs.getString(10);
+            double rating = fetchRatingForDaytrip(title);
+            String[] reviews = fetchReviewsForDaytrip(title);
+            String[] hotels = fetchHotelsForDaytrip(title);
+            // ! need to fix activity
+            String activity = "";
+            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            System.err.println(temp.getTitle());
+            dtList.add(temp);        //setjum daytrip inn í lista dtList
+        }
+        return dtList;               //skilum fylkinu.
+    }
+
+
     public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {
             Class.forName(JDBCdriver);
@@ -76,29 +136,6 @@ public class DatabaseManager implements IDatabaseManager{
         return rs;
     }
 
-    public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
-        Statement stmt = null;
-        ResultSet rs = null;
-        String query = "SELECT * FROM Daytrip WHERE available_seats>0";
-        ObservableList<Daytrip> res;
-
-        try {
-            connectToDatabase();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-            res = createDaytripObservableList(rs);
-        }
-        catch (SQLException e) {
-            System.out.println("Problem occurred at executeQuery operation : " + e);
-            throw e;
-        }
-        finally {
-            if (rs != null) { rs.close(); }
-            if (stmt != null) { stmt.close(); }
-            disconnectFromDatabase();
-        }
-        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
-    }
 
 
     public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
@@ -121,7 +158,6 @@ public class DatabaseManager implements IDatabaseManager{
         ResultSet rs = executeQuery(query);
         int n = 0;
         int rating = 0;
-        //rs.beforeFirst();
         int i = 0;
         while (rs.next()) {
             rating = rating+rs.getInt(1);
@@ -151,36 +187,6 @@ public class DatabaseManager implements IDatabaseManager{
         return LocalDate.parse(temp, dateFormatter);
     }
 
-    public ObservableList<Daytrip> createDaytripObservableList(ResultSet rs) throws SQLException, ClassNotFoundException {  //resultsettið sem var í main.
-                                                                               //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
-        ObservableList<Daytrip> dtList = FXCollections.observableArrayList();
-        while (rs.next()) {                               // hér búum við til daytrip hlutinn
-            String title = rs.getString(1);
-            //náum í upplýsingar úr resultset línu.
-            String tempDate = rs.getString(2);
-            String tempStartTime = rs.getString(3);
-            String tempEndtime = rs.getString(4);
-            // convert String to LocalDate and LocalTime
-            LocalDate date = toLocalDate(tempDate);
-            LocalTime starttime = toLocalTime(tempStartTime);
-            LocalTime endtime = toLocalTime(tempEndtime);
-
-            String desc = rs.getString(5);
-            int price = rs.getInt(6);
-            String filename = "file:src/image/"+title+".png";
-            int available_seats = rs.getInt(8);
-            String location = rs.getString(10);
-            double rating = fetchRatingForDaytrip(title);
-            String[] reviews = fetchReviewsForDaytrip(title);
-            String[] hotels = fetchHotelsForDaytrip(title);
-            // ! need to fix activity
-            String activity = "";
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
-            System.err.println(temp.getTitle());
-            dtList.add(temp);        //setjum daytrip inn í lista dtList
-        }
-        return dtList;               //skilum fylkinu.
-    }
 
 
 }

@@ -19,31 +19,31 @@ import java.time.LocalTime;
 
 public class Daytrip extends DaytripController {
 
-    String dTitle;
-    LocalDate date;
-    LocalTime start_time;
-    LocalTime end_time;
-    String description;
-    int price;
-    String photo;
-    int available_seats;
-    String location;
-    String[] reviews;
-    double rating;
-    String[] hotels = new String[3];
-    final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
+    private String dTitle;
+    private LocalDate date;
+    private LocalTime start_time;
+    private LocalTime end_time;
+    private String description;
+    private int price;
+    private String photo;
+    private int available_seats;
+    private String location;
+    private String[] reviews;
+    private double rating;
+    private  String[] hotels;
+    private final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
 
 
-    public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels) {
-        this.dTitle = dTitle1;
-        this.date = date1;
-        this.start_time = start_time1;
-        this.end_time = end_time1;
-        this.description = description1;
-        this.price = price1;
-        this.photo = photo1;
-        this.available_seats = available_seats1;
-        this.location = location1;
+    public Daytrip(String dTitle, LocalDate date, LocalTime start_time, LocalTime end_time, String description, int price, String photo, int available_seats, String location, String[] reviews, double rating, String[] hotels) {
+        this.dTitle = dTitle;
+        this.date = date;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.description = description;
+        this.price = price;
+        this.photo = photo;
+        this.available_seats = available_seats;
+        this.location = location;
         this.reviews = reviews;
         this.rating = rating;
         this.hotels = hotels;
@@ -53,6 +53,7 @@ public class Daytrip extends DaytripController {
     public String getTitle() {
         return this.dTitle;
     }
+
     public String[] getReviews() {
         return this.reviews;
     }
@@ -72,9 +73,7 @@ public class Daytrip extends DaytripController {
     public int getAvailable_seats() {
         return this.available_seats;
     }
-    public String[] getActivity() {
-        return activity;
-    }
+    public String[] getActivity() { return this.activity;}
     public String[] getHotel() {
         return hotels;
     }

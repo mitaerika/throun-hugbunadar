@@ -37,15 +37,12 @@ public class Controller implements Initializable {
     private RadioButton afternoon;
     @FXML
     private RadioButton night;
-
     @FXML
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> locationPicker;
-
     @FXML
     private Button filterButton;
-
     @FXML
     private RadioButton priceDescending;
     @FXML
@@ -54,10 +51,8 @@ public class Controller implements Initializable {
     private RadioButton ratingDescending;
     @FXML
     private RadioButton ratingAscending;
-
     @FXML
     private Button finalizeBooking;
-
     @FXML
     private ListView<String> myListView;
 
@@ -76,6 +71,12 @@ public class Controller implements Initializable {
                 for (Daytrip trip : trips) {
                     //System.err.println(trip.getLocation());
                     list.add(trip.getTitle());
+                    list.add(trip.getStartTime());
+                    list.add(trip.getEnd_time());
+                    list.add(trip.getLocation());
+                    list.add(trip.getDescription());
+
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -154,7 +155,7 @@ public class Controller implements Initializable {
 
 
     public void showTripHandler(ActionEvent tripEvent){
-
+    Daytrip selectedItem = (Daytrip) myListView.getSelectionModel().getSelectedItems();
 
     }
 
