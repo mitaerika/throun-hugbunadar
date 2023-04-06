@@ -97,14 +97,12 @@ public class DatabaseManager implements IDatabaseManager{
 
     public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
-        ResultSet rs = executeQuery(query);
-        int n = 0;
+        int n = fetchNumberOfEntries(query);
         String[] reviews = new String[n];
-       // rs.beforeFirst();
+        ResultSet rs = executeQuery(query);
         n = 0;
         while (rs.next()) {
             reviews[n++] = rs.getString(1);
-
         }
         return reviews;
     }
@@ -114,8 +112,6 @@ public class DatabaseManager implements IDatabaseManager{
         ResultSet rs = executeQuery(query);
         int n = 0;
         int rating = 0;
-        //rs.beforeFirst();
-        int i = 0;
         while (rs.next()) {
             rating = rating+rs.getInt(1);
             n++;
@@ -132,6 +128,32 @@ public class DatabaseManager implements IDatabaseManager{
             hotels[n++] = rs.getString(1);
         }
         return hotels;
+    }
+
+    public int fetchNumberOfEntries(String query) throws SQLException, ClassNotFoundException {
+        ResultSet rstemp = executeQuery(query);
+        int n = 0;
+        while (rstemp.next()) {
+            String temp = rstemp.getString(1);
+            System.out.println("N");
+            n++;
+        }
+        System.out.println("Fetching number of entries for "+ query+ ": "+n);
+        return n;
+    }
+
+    public String[] fetchActivitiesForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT name FROM Activity, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Activity.daytrip_title GROUP BY name";
+        int n = fetchNumberOfEntries(query);
+        String[] activities = new String[n];
+        ResultSet rs = executeQuery(query);
+        n = 0;
+        while (rs.next()) {
+            String activity = rs.getString(1);
+            System.out.println(activity);
+            activities[n++] = activity;
+        }
+        return activities;
     }
 
     public LocalTime toLocalTime(String temp){
@@ -166,10 +188,13 @@ public class DatabaseManager implements IDatabaseManager{
             double rating = fetchRatingForDaytrip(title);
             String[] reviews = fetchReviewsForDaytrip(title);
             String[] hotels = fetchHotelsForDaytrip(title);
-            // ! need to fix activity
-            String activity = "";
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
-            System.err.println(temp.getTitle());
+            String[] activity = fetchActivitiesForDaytrip(title);
+            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels, activity);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            System.out.print(title+ ": "+ rating);
+            for(int i = 0; i<activity.length; i++){
+                System.out.print(activity[i]+",");
+            }
+            System.out.println("");
             dtList.add(temp);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.

@@ -21,8 +21,8 @@ public class Daytrip extends DaytripController {
     String[] reviews;
     double rating;
     String[] hotels = new String[3];
-    final String[] activity = new String[]{"Activity1", "Activity2", "Activity3"};
-    public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels) {
+    String[] activity;
+    public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels, String[] activity) {
         this.dTitle = dTitle1;
         this.date = date1;
         this.start_time = start_time1;
@@ -35,6 +35,8 @@ public class Daytrip extends DaytripController {
         this.reviews = reviews;
         this.rating = rating;
         this.hotels = hotels;
+        this.activity = new String[activity.length];
+        this.activity = activity;
     }
 
     /*

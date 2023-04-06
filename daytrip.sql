@@ -107,8 +107,9 @@ INSERT INTO Review VALUES('0013','Ganga að Laugarfellslaug',7,'Þetta var ágæ
 INSERT INTO Review VALUES('0014','Dagsferð til Vestmannaeyja',8,'Þetta var skemmtileg ferð og leiðsögumaðurinn hafði ansi margar tillögur um hluti til þess að skoða. Þegar leið á daginn fór mér samt að leiðast. Það er kannski aðeins og langur tími að vera heilan dag þarna.');
 INSERT INTO Review VALUES('0015','Skotsvæði',10,'Það er ekkert sem jafnast á við það að skjóta byssu. Myndi gera það á hverjum einasta degi ef ég gæti.');
 CREATE TABLE Activity (
-	name varchar(50) PRIMARY KEY,
 	daytrip_title varchar(50),
+	name varchar(50),
+	PRIMARY KEY(daytrip_title, name),
 	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
 );
 INSERT INTO Activity VALUES('Jöklaganga','Náttúra');
