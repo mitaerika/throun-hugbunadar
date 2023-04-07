@@ -6,13 +6,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DaytripListCell extends ListCell<Daytrip> {
-    private final Label title = new Label();
-    private final Label date = new Label();
-    private final Label time = new Label();
-    private final Label price = new Label();
-    private final HBox extra = new HBox(date,time);
-    private final HBox core = new HBox(title);
-    private final VBox layout = new VBox(core, extra, price);
+    public final Label title = new Label();
+    public final Label date = new Label();
+    public final Label time = new Label();
+    public final Label price = new Label();
+    public final HBox extra = new HBox(date,time);
+    public final HBox core = new HBox(title);
+    public final VBox layout = new VBox(core, extra, price);
 
     public DaytripListCell() {
         super();

@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
@@ -65,14 +66,23 @@ public class DetailsController implements Initializable{
         seatPicker.setItems(seats);
     }
 
-
+    /**
+     * Handler fyrir ComboBox sem sér um fjölda sæti sem notandinn vilja bóka
+     * @param actionEvent sér um val fjölda sæti
+     */
     public void selectSeats(ActionEvent actionEvent) {
         bookSeatsButton.setDisable(false);
         seats = seatPicker.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Handler fyrir takka til að bóka sæti sem notandinn hafði valið
+     * @param actionEvent sér um að færa ferðina í körfu og loka núverandi glugga þegar notandinn ýtir á takkann
+     */
     public void bookSeats(ActionEvent actionEvent) {
-        c.setToCart(daytrip);
+        c.setToCart(daytrip, seats);
+        Stage stage = (Stage) bookSeatsButton.getScene().getWindow();
+        stage.close();
     }
 
     public void setController(Controller controller) {

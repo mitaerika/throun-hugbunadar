@@ -27,8 +27,6 @@ import java.util.*;
 
 public class Controller extends DaytripController implements Initializable {
     @FXML
-    private ListView cartListView;
-    @FXML
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> locationPicker;
@@ -45,10 +43,12 @@ public class Controller extends DaytripController implements Initializable {
     @FXML
     private ListView<Daytrip> myListView;
     @FXML
+    private ListView<Daytrip> cartListView;
+    @FXML
     private VBox activityBox;
 
     private ObservableList<Daytrip> daytripList;
-    private ObservableList<Daytrip> cart = FXCollections.observableArrayList();
+    private ObservableList<Daytrip> cartList = FXCollections.observableArrayList();
     private DatabaseManager dbm;
     private final ObservableList<String> selectedActivity = FXCollections.observableArrayList();
     private String selectedLocation;
@@ -67,11 +67,25 @@ public class Controller extends DaytripController implements Initializable {
      * Tengja ListView við ObservableList
      */
     private void populateListView(){
-        cartListView.setItems(cart);
+        cartListView.setItems(cartList);
+        cartListView.setCellFactory(param -> new DaytripListCell(){
+            @Override
+            protected void updateItem(Daytrip d, boolean empty) {
+                super.updateItem(d, empty);
+                if (!empty || d!=null) {
+                    int pax = d.getBooked_seats();
+                    int p = d.getPrice();
+                    title.setText(d.getTitle() + "(Bóka "+ pax +" sæti)");
+                    date.setText(d.getDate());
+                    price.setText("Verð: "+ p +" x "+ pax + " = " + pax*p);
+                    time.setText(" kl. "+d.getStartTime());
+                    setGraphic(layout);
+                }
+        }});
+        myListView.setCellFactory(param -> new DaytripListCell());
         try {
             daytripList = dbm.fetchAvailableDaytrips();
             myListView.setItems(daytripList);
-            myListView.setCellFactory(param -> new DaytripListCell());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -209,9 +223,10 @@ public class Controller extends DaytripController implements Initializable {
         updateListView();
     }
 
-    public void setToCart(Daytrip daytrip){
-        cart.add(daytrip);
-        cartListView.setItems(cart);
+    public void setToCart(Daytrip d, int num){
+        d.setBooked_seats(num);
+        cartList.add(d);
+        cartListView.setItems(cartList);
     }
 
     /**

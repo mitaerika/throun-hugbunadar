@@ -1,12 +1,9 @@
 package sample.Vinnsla;
 
-import javafx.scene.image.Image;
-import sample.Vidmot.DaytripController;
 
-import java.text.SimpleDateFormat;
+import sample.Vidmot.DaytripController;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 
 public class Daytrip extends DaytripController {
     String dTitle;
@@ -17,6 +14,7 @@ public class Daytrip extends DaytripController {
     int price;
     String photo;
     int available_seats;
+    int booked_seats = 0;
     String location;
     String[] reviews;
     double rating;
@@ -122,6 +120,15 @@ public class Daytrip extends DaytripController {
 
     public String getPhoto(){
         return this.photo;
+    }
+
+    //only register booked_seats, not taking away the seats from available_seats
+    public void setBooked_seats(int n){
+        booked_seats = n;
+    }
+
+    public int getBooked_seats(){
+        return booked_seats;
     }
 }
 
