@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.Controller">
    <children>
-      <HBox prefHeight="566.0" prefWidth="672.0">
+      <HBox prefHeight="540.0" prefWidth="700.0">
          <children>
-            <VBox prefHeight="557.0" prefWidth="159.0">
+            <VBox prefHeight="540.0" prefWidth="159.0">
                <children>
                   <Label prefHeight="30.0" prefWidth="200.0" text="Ferðadagsetning" textAlignment="CENTER">
                      <VBox.margin>
@@ -87,45 +87,38 @@
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin></Label>
-                  <Label prefHeight="21.0" prefWidth="149.0" style="-fx-background-color: WHITE;" text="Verði">
-                     <VBox.margin>
-                        <Insets top="4.0" />
-                     </VBox.margin>
-                  </Label>
-                  <RadioButton fx:id="priceAscending" mnemonicParsing="false" onAction="#verdAscend" text="Hækkandi">
-                     <padding>
-                        <Insets bottom="6.0" left="40.0" />
-                     </padding>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="sort" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="priceDescending" mnemonicParsing="false" onAction="#verdDescend" text="Lækkandi" toggleGroup="$sort">
-                     <padding>
-                        <Insets left="40.0" />
-                     </padding>
-                  </RadioButton>
-                  <Label prefHeight="21.0" prefWidth="143.0" style="-fx-background-color: WHITE;" text="Einkunn">
-                     <VBox.margin>
-                        <Insets top="4.0" />
-                     </VBox.margin>
-                  </Label>
-                  <RadioButton fx:id="ratingAscending" mnemonicParsing="false" onAction="#einkunnAscend" text="Hækkandi" toggleGroup="$sort">
-                     <padding>
-                        <Insets bottom="6.0" left="40.0" />
-                     </padding>
-                  </RadioButton>
-                  <RadioButton fx:id="ratingDescending" mnemonicParsing="false" onAction="#einkunnDescend" text="Lækkandi" toggleGroup="$sort">
-                     <padding>
-                        <Insets left="40.0" />
-                     </padding>
-                  </RadioButton>
+                  <HBox fillHeight="false" maxHeight="1.7976931348623157E308">
+                     <children>
+                        <Label prefHeight="21.0" prefWidth="65.0" text="Verði" />
+                        <RadioButton fx:id="priceDescending" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#verdDescend" text="Lækkandi" HBox.hgrow="ALWAYS">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sort" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="priceAscending" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#verdAscend" text="Hækkandi" toggleGroup="$sort" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+
+                  <HBox maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="21.0" prefWidth="65.0" text="Einkunn">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin>
+                        </Label>
+                        <RadioButton fx:id="ratingAscending" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#einkunnAscend" text="Hækkandi" toggleGroup="$sort" HBox.hgrow="ALWAYS">
+                        </RadioButton>
+                        <RadioButton fx:id="ratingDescending" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#einkunnDescend" text="Lækkandi" toggleGroup="$sort" HBox.hgrow="ALWAYS">
+                        </RadioButton>
+                     </children>
+                  </HBox>
+
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="557.0" prefWidth="243.0">
+            <VBox alignment="CENTER" prefHeight="566.0" prefWidth="233.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="169.0" text="Mínar dagsferðir" textAlignment="CENTER">
                      <VBox.margin>

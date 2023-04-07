@@ -31,7 +31,8 @@ public class DaytripListCell extends ListCell<Daytrip> {
             time.setText(null);
             setGraphic(null);
         } else {
-            title.setText(trip.getTitle());
+            String rating = String.format("%.1f",trip.getRating());
+            title.setText(trip.getTitle() + " - Einkunn: "+ rating +"/10");
             date.setText(trip.getDate());
             price.setText("Verð: "+trip.getPrice());
             time.setText(" kl. "+trip.getStartTime());

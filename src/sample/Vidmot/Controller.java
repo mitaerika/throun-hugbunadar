@@ -169,7 +169,8 @@ public class Controller extends DaytripController implements Initializable {
      */
     public void einkunnDescend(ActionEvent einkunnEventD) {
         if(ratingDescending.isSelected()){
-            System.err.println("descend einkunn alert");
+            ObservableList<Daytrip> sortedByRatingDescending = sortByRating(daytripList, true);
+            myListView.setItems(sortedByRatingDescending);
         }
     }
 
@@ -179,7 +180,8 @@ public class Controller extends DaytripController implements Initializable {
      */
     public void einkunnAscend(ActionEvent einkunnEventA) {
         if(ratingAscending.isSelected()){
-            System.err.println("rating ascend alert");
+            ObservableList<Daytrip> sortedByRatingAscending = sortByRating(daytripList, false);
+            myListView.setItems(sortedByRatingAscending);
         }
     }
 

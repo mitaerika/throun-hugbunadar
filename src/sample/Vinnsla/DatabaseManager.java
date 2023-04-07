@@ -127,7 +127,7 @@ public class DatabaseManager implements IDatabaseManager{
     public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
         Statement stmt = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM Daytrip WHERE available_seats>0";
+        String query = "SELECT title,date_trip,start_time,end_time,description,price,photo,available_seats,location_name,avg(rating) FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title GROUP BY title";
         ObservableList<Daytrip> res;
 
         try {
@@ -178,7 +178,7 @@ public class DatabaseManager implements IDatabaseManager{
                 time = "< '12:00:00'";
                 break;
         }
-        String query = "SELECT * FROM Daytrip WHERE available_seats>0 AND date_trip = '"+day+"' AND location_name = '"+location+"' AND start_time "+time;
+        String query = "SELECT title,date_trip,start_time,end_time,description,price,photo,available_seats,location_name,avg(rating) FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title AND date_trip = '"+day+"' AND location_name = '"+location+"' AND start_time "+time+" GROUP BY title";
         ObservableList<Daytrip> res;
         try {
             //Connect to DB, create statement, and execute statement
@@ -290,7 +290,7 @@ public class DatabaseManager implements IDatabaseManager{
             String filename = "file:src/image/"+title+".png";
             int available_seats = rs.getInt(8);
             String location = rs.getString(9);
-            double rating = fetchRatingForDaytrip(title);
+            double rating = rs.getDouble(10);
             String[] temp = new String[3];
             //String[] reviews = fetchReviewsForDaytrip(title);
             String[] reviews = temp;
