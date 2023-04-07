@@ -8,14 +8,21 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
 import javax.swing.event.ChangeEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -209,5 +216,24 @@ public class Controller implements Initializable {
      */
     public void threngjaLeit(ActionEvent threngjaEvent){
         updateListView();
+    }
+
+    public void daytripSelected(MouseEvent mouseEvent) {
+        System.out.println(myListView.getSelectionModel().getSelectedItem());
+        try {
+            URL url = new File("src/sample/details.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            DetailsController detailsController = loader.getController();
+            detailsController.setDaytrip(myListView.getSelectionModel().getSelectedItem());
+            Stage stage = new Stage();
+            stage.setTitle("Um ferðina");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
