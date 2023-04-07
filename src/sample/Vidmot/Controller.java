@@ -1,16 +1,14 @@
 package sample.Vidmot;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,30 +17,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
-
-import javax.swing.event.ChangeEvent;
+import sample.Vinnsla.DaytripListCell;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Controller implements Initializable {
-    @FXML
-    private RadioButton morning;
-    @FXML
-    private RadioButton afternoon;
-    @FXML
-    private RadioButton night;
+public class Controller extends DaytripController implements Initializable {
     @FXML
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> locationPicker;
-    @FXML
-    private Button filterButton;
     @FXML
     private RadioButton priceDescending;
     @FXML
@@ -54,13 +41,13 @@ public class Controller implements Initializable {
     @FXML
     private Button finalizeBooking;
     @FXML
-    private ListView<String> myListView;
+    private ListView<Daytrip> myListView;
     @FXML
     private VBox activityBox;
 
-    private Daytrip dagsferd;
+    private ObservableList<Daytrip> daytripList;
     private DatabaseManager dbm;
-    private ObservableList<String> selectedActivity = FXCollections.observableArrayList();
+    private final ObservableList<String> selectedActivity = FXCollections.observableArrayList();
     private String selectedLocation;
     private LocalDate selectedDate;
     private String selectedTime;
@@ -74,34 +61,28 @@ public class Controller implements Initializable {
     }
 
     private void populateListView(){
-        ObservableList<String> list = FXCollections.observableArrayList();
         //hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
         try {
-            ObservableList<Daytrip> trips = dbm.fetchAvailableDaytrips();
-            for (Daytrip trip : trips) {
-                list.add(trip.getTitle() + " " + trip.getDate()+ " "+ trip.getStartTime());
-            }
+            daytripList = dbm.fetchAvailableDaytrips();
+            myListView.setItems(daytripList);
+            myListView.setCellFactory(param -> new DaytripListCell());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        myListView.setItems(list);
     }
 
     private void updateListView(){
-        ObservableList<String> list = FXCollections.observableArrayList();
         try {
-            ObservableList<Daytrip> trips = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
-            for (Daytrip trip : trips) {
-                list.add(trip.getTitle() + " " + trip.getDate()+ " "+ trip.getStartTime());
-            }
+            daytripList = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            myListView.setItems(daytripList);
+            myListView.setCellFactory(param -> new DaytripListCell());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        myListView.setItems(list);
     }
 
     private void populateComboBox() {
@@ -146,7 +127,8 @@ public class Controller implements Initializable {
      */
     public void verdAscend(ActionEvent priceEventA) {
         if(priceAscending.isSelected()){
-            System.err.println("ascend verd alert");
+            ObservableList<Daytrip> sortedByPriceAscending = sortByPrice(daytripList, false);
+            myListView.setItems(sortedByPriceAscending);
         }
     }
 
@@ -156,7 +138,8 @@ public class Controller implements Initializable {
      */
     public void verdDescend(ActionEvent verdEventD) {
         if(priceDescending.isSelected()){
-            System.err.println("descend verd alert");
+            ObservableList<Daytrip> sortedByPriceDescending = sortByPrice(daytripList, true);
+            myListView.setItems(sortedByPriceDescending);
         }
     }
 
@@ -186,7 +169,6 @@ public class Controller implements Initializable {
      */
     public void filterLocation(ActionEvent filterEvent){
         selectedLocation = locationPicker.getValue();
-        System.out.println(selectedLocation+" was selected as preferred location");
     }
 
     /**
@@ -195,9 +177,12 @@ public class Controller implements Initializable {
      */
     public void filterDate(ActionEvent actionEvent) {
         selectedDate = datePicker.getValue();
-        System.out.println("Selected date is: "+selectedDate);
     }
 
+    /**
+     * Handler fyrir RadioButton sem sér um tímasetningu
+     * @param actionEvent sér um að setja tímasetningu sem notandinn valdi
+     */
     public void morningSelected(ActionEvent actionEvent) {
         selectedTime = "morning";
     }
@@ -218,8 +203,11 @@ public class Controller implements Initializable {
         updateListView();
     }
 
+    /**
+     * Handler sem að mun opna nýjan glugga til að skoða frekari upplýsingar um valin ferð
+     * @param mouseEvent sér um að opna glugga þegar notandinn valdi ferðina úr ListView
+     */
     public void daytripSelected(MouseEvent mouseEvent) {
-        System.out.println(myListView.getSelectionModel().getSelectedItem());
         try {
             URL url = new File("src/sample/details.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);

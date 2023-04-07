@@ -114,19 +114,6 @@
             </VBox>
             <VBox prefHeight="356.0" prefWidth="249.0" HBox.hgrow="ALWAYS">
                <children>
-                  <HBox prefHeight="25.0" prefWidth="202.0">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox prefHeight="25.0" prefWidth="202.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
                   <Label prefHeight="27.0" prefWidth="305.0" text="Leitarniðurstaða" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets />
@@ -135,13 +122,13 @@
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <ListView fx:id="myListView" onMouseClicked="#daytripSelected" prefHeight="222.0" prefWidth="306.0" style="-fx-background-color: LIGHTBLUE;">
+                  <ListView fx:id="myListView" onMouseClicked="#daytripSelected" prefHeight="450.0" prefWidth="306.0" style="-fx-background-color: LIGHTBLUE;">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></ListView>
                </children>
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                </padding>
             </VBox>
             <VBox alignment="CENTER" prefHeight="406.0" prefWidth="190.0">
