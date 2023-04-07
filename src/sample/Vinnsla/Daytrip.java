@@ -39,15 +39,6 @@ public class Daytrip extends DaytripController {
         this.activity = activity;
     }
 
-    /*
-    public Daytrip(String title, LocalDate date, LocalTime starttime, LocalTime endtime, String desc, int price, String filename, int available_seats, String activity, String location, String[] reviews, double rating, String[] hotels) {
-        super();
-        System.err.println("test");
-
-    }
-
-     */
-
     public String getTitle() {
         return this.dTitle;
     }
@@ -84,8 +75,53 @@ public class Daytrip extends DaytripController {
         this.price = newPrice;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getDate() {
+        int m = this.date.getMonthValue();
+        String mon = "";
+        switch (m) {
+            case 1:
+                mon = "janúar";
+                break;
+            case 2:
+                mon = "febrúar";
+                break;
+            case 3:
+                mon = "mars";
+                break;
+            case 4:
+                mon = "apríl";
+                break;
+            case 5:
+                mon = "maí";
+                break;
+            case 6:
+                mon = "júní";
+                break;
+            case 7:
+                mon = "júlí";
+                break;
+            case 8:
+                mon = "ágúst";
+                break;
+            case 9:
+                mon = "september";
+                break;
+            case 10:
+                mon = "október";
+                break;
+            case 11:
+                mon = "nóvember";
+                break;
+            case 12:
+                mon = "desember";
+                break;
+        }
+        String ret = this.date.getDayOfMonth()+". "+mon+" "+this.date.getYear();
+        return ret;
+    }
+
+    public String getPhoto(){
+        return this.photo;
     }
 }
 
