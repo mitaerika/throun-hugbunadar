@@ -213,10 +213,11 @@ public class Controller extends DaytripController implements Initializable {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             DetailsController detailsController = loader.getController();
-            detailsController.setDaytrip(myListView.getSelectionModel().getSelectedItem());
+            Daytrip selected = myListView.getSelectionModel().getSelectedItem();
+            detailsController.setDaytrip(selected);
             Stage stage = new Stage();
-            stage.setTitle("Um ferðina");
-            stage.setScene(new Scene(root, 450, 450));
+            stage.setTitle(selected.getTitle());
+            stage.setScene(new Scene(root, 650, 450));
             stage.show();
         }
         catch (IOException e) {
