@@ -84,7 +84,9 @@ public class Daytrip extends DaytripController {
         this.price = newPrice;
     }
 
-
+    public LocalDate getDate() {
+        return date;
+    }
 }
 
 

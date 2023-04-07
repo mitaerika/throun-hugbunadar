@@ -37,7 +37,7 @@
                   </Label>
                   <VBox fx:id="activityBox" prefHeight="86.0" prefWidth="142.0" />
                   <Label prefHeight="30.0" prefWidth="200.0" text="Brottfarartími" />
-                  <RadioButton fx:id="morning" mnemonicParsing="false" text="Morgun">
+                  <RadioButton fx:id="morning" mnemonicParsing="false" onAction="#morningSelected" text="Morgun">
                      <VBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </VBox.margin>
@@ -45,12 +45,12 @@
                         <ToggleGroup fx:id="departureTime" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="afternoon" mnemonicParsing="false" text="Hádegi" toggleGroup="$departureTime">
+                  <RadioButton fx:id="afternoon" mnemonicParsing="false" onAction="#afternoonSelected" text="Hádegi" toggleGroup="$departureTime">
                      <VBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="night" mnemonicParsing="false" text="Kvöld" toggleGroup="$departureTime">
+                  <RadioButton fx:id="evening" mnemonicParsing="false" onAction="#eveningSelected" text="Kvöld" toggleGroup="$departureTime">
                      <VBox.margin>
                         <Insets bottom="8.0" left="3.0" right="3.0" top="3.0" />
                      </VBox.margin>

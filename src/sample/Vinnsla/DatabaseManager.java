@@ -153,6 +153,55 @@ public class DatabaseManager implements IDatabaseManager{
         return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
+
+    /**
+     * !! Need to make this work for activities
+     * @param day
+     * @param location
+     * @param departure
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public ObservableList<Daytrip> fetchFilteredDaytrips(LocalDate day, String location, String departure) throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String time = "";
+        switch(departure){
+            case "evening":
+                time = "> '16:01:00'";
+                break;
+            case "afternoon":
+                time = "> '12:01:00'";
+                break;
+            case "morning":
+                time = "< '12:00:00'";
+                break;
+        }
+        String query = "SELECT * FROM Daytrip WHERE available_seats>0 AND date_trip = '"+day+"' AND location_name = '"+location+"' AND start_time "+time;
+        ObservableList<Daytrip> res;
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            res = createDaytripObservableList(rs);
+        } catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+    }
+
     public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
         int n = fetchNumberOfEntries(query);
@@ -193,10 +242,8 @@ public class DatabaseManager implements IDatabaseManager{
         int n = 0;
         while (rstemp.next()) {
             String temp = rstemp.getString(1);
-            System.out.println("N");
             n++;
         }
-        System.out.println("Fetching number of entries for "+ query+ ": "+n);
         return n;
     }
 
@@ -242,18 +289,17 @@ public class DatabaseManager implements IDatabaseManager{
             int price = rs.getInt(6);
             String filename = "file:src/image/"+title+".png";
             int available_seats = rs.getInt(8);
-            String location = rs.getString(10);
+            String location = rs.getString(9);
             double rating = fetchRatingForDaytrip(title);
-            String[] reviews = fetchReviewsForDaytrip(title);
+            String[] temp = new String[3];
+            //String[] reviews = fetchReviewsForDaytrip(title);
+            String[] reviews = temp;
             String[] hotels = fetchHotelsForDaytrip(title);
-            String[] activity = fetchActivitiesForDaytrip(title);
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels, activity);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
-            System.out.print(title+ ": "+ rating);
-            for(int i = 0; i<activity.length; i++){
-                System.out.print(activity[i]+",");
-            }
-            System.out.println("");
-            dtList.add(temp);        //setjum daytrip inn í lista dtList
+            //String[] activity = fetchActivitiesForDaytrip(title);
+            String[] activity = temp;
+
+            Daytrip tempD = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels, activity);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            dtList.add(tempD);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.
     }

@@ -53,9 +53,10 @@ public class Controller implements Initializable {
 
     private Daytrip dagsferd;
     private DatabaseManager dbm;
-    private ObservableList<String> selectedActivity;
+    private ObservableList<String> selectedActivity = FXCollections.observableArrayList();
     private String selectedLocation;
     private LocalDate selectedDate;
+    private String selectedTime;
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,7 +72,22 @@ public class Controller implements Initializable {
         try {
             ObservableList<Daytrip> trips = dbm.fetchAvailableDaytrips();
             for (Daytrip trip : trips) {
-                list.add(trip.getTitle() + " " + trip.getStartTime());
+                list.add(trip.getTitle() + " " + trip.getDate()+ " "+ trip.getStartTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        myListView.setItems(list);
+    }
+
+    private void updateListView(){
+        ObservableList<String> list = FXCollections.observableArrayList();
+        try {
+            ObservableList<Daytrip> trips = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            for (Daytrip trip : trips) {
+                list.add(trip.getTitle() + " " + trip.getDate()+ " "+ trip.getStartTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,7 +171,6 @@ public class Controller implements Initializable {
         if(ratingAscending.isSelected()){
             System.err.println("rating ascend alert");
         }
-
     }
 
     /**
@@ -176,15 +191,23 @@ public class Controller implements Initializable {
         System.out.println("Selected date is: "+selectedDate);
     }
 
+    public void morningSelected(ActionEvent actionEvent) {
+        selectedTime = "morning";
+    }
+    public void afternoonSelected(ActionEvent actionEvent) {
+        selectedTime = "afternoon";
+    }
+    public void eveningSelected(ActionEvent actionEvent) {
+        selectedTime = "evening";
+    }
+
+
     /**
      * Þetta er handler sem að mun sjá um allt sem hinir handlerarnir eru að gera, nema að
      * núna munu hlutir í rauninnni breytast í listView.
      * @param threngjaEvent sér um að sía út og raða dagsferðunum.
      */
     public void threngjaLeit(ActionEvent threngjaEvent){
-        if(filterButton.isPressed()){
-            System.err.println("Allir handlerar sameinast hér. ");
-        }
+        updateListView();
     }
-
 }
