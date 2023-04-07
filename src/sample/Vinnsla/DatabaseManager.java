@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class DatabaseManager implements IDatabaseManager{
     private static final String JDBCdriver = "org.sqlite.JDBC";
     private static Connection conn = null;
-    private static final String url = "jdbc:sqlite:daytripDB.db";
+    private static final String url = "jdbc:sqlite:daytrip.db";
 
     public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {
@@ -64,6 +64,64 @@ public class DatabaseManager implements IDatabaseManager{
             disconnectFromDatabase();
         }
         return rs;
+    }
+
+    public ObservableList<String> fetchAvailableLocations() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT location_name FROM Daytrip GROUP BY location_name";
+        ObservableList<String> res = FXCollections.observableArrayList();
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                res.add(rs.getString(1));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;
+    }
+
+    public ObservableList<String> fetchAvailableActivities() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT name FROM Activity GROUP BY name";
+        ObservableList<String> res = FXCollections.observableArrayList();
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                res.add(rs.getString(1));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;
     }
 
     public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {

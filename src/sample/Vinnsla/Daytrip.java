@@ -20,7 +20,7 @@ public class Daytrip extends DaytripController {
     String location;
     String[] reviews;
     double rating;
-    String[] hotels = new String[3];
+    String[] hotels;
     String[] activity;
     public Daytrip(String dTitle1, LocalDate date1, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double rating, String[] hotels, String[] activity) {
         this.dTitle = dTitle1;
