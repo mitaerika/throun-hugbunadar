@@ -122,7 +122,6 @@ public class Controller extends DaytripController implements Initializable {
         ObservableList<String> list;
         try {
             list = dbm.fetchAvailableActivities();
-            int i = 0;
             for(String act : list){
                 CheckBox cb = new CheckBox();
                 cb.setText(act);
@@ -237,11 +236,12 @@ public class Controller extends DaytripController implements Initializable {
      */
     public void daytripSelected(MouseEvent mouseEvent) {
         try {
+            Daytrip selected = myListView.getSelectionModel().getSelectedItem();
+            dbm.fetchReviewsForDaytrip(selected);
             URL url = new File("src/sample/details.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             DetailsController detailsController = loader.getController();
-            Daytrip selected = myListView.getSelectionModel().getSelectedItem();
             detailsController.setDaytrip(selected);
             detailsController.setController(this);
             Stage stage = new Stage();
@@ -249,7 +249,7 @@ public class Controller extends DaytripController implements Initializable {
             stage.setScene(new Scene(root, 650, 450));
             stage.show();
         }
-        catch (IOException e) {
+        catch (IOException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

@@ -26,7 +26,6 @@
                            </padding>
                         </Label>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -38,6 +37,7 @@
                <children>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="161.0" prefWidth="306.0">
                      <children>
+                        <Label fx:id="ratingText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="dateText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="timeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="priceText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
@@ -48,13 +48,32 @@
                   </VBox>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="161.0" prefWidth="314.0">
                      <children>
-                        <Label fx:id="seatsText" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Label" HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="seatPicker" onAction="#selectSeats" prefHeight="55.0" prefWidth="98.0" promptText="Fjöldi sæti" />
-                        <Button fx:id="bookSeatsButton" mnemonicParsing="false" onAction="#bookSeats" prefHeight="55.0" prefWidth="75.0" text="Bóka sæti" />
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Hótel" HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="hotelPicker" onAction="#selectSeats" prefHeight="35.0" prefWidth="173.0" promptText="Veldu hótel" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="seatsText" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Label" HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="seatPicker" onAction="#selectSeats" prefHeight="55.0" prefWidth="98.0" promptText="Fjöldi sæti" />
+                                    <Button fx:id="bookSeatsButton" mnemonicParsing="false" onAction="#bookSeats" prefHeight="55.0" prefWidth="75.0" text="Bóka sæti" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
             </HBox>
+            <TitledPane fx:id="reviewText" animated="false" text="Athugasemdir">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
          </children>
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

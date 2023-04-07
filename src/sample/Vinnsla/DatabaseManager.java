@@ -40,7 +40,7 @@ public class DatabaseManager implements IDatabaseManager{
         }
     }
 
-    public ResultSet executeQuery(String queryStmt) throws SQLException, ClassNotFoundException {
+    public ResultSet queryDB(String queryStmt) throws SQLException, ClassNotFoundException {
         //Declare statement, resultSet as null
         Statement stmt = null;
         ResultSet rs = null;
@@ -49,7 +49,7 @@ public class DatabaseManager implements IDatabaseManager{
             connectToDatabase();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(queryStmt);
-
+            System.out.println("querying db for "+queryStmt);
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeQuery operation : " + e);
             throw e;
@@ -155,7 +155,7 @@ public class DatabaseManager implements IDatabaseManager{
 
 
     /**
-     * !! Need to make this work for activities
+     * !! Need to make this work for activities and if not all filters are being used
      * @param day
      * @param location
      * @param departure
@@ -202,33 +202,25 @@ public class DatabaseManager implements IDatabaseManager{
         return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
-    public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
+    public void fetchReviewsForDaytrip(Daytrip d) throws SQLException, ClassNotFoundException {
+        String title = d.getTitle();
+        String query = "SELECT comment_text FROM Review WHERE daytrip_title ='"+title+"'";
         int n = fetchNumberOfEntries(query);
+        System.out.println("Number of review entries: "+n);
         String[] reviews = new String[n];
-        ResultSet rs = executeQuery(query);
+        ResultSet rs = queryDB(query);
+        System.out.println("Result set ready from review");
         n = 0;
         while (rs.next()) {
+            System.out.println(rs.getString(1));
             reviews[n++] = rs.getString(1);
         }
-        return reviews;
-    }
-
-    public double fetchRatingForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT rating FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
-        ResultSet rs = executeQuery(query);
-        int n = 0;
-        int rating = 0;
-        while (rs.next()) {
-            rating = rating+rs.getInt(1);
-            n++;
-        }
-        return n > 0 ? rating/n : 0;
+        d.setReviews(reviews);
     }
 
     public String[] fetchHotelsForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT name FROM Hotel, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Hotel.daytrip_title";
-        ResultSet rs = executeQuery(query);
+        ResultSet rs = queryDB(query);
         String[] hotels = new String[3];
         int n = 0;
         while (rs.next()) {
@@ -238,10 +230,11 @@ public class DatabaseManager implements IDatabaseManager{
     }
 
     public int fetchNumberOfEntries(String query) throws SQLException, ClassNotFoundException {
-        ResultSet rstemp = executeQuery(query);
+        ResultSet rstemp = queryDB(query);
         int n = 0;
         while (rstemp.next()) {
             String temp = rstemp.getString(1);
+            System.out.println(temp);
             n++;
         }
         return n;
@@ -251,7 +244,7 @@ public class DatabaseManager implements IDatabaseManager{
         String query = "SELECT name FROM Activity, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Activity.daytrip_title GROUP BY name";
         int n = fetchNumberOfEntries(query);
         String[] activities = new String[n];
-        ResultSet rs = executeQuery(query);
+        ResultSet rs = queryDB(query);
         n = 0;
         while (rs.next()) {
             String activity = rs.getString(1);

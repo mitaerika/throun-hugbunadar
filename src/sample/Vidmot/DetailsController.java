@@ -5,9 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -15,9 +13,14 @@ import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
+    @FXML
+    private ComboBox<String> hotelPicker;
+    @FXML
+    private TitledPane reviewText;
     @FXML
     private Button bookSeatsButton;
     @FXML
@@ -47,6 +50,7 @@ public class DetailsController implements Initializable{
         tripPhoto.setFitHeight(500);
         tripDesc.setWrapText(true);
         bookSeatsButton.setDisable(true);
+        reviewText.setExpanded(false);
     }
 
     public void setDaytrip(Daytrip selectedItem) {
@@ -64,6 +68,20 @@ public class DetailsController implements Initializable{
             seats.add(i);
         }
         seatPicker.setItems(seats);
+        String[] h = daytrip.getHotels();
+        ObservableList<String> hotels = FXCollections.observableArrayList();
+        for(int j = 0; j < 3; j++){
+            System.out.println(h[j]);
+            hotels.add(h[j]);
+        }
+        hotelPicker.setItems(hotels);
+        String[] r = daytrip.getReviews();
+        reviewText.setText("Athugasemdir ("+r.length+")");
+        ObservableList<String> reviewList = FXCollections.observableArrayList();
+        ListView<String> ls = new ListView<>();
+        reviewList.addAll(Arrays.asList(r));
+        ls.setItems(reviewList);
+        reviewText.setContent(ls);
     }
 
     /**

@@ -43,6 +43,9 @@ public class Daytrip extends DaytripController {
     public String[] getReviews() {
         return this.reviews;
     }
+    public void setReviews(String[] r) {
+        this.reviews = r;
+    }
     public double getRating() { return this.rating; }
 
     public int getPrice() {
@@ -63,7 +66,7 @@ public class Daytrip extends DaytripController {
     public String[] getActivity() {
         return activity;
     }
-    public String[] getHotel() {
+    public String[] getHotels() {
         return hotels;
     }
     public String getLocation() {
