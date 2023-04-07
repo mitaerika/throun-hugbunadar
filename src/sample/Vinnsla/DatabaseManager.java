@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class DatabaseManager implements IDatabaseManager{
     private static final String JDBCdriver = "org.sqlite.JDBC";
     private static Connection conn = null;
-    private static final String url = "jdbc:sqlite:daytripDB.db";
+    private static final String url = "jdbc:sqlite:daytrip.db";
 
     public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {
@@ -66,6 +66,64 @@ public class DatabaseManager implements IDatabaseManager{
         return rs;
     }
 
+    public ObservableList<String> fetchAvailableLocations() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT location_name FROM Daytrip GROUP BY location_name";
+        ObservableList<String> res = FXCollections.observableArrayList();
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                res.add(rs.getString(1));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;
+    }
+
+    public ObservableList<String> fetchAvailableActivities() throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String query = "SELECT name FROM Activity GROUP BY name";
+        ObservableList<String> res = FXCollections.observableArrayList();
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                res.add(rs.getString(1));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;
+    }
+
     public ObservableList<Daytrip> fetchAvailableDaytrips() throws SQLException, ClassNotFoundException {
         Statement stmt = null;
         ResultSet rs = null;
@@ -95,16 +153,63 @@ public class DatabaseManager implements IDatabaseManager{
         return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
+
+    /**
+     * !! Need to make this work for activities
+     * @param day
+     * @param location
+     * @param departure
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public ObservableList<Daytrip> fetchFilteredDaytrips(LocalDate day, String location, String departure) throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rs = null;
+        String time = "";
+        switch(departure){
+            case "evening":
+                time = "> '16:01:00'";
+                break;
+            case "afternoon":
+                time = "> '12:01:00'";
+                break;
+            case "morning":
+                time = "< '12:00:00'";
+                break;
+        }
+        String query = "SELECT * FROM Daytrip WHERE available_seats>0 AND date_trip = '"+day+"' AND location_name = '"+location+"' AND start_time "+time;
+        ObservableList<Daytrip> res;
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            res = createDaytripObservableList(rs);
+        } catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+    }
+
     public String[] fetchReviewsForDaytrip(String title) throws SQLException, ClassNotFoundException {
         String query = "SELECT comment_text FROM Review, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Review.daytrip_title";
-        ResultSet rs = executeQuery(query);
-        int n = 0;
+        int n = fetchNumberOfEntries(query);
         String[] reviews = new String[n];
-       // rs.beforeFirst();
+        ResultSet rs = executeQuery(query);
         n = 0;
         while (rs.next()) {
             reviews[n++] = rs.getString(1);
-
         }
         return reviews;
     }
@@ -114,8 +219,6 @@ public class DatabaseManager implements IDatabaseManager{
         ResultSet rs = executeQuery(query);
         int n = 0;
         int rating = 0;
-        //rs.beforeFirst();
-        int i = 0;
         while (rs.next()) {
             rating = rating+rs.getInt(1);
             n++;
@@ -132,6 +235,30 @@ public class DatabaseManager implements IDatabaseManager{
             hotels[n++] = rs.getString(1);
         }
         return hotels;
+    }
+
+    public int fetchNumberOfEntries(String query) throws SQLException, ClassNotFoundException {
+        ResultSet rstemp = executeQuery(query);
+        int n = 0;
+        while (rstemp.next()) {
+            String temp = rstemp.getString(1);
+            n++;
+        }
+        return n;
+    }
+
+    public String[] fetchActivitiesForDaytrip(String title) throws SQLException, ClassNotFoundException {
+        String query = "SELECT name FROM Activity, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Activity.daytrip_title GROUP BY name";
+        int n = fetchNumberOfEntries(query);
+        String[] activities = new String[n];
+        ResultSet rs = executeQuery(query);
+        n = 0;
+        while (rs.next()) {
+            String activity = rs.getString(1);
+            System.out.println(activity);
+            activities[n++] = activity;
+        }
+        return activities;
     }
 
     public LocalTime toLocalTime(String temp){
@@ -162,15 +289,17 @@ public class DatabaseManager implements IDatabaseManager{
             int price = rs.getInt(6);
             String filename = "file:src/image/"+title+".png";
             int available_seats = rs.getInt(8);
-            String location = rs.getString(10);
+            String location = rs.getString(9);
             double rating = fetchRatingForDaytrip(title);
-            String[] reviews = fetchReviewsForDaytrip(title);
+            String[] temp = new String[3];
+            //String[] reviews = fetchReviewsForDaytrip(title);
+            String[] reviews = temp;
             String[] hotels = fetchHotelsForDaytrip(title);
-            // ! need to fix activity
-            String activity = "";
-            Daytrip temp = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
-            System.err.println(temp.getTitle());
-            dtList.add(temp);        //setjum daytrip inn í lista dtList
+            //String[] activity = fetchActivitiesForDaytrip(title);
+            String[] activity = temp;
+
+            Daytrip tempD = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, hotels, activity);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            dtList.add(tempD);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.
     }

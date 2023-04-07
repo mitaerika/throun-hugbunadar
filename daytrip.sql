@@ -107,62 +107,63 @@ INSERT INTO Review VALUES('0013','Ganga að Laugarfellslaug',7,'Þetta var ágæ
 INSERT INTO Review VALUES('0014','Dagsferð til Vestmannaeyja',8,'Þetta var skemmtileg ferð og leiðsögumaðurinn hafði ansi margar tillögur um hluti til þess að skoða. Þegar leið á daginn fór mér samt að leiðast. Það er kannski aðeins og langur tími að vera heilan dag þarna.');
 INSERT INTO Review VALUES('0015','Skotsvæði',10,'Það er ekkert sem jafnast á við það að skjóta byssu. Myndi gera það á hverjum einasta degi ef ég gæti.');
 CREATE TABLE Activity (
-	name varchar(50) PRIMARY KEY,
 	daytrip_title varchar(50),
+	name varchar(50),
+	PRIMARY KEY(daytrip_title, name),
 	FOREIGN KEY (daytrip_title) REFERENCES Daytrip(title)
 );
-INSERT INTO Activity VALUES('Jöklaganga','Náttúra');
+INSERT INTO Activity VALUES('Jöklaganga','náttúra');
 INSERT INTO Activity VALUES('Jöklaganga','ganga');
 INSERT INTO Activity VALUES('Jöklaganga','matur');
 INSERT INTO Activity VALUES('Jöklaganga','fræðandi');
-INSERT INTO Activity VALUES('Hekluganga','Náttúra');
+INSERT INTO Activity VALUES('Hekluganga','náttúra');
 INSERT INTO Activity VALUES('Hekluganga','ganga');
 INSERT INTO Activity VALUES('Hekluganga','fræðandi');
-INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','Náttúra');
+INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','náttúra');
 INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','fjör');
 INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','matur');
 INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','fjölskylduferð');
 INSERT INTO Activity VALUES('Skoðunarferð á bóndabæ','fræðandi');
-INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','Náttúra');
+INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','náttúra');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','ganga');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','fjör');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','matur');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','vinaferð');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','partý');
 INSERT INTO Activity VALUES('Gönguferð undir stjörnuhimni','fræðandi');
-INSERT INTO Activity VALUES('Hvalaskoðun','Náttúra');
+INSERT INTO Activity VALUES('Hvalaskoðun','náttúra');
 INSERT INTO Activity VALUES('Hvalaskoðun','sjórinn');
 INSERT INTO Activity VALUES('Hvalaskoðun','matur');
 INSERT INTO Activity VALUES('Hvalaskoðun','fjölskylduferð');
 INSERT INTO Activity VALUES('Hvalaskoðun','fræðandi');
-INSERT INTO Activity VALUES('Dagur Rjúpunnar','Náttúra');
+INSERT INTO Activity VALUES('Dagur Rjúpunnar','náttúra');
 INSERT INTO Activity VALUES('Dagur Rjúpunnar','ganga');
 INSERT INTO Activity VALUES('Dagur Rjúpunnar','fjör');
 INSERT INTO Activity VALUES('Dagur Rjúpunnar','vinaferð');
-INSERT INTO Activity VALUES('Hellaskoðanir','Náttúra');
+INSERT INTO Activity VALUES('Hellaskoðanir','náttúra');
 INSERT INTO Activity VALUES('Hellaskoðanir','fjör');
 INSERT INTO Activity VALUES('Hellaskoðanir','fjölskylduferð');
 INSERT INTO Activity VALUES('Hellaskoðanir','vinaferð');
 INSERT INTO Activity VALUES('Hellaskoðanir','fræðandi');
-INSERT INTO Activity VALUES('Rútuferð um Gullna hringinn','Náttúra');
+INSERT INTO Activity VALUES('Rútuferð um Gullna hringinn','náttúra');
 INSERT INTO Activity VALUES('Rútuferð um Gullna hringinn','matur');
 INSERT INTO Activity VALUES('Rútuferð um Gullna hringinn','fjölskylduferð');
 INSERT INTO Activity VALUES('Rútuferð um Gullna hringinn','fræðandi');
-INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','Ganga');
+INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','ganga');
 INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','fjör');
 INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','matur');
 INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','vinaferð');
 INSERT INTO Activity VALUES('Fræðiferð um Reykjavík','partý');
-INSERT INTO Activity VALUES('Ganga að Laugarfellslaug','Náttúra');
+INSERT INTO Activity VALUES('Ganga að Laugarfellslaug','náttúra');
 INSERT INTO Activity VALUES('Ganga að Laugarfellslaug','ganga');
 INSERT INTO Activity VALUES('Ganga að Laugarfellslaug','fjör');
 INSERT INTO Activity VALUES('Ganga að Laugarfellslaug','vinaferð');
-INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','Náttúra');
+INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','náttúra');
 INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','sjórinn');
 INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','fjör');
 INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','fjölskylduferð');
 INSERT INTO Activity VALUES('Dagsferð til Vestmannaeyja','vinaferð');
-INSERT INTO Activity VALUES('Skotsvæði','Fjör');
+INSERT INTO Activity VALUES('Skotsvæði','fjör');
 INSERT INTO Activity VALUES('Skotsvæði','vinaferð');
 INSERT INTO Activity VALUES('Skotsvæði','fræðandi');
 CREATE TABLE Hotel (
