@@ -29,7 +29,7 @@ public class Main extends Application {
         //Scene scene = new Scene(root, Color.BLACK);
         stage.setTitle("Day Trips");
         //stage.setScene(scene);
-        stage.setScene(new Scene(root, 700, 650));
+        stage.setScene(new Scene(root, 670, 560));
         stage.show();
     }
 
