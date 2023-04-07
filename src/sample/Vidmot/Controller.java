@@ -27,6 +27,8 @@ import java.util.*;
 
 public class Controller extends DaytripController implements Initializable {
     @FXML
+    private ListView cartListView;
+    @FXML
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> locationPicker;
@@ -46,6 +48,7 @@ public class Controller extends DaytripController implements Initializable {
     private VBox activityBox;
 
     private ObservableList<Daytrip> daytripList;
+    private ObservableList<Daytrip> cart = FXCollections.observableArrayList();
     private DatabaseManager dbm;
     private final ObservableList<String> selectedActivity = FXCollections.observableArrayList();
     private String selectedLocation;
@@ -60,8 +63,11 @@ public class Controller extends DaytripController implements Initializable {
             populateCheckBox();
     }
 
+    /**
+     * Tengja ListView við ObservableList
+     */
     private void populateListView(){
-        //hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
+        cartListView.setItems(cart);
         try {
             daytripList = dbm.fetchAvailableDaytrips();
             myListView.setItems(daytripList);
@@ -203,6 +209,11 @@ public class Controller extends DaytripController implements Initializable {
         updateListView();
     }
 
+    public void setToCart(Daytrip daytrip){
+        cart.add(daytrip);
+        cartListView.setItems(cart);
+    }
+
     /**
      * Handler sem að mun opna nýjan glugga til að skoða frekari upplýsingar um valin ferð
      * @param mouseEvent sér um að opna glugga þegar notandinn valdi ferðina úr ListView
@@ -215,6 +226,7 @@ public class Controller extends DaytripController implements Initializable {
             DetailsController detailsController = loader.getController();
             Daytrip selected = myListView.getSelectionModel().getSelectedItem();
             detailsController.setDaytrip(selected);
+            detailsController.setController(this);
             Stage stage = new Stage();
             stage.setTitle(selected.getTitle());
             stage.setScene(new Scene(root, 650, 450));

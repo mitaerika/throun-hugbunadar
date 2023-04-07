@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
+    @FXML
+    private Button bookSeatsButton;
     @FXML
     private Label dateText;
     @FXML
@@ -33,21 +36,27 @@ public class DetailsController implements Initializable{
     @FXML
     private Label tripTitle;
 
+    private int seats;
+    private Controller c;
+    private Daytrip daytrip;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tripPhoto.setPreserveRatio(true);
         tripPhoto.setFitHeight(500);
         tripDesc.setWrapText(true);
+        bookSeatsButton.setDisable(true);
     }
 
     public void setDaytrip(Daytrip selectedItem) {
-        tripTitle.setText(selectedItem.getTitle());
-        tripDesc.setText(selectedItem.getDescription());
-        tripPhoto.setImage(new Image(selectedItem.getPhoto()));
-        dateText.setText("Ferðadagsetning: "+selectedItem.getDate());
-        timeText.setText("Ferðatími: "+selectedItem.getStartTime()+" ~ "+selectedItem.getEnd_time());
-        priceText.setText("Verð: "+selectedItem.getPrice()+" per mann");
-        int max =selectedItem.getAvailable_seats();
+        daytrip = selectedItem;
+        tripTitle.setText(daytrip.getTitle());
+        tripDesc.setText(daytrip.getDescription());
+        tripPhoto.setImage(new Image(daytrip.getPhoto()));
+        dateText.setText("Ferðadagsetning: "+daytrip.getDate());
+        timeText.setText("Ferðatími: "+daytrip.getStartTime()+" ~ "+daytrip.getEnd_time());
+        priceText.setText("Verð: "+daytrip.getPrice()+" per mann");
+        int max = daytrip.getAvailable_seats();
         seatsText.setText("Velja lausa sæti");
         ObservableList<Integer> seats = FXCollections.observableArrayList();
         for(int i = 1; i <= max; i++){
@@ -58,7 +67,15 @@ public class DetailsController implements Initializable{
 
 
     public void selectSeats(ActionEvent actionEvent) {
+        bookSeatsButton.setDisable(false);
+        seats = seatPicker.getSelectionModel().getSelectedItem();
     }
 
+    public void bookSeats(ActionEvent actionEvent) {
+        c.setToCart(daytrip);
+    }
 
+    public void setController(Controller controller) {
+        c = controller;
+    }
 }
