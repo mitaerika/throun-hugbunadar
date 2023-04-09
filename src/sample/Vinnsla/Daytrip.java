@@ -17,12 +17,12 @@ public class Daytrip extends DaytripController {
     private int available_seats;
     private int booked_seats = 0;
     private String location;
-    private String[] reviews;
     private double avgRating;
     private String pickupLocation;
     private ObservableList<String> hotels;
     private ObservableList<String> activities;
-    private int[] ratings;
+    private ObservableList<String> ratings;
+    private ObservableList<String> reviews;
 
     public Daytrip(String title, LocalDate date, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, double avgRating) {
         this.title = title;
@@ -40,11 +40,11 @@ public class Daytrip extends DaytripController {
     public String getTitle() {
         return this.title;
     }
-    public String[] getReviews() {
+    public ObservableList<String> getReviews() {
         return this.reviews;
     }
-    public void setReviews(String[] r) {
-        this.reviews = r;
+    public void setReviews(ObservableList<String> reviews) {
+        this.reviews = reviews;
     }
     public double getAvgRating() { return this.avgRating; }
 
@@ -113,10 +113,10 @@ public class Daytrip extends DaytripController {
     public String getPickupLocation(){
         return pickupLocation;
     }
-    public void setRatings(int[] ratings) {
+    public void setRatings(ObservableList<String> ratings) {
         this.ratings = ratings;
     }
-    public int[] getRatings() {
+    public ObservableList<String> getRatings() {
         return this.ratings;
     }
     public void setActivities(ObservableList<String> activities){

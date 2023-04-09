@@ -269,7 +269,8 @@ public class Controller extends DaytripController implements Initializable {
     public void daytripSelected(MouseEvent mouseEvent) {
         try {
             Daytrip selected = myListView.getSelectionModel().getSelectedItem();
-            dbm.populateRatingAndReviewForDaytrip(selected);
+            dbm.populateRatingForDaytrip(selected);
+            dbm.populateReviewForDaytrip(selected);
             dbm.populateHotelsForDaytrip(selected);
             URL url = new File("src/sample/details.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);

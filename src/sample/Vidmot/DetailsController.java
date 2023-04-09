@@ -85,17 +85,17 @@ public class DetailsController implements Initializable{
         seatPicker.setItems(seats);
         ObservableList<String> hotels = daytrip.getHotels();
         hotelPicker.setItems(hotels);
-        String[] reviewComments = daytrip.getReviews();
-        int[] ratings = daytrip.getRatings();
+        ObservableList<String> reviewComments = daytrip.getReviews();
+        ObservableList<String> ratings = daytrip.getRatings();
         double avgRating = daytrip.getAvgRating();
-        int n = reviewComments.length;
+        int n = reviewComments.size();
         String formattedRating = String.format("%.1f", avgRating);
         if(n>1) reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemdir");
         else reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemd");
         ObservableList<String> reviewList = FXCollections.observableArrayList();
         ListView<String> ls = new ListView<>();
         for(int i = 0; i<n; i++){
-            reviewList.add(ratings[i]+"/10 \n"+reviewComments[i]);
+            reviewList.add(ratings.get(i)+"/10 \n"+reviewComments.get(i));
         }
         ls.setItems(reviewList);
         ls.setCellFactory(param -> new ListCell<String>(){
