@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 
 public class DaytripController {
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
-    Comparator<Daytrip> comparatorRating = Comparator.comparingDouble(Daytrip::getRating);
+    Comparator<Daytrip> comparatorRating = Comparator.comparingDouble(Daytrip::getAvgRating);
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.

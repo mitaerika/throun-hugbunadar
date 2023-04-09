@@ -8,9 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
+import sample.Vinnsla.DaytripListCell;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -43,6 +45,10 @@ public class DetailsController implements Initializable{
     private int seats;
     private Controller c;
     private Daytrip daytrip;
+    private String selectedHotel;
+    private double width;
+    private boolean hotelIsSelected;
+    private boolean seatIsSelected;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +57,7 @@ public class DetailsController implements Initializable{
         tripDesc.setWrapText(true);
         bookSeatsButton.setDisable(true);
         reviewText.setExpanded(false);
+        width = reviewText.getWidth();
     }
 
     public void setDaytrip(Daytrip selectedItem) {
@@ -68,29 +75,58 @@ public class DetailsController implements Initializable{
             seats.add(i);
         }
         seatPicker.setItems(seats);
-        String[] h = daytrip.getHotels();
-        ObservableList<String> hotels = FXCollections.observableArrayList();
-        for(int j = 0; j < 3; j++){
-            System.out.println(h[j]);
-            hotels.add(h[j]);
-        }
+        ObservableList<String> hotels = daytrip.getHotels();
         hotelPicker.setItems(hotels);
-        String[] r = daytrip.getReviews();
-        reviewText.setText("Athugasemdir ("+r.length+")");
+        String[] reviewComments = daytrip.getReviews();
+        int[] ratings = daytrip.getRatings();
+        double avgRating = daytrip.getAvgRating();
+        int n = reviewComments.length;
+        String formattedRating = String.format("%.1f", avgRating);
+        reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemdir");
         ObservableList<String> reviewList = FXCollections.observableArrayList();
         ListView<String> ls = new ListView<>();
-        reviewList.addAll(Arrays.asList(r));
+        for(int i = 0; i<n; i++){
+            reviewList.add(ratings[i]+"/10 \n"+reviewComments[i]);
+        }
         ls.setItems(reviewList);
+        ls.setCellFactory(param -> new ListCell<String>(){
+            @Override
+            protected void updateItem(String s, boolean empty) {
+                super.updateItem(s, empty);
+                if (empty || s == null) {
+                    setText(null);
+                }
+                else {
+                    setMaxWidth(width);
+                    setPrefWidth(width);
+                    setMinWidth(width);
+                    setWrapText(true);
+                    setText(s);
+                }
+            }
+        });
         reviewText.setContent(ls);
     }
 
     /**
-     * Handler fyrir ComboBox sem sér um fjölda sæti sem notandinn vilja bóka
+     * Handler fyrir ComboBox sem sér um hótel þar sem notandinn vill vera sóttur frá
+     * @param actionEvent sér um val hótel
+     */
+    public void selectHotel(ActionEvent actionEvent) {
+        selectedHotel = hotelPicker.getSelectionModel().getSelectedItem();
+        daytrip.setPickupLocation(selectedHotel);
+        hotelIsSelected = true;
+        if(seatIsSelected) bookSeatsButton.setDisable(false);
+    }
+
+    /**
+     * Handler fyrir ComboBox sem sér um fjölda sæti sem notandinn vill bóka
      * @param actionEvent sér um val fjölda sæti
      */
     public void selectSeats(ActionEvent actionEvent) {
-        bookSeatsButton.setDisable(false);
+        if(hotelIsSelected) bookSeatsButton.setDisable(false);
         seats = seatPicker.getSelectionModel().getSelectedItem();
+        seatIsSelected = true;
     }
 
     /**
@@ -105,5 +141,12 @@ public class DetailsController implements Initializable{
 
     public void setController(Controller controller) {
         c = controller;
+    }
+
+    //!! Does not work yet
+    public void openReviews(ContextMenuEvent contextMenuEvent) {
+        //adjust size of window according to TitledPane
+        Stage stage = (Stage) reviewText.getScene().getWindow();
+        reviewText.expandedProperty().addListener((obs, oldHeight, newHeight) -> stage.sizeToScene());
     }
 }

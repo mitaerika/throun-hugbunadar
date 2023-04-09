@@ -75,10 +75,11 @@ public class Controller extends DaytripController implements Initializable {
                 if (!empty || d!=null) {
                     int pax = d.getBooked_seats();
                     int p = d.getPrice();
-                    title.setText(d.getTitle() + "(Bóka "+ pax +" sæti)");
+                    title.setText(d.getTitle() + " x "+ pax +" sæti");
                     date.setText(d.getDate());
                     price.setText("Verð: "+ p +" x "+ pax + " = " + pax*p);
                     time.setText(" kl. "+d.getStartTime());
+                    extra.setText("Sótt frá: "+d.getPickupLocation());
                     setGraphic(layout);
                 }
         }});
@@ -237,7 +238,8 @@ public class Controller extends DaytripController implements Initializable {
     public void daytripSelected(MouseEvent mouseEvent) {
         try {
             Daytrip selected = myListView.getSelectionModel().getSelectedItem();
-            dbm.fetchReviewsForDaytrip(selected);
+            dbm.populateRatingAndReviewForDaytrip(selected);
+            dbm.populateHotelsForDaytrip(selected);
             URL url = new File("src/sample/details.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
@@ -252,6 +254,5 @@ public class Controller extends DaytripController implements Initializable {
         catch (IOException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

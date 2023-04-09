@@ -37,7 +37,6 @@
                <children>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="161.0" prefWidth="306.0">
                      <children>
-                        <Label fx:id="ratingText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="dateText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="timeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                         <Label fx:id="priceText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
@@ -53,7 +52,7 @@
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Label maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Hótel" HBox.hgrow="ALWAYS" />
-                                    <ComboBox fx:id="hotelPicker" onAction="#selectSeats" prefHeight="35.0" prefWidth="173.0" promptText="Veldu hótel" />
+                                    <ComboBox fx:id="hotelPicker" onAction="#selectHotel" prefHeight="35.0" prefWidth="173.0" promptText="Veldu hótel" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -69,10 +68,13 @@
                   </HBox>
                </children>
             </HBox>
-            <TitledPane fx:id="reviewText" animated="false" text="Athugasemdir">
+            <TitledPane fx:id="reviewText" animated="false" onContextMenuRequested="#openReviews" text="Athugasemdir" VBox.vgrow="ALWAYS">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </TitledPane>
          </children>
          <padding>
