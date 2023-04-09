@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
     @FXML
+    private Label activityText;
+    @FXML
     private ComboBox<String> hotelPicker;
     @FXML
     private TitledPane reviewText;
@@ -68,6 +70,9 @@ public class DetailsController implements Initializable{
         dateText.setText("Ferðadagsetning: "+daytrip.getDate());
         timeText.setText("Ferðatími: "+daytrip.getStartTime()+" ~ "+daytrip.getEnd_time());
         priceText.setText("Verð: "+daytrip.getPrice()+" per mann");
+        String activity = "";
+        for(String act: daytrip.getActivities()) activity = activity+act+", ";
+        activityText.setText("Afþreyingar: "+activity);
         int max = daytrip.getAvailable_seats();
         seatsText.setText("Velja lausa sæti");
         ObservableList<Integer> seats = FXCollections.observableArrayList();
@@ -82,7 +87,8 @@ public class DetailsController implements Initializable{
         double avgRating = daytrip.getAvgRating();
         int n = reviewComments.length;
         String formattedRating = String.format("%.1f", avgRating);
-        reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemdir");
+        if(n>1) reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemdir");
+        else reviewText.setText("Einkunn: "+formattedRating+"/10 "+" - "+ n+ " athugasemd");
         ObservableList<String> reviewList = FXCollections.observableArrayList();
         ListView<String> ls = new ListView<>();
         for(int i = 0; i<n; i++){

@@ -21,10 +21,10 @@ public class Daytrip extends DaytripController {
     private double avgRating;
     private String pickupLocation;
     private ObservableList<String> hotels;
-    private String[] activity;
+    private ObservableList<String> activities;
     private int[] ratings;
 
-    public Daytrip(String title, LocalDate date, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, String[] reviews, double avgRating, String[] activity) {
+    public Daytrip(String title, LocalDate date, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, double avgRating) {
         this.title = title;
         this.date = date;
         this.start_time = start_time1;
@@ -34,10 +34,7 @@ public class Daytrip extends DaytripController {
         this.photo = photo1;
         this.available_seats = available_seats1;
         this.location = location1;
-        this.reviews = reviews;
         this.avgRating = avgRating;
-        this.activity = new String[activity.length];
-        this.activity = activity;
     }
 
     public String getTitle() {
@@ -65,9 +62,6 @@ public class Daytrip extends DaytripController {
     }
     public int getAvailable_seats() {
         return this.available_seats;
-    }
-    public String[] getActivity() {
-        return activity;
     }
     public void setHotels(ObservableList<String> hotels) {
         this.hotels = hotels;
@@ -119,15 +113,18 @@ public class Daytrip extends DaytripController {
     public String getPickupLocation(){
         return pickupLocation;
     }
-
     public void setRatings(int[] ratings) {
         this.ratings = ratings;
     }
-
     public int[] getRatings() {
         return this.ratings;
     }
-
+    public void setActivities(ObservableList<String> activities){
+        this.activities = activities;
+    }
+    public ObservableList<String> getActivities(){
+        return this.activities;
+    }
 }
 
 

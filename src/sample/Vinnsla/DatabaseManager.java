@@ -115,15 +115,13 @@ public class DatabaseManager implements IDatabaseManager{
         Statement stmt = null;
         ResultSet rs = null;
         String query = "SELECT title,date_trip,start_time,end_time,description,price,photo,available_seats,location_name,avg(rating) FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title GROUP BY title";
-        ObservableList<Daytrip> res;
-
+        ObservableList<Daytrip> daytripList;
         try {
             //Connect to DB, create statement, and execute statement
             connectToDatabase();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            res = createDaytripObservableList(rs);
-
+            daytripList = createDaytripObservableList(rs);
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeQuery operation : " + e);
             throw e;
@@ -137,7 +135,8 @@ public class DatabaseManager implements IDatabaseManager{
             //Close connection
             disconnectFromDatabase();
         }
-        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+        populateActivitiesForDaytrip(daytripList);
+        return  daytripList;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
 
@@ -166,13 +165,13 @@ public class DatabaseManager implements IDatabaseManager{
                 break;
         }
         String query = "SELECT title,date_trip,start_time,end_time,description,price,photo,available_seats,location_name,avg(rating) FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title AND date_trip = '"+day+"' AND location_name = '"+location+"' AND start_time "+time+" GROUP BY title";
-        ObservableList<Daytrip> res;
+        ObservableList<Daytrip> daytripList;
         try {
             //Connect to DB, create statement, and execute statement
             connectToDatabase();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            res = createDaytripObservableList(rs);
+            daytripList = createDaytripObservableList(rs);
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeQuery operation : " + e);
             throw e;
@@ -186,7 +185,8 @@ public class DatabaseManager implements IDatabaseManager{
             //Close connection
             disconnectFromDatabase();
         }
-        return  res;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
+        populateActivitiesForDaytrip(daytripList);
+        return  daytripList;//aðferð þar sem database managerinn fær reslutset og býr itl daytrip hlut.
     }
 
     public void populateRatingAndReviewForDaytrip(Daytrip d) throws SQLException, ClassNotFoundException {
@@ -257,9 +257,13 @@ public class DatabaseManager implements IDatabaseManager{
         return n;
     }
 
-    public ObservableList<String> fetchActivitiesForDaytrip(String title) throws SQLException, ClassNotFoundException {
-        String query = "SELECT name FROM Activity, Daytrip WHERE Daytrip.title ='"+title+"' AND Daytrip.title = Activity.daytrip_title GROUP BY name";
-        return dbToObservableList(query);
+    public void populateActivitiesForDaytrip(ObservableList<Daytrip> dl) throws SQLException, ClassNotFoundException {
+        for(Daytrip d : dl) {
+            String title = d.getTitle();
+            String query = "SELECT name FROM Activity WHERE daytrip_title ='" + title + "'";
+            ObservableList<String> activities = dbToObservableList(query);
+            d.setActivities(activities);
+        }
     }
 
     public LocalTime toLocalTime(String temp){
@@ -281,6 +285,7 @@ public class DatabaseManager implements IDatabaseManager{
             String tempDate = rs.getString(2);
             String tempStartTime = rs.getString(3);
             String tempEndtime = rs.getString(4);
+
             // convert String to LocalDate and LocalTime
             LocalDate date = toLocalDate(tempDate);
             LocalTime starttime = toLocalTime(tempStartTime);
@@ -292,12 +297,7 @@ public class DatabaseManager implements IDatabaseManager{
             int available_seats = rs.getInt(8);
             String location = rs.getString(9);
             double rating = rs.getDouble(10);
-            String[] temp = new String[3];
-            //String[] reviews = fetchReviewsForDaytrip(title);
-            String[] reviews = temp;
-            String[] activity = temp;
-
-            Daytrip tempD = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, reviews, rating, activity);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
+            Daytrip tempD = new Daytrip(title, date, starttime, endtime, desc, price, filename, available_seats, location, rating);   //búum til daytrip hlut og setjum allar uppllýsingrnarí svigann.
             dtList.add(tempD);        //setjum daytrip inn í lista dtList
         }
         return dtList;               //skilum fylkinu.

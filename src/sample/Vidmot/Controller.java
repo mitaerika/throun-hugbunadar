@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -87,9 +88,7 @@ public class Controller extends DaytripController implements Initializable {
         try {
             daytripList = dbm.fetchAvailableDaytrips();
             myListView.setItems(daytripList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -97,11 +96,19 @@ public class Controller extends DaytripController implements Initializable {
     private void updateListView(){
         try {
             daytripList = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            if(!selectedActivity.isEmpty()) {
+                System.out.println(selectedActivity);
+                for(int i = 0; i<daytripList.size(); i++){
+                    Daytrip dt = daytripList.get(i);
+                    if(!dt.getActivities().containsAll(selectedActivity)) {
+                        System.out.println(dt.getTitle()+" is removed because "+ dt.getActivities()+" doesn't contain "+selectedActivity);
+                        daytripList.remove(dt);
+                    } else System.out.println(dt.getTitle()+" is in the list because "+ dt.getActivities()+" contains "+selectedActivity);
+                }
+            }
             myListView.setItems(daytripList);
             myListView.setCellFactory(param -> new DaytripListCell());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -128,8 +135,8 @@ public class Controller extends DaytripController implements Initializable {
                 cb.setText(act);
                 cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                        selectedActivity.add(cb.getText());
+                    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldv, Boolean newv) {
+                        if(newv)  selectedActivity.add(cb.getText());
                     }
                 });
                 activityBox.getChildren().add(cb);
@@ -223,6 +230,7 @@ public class Controller extends DaytripController implements Initializable {
      */
     public void threngjaLeit(ActionEvent threngjaEvent){
         updateListView();
+        System.out.println("selected activity: "+selectedActivity);
     }
 
     public void setToCart(Daytrip d, int num){

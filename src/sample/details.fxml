@@ -25,7 +25,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </Label>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="activityText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                      </children>
                      <HBox.margin>
                         <Insets />
