@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
     @FXML
+    private Label locationText;
+    @FXML
     private Label activityText;
     @FXML
     private ComboBox<String> hotelPicker;
@@ -69,6 +71,7 @@ public class DetailsController implements Initializable{
         tripPhoto.setImage(new Image(daytrip.getPhoto()));
         dateText.setText("Ferðadagsetning: "+daytrip.getDate());
         timeText.setText("Ferðatími: "+daytrip.getStartTime()+" ~ "+daytrip.getEnd_time());
+        locationText.setText("Landshluta: "+daytrip.getLocation());
         priceText.setText("Verð: "+daytrip.getPrice()+" per mann");
         String activity = "";
         for(String act: daytrip.getActivities()) activity = activity+act+", ";

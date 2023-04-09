@@ -25,6 +25,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </Label>
+                        <Label fx:id="locationText" text="Label" />
                         <Label fx:id="activityText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
                      </children>
                      <HBox.margin>
@@ -51,13 +52,13 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Label maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Hótel" HBox.hgrow="ALWAYS" />
+                                    <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Hótel" HBox.hgrow="ALWAYS" />
                                     <ComboBox fx:id="hotelPicker" onAction="#selectHotel" prefHeight="35.0" prefWidth="173.0" promptText="Veldu hótel" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Label fx:id="seatsText" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Label" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="seatsText" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Label" HBox.hgrow="ALWAYS" />
                                     <ComboBox fx:id="seatPicker" onAction="#selectSeats" prefHeight="55.0" prefWidth="98.0" promptText="Fjöldi sæti" />
                                     <Button fx:id="bookSeatsButton" mnemonicParsing="false" onAction="#bookSeats" prefHeight="55.0" prefWidth="75.0" text="Bóka sæti" />
                                  </children>

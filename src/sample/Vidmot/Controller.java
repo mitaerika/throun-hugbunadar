@@ -48,8 +48,10 @@ public class Controller extends DaytripController implements Initializable {
     @FXML
     private VBox activityBox;
 
+    private final Label EMPTY = new Label("Engar niðurstöður fundust fyrir gefnar kröfur");
     private ObservableList<Daytrip> daytripList;
     private ObservableList<Daytrip> cartList = FXCollections.observableArrayList();
+    private ObservableList<CheckBox> cbList;
     private DatabaseManager dbm;
     private final ObservableList<String> selectedActivity = FXCollections.observableArrayList();
     private String selectedLocation;
@@ -93,57 +95,61 @@ public class Controller extends DaytripController implements Initializable {
         }
     }
 
+    /**
+     * Uppfæra leitarniðurstöður eftir að notandinn valdi dagsetningu, landshluta, tegund afþreyingar og/eða tímasetningu
+     * 1. Tengja við gagnagrunn og fá niðurstöðu úr sql skipuninni
+     * 2. Setja ferðir sem passar við tegund afþreyingar
+     * 3. Ef ekkert fannst fyrir leitarkröfur, setja skilaboð sem segir svo
+     * Annars, sýna leitar niðurstöðurnar
+     */
     private void updateListView(){
         try {
-            daytripList = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            myListView.setPlaceholder(null);
+            ObservableList<Daytrip> filteredResult = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            daytripList.clear();
             if(!selectedActivity.isEmpty()) {
-                System.out.println(selectedActivity);
-                for(int i = 0; i<daytripList.size(); i++){
-                    Daytrip dt = daytripList.get(i);
-                    if(!dt.getActivities().containsAll(selectedActivity)) {
-                        System.out.println(dt.getTitle()+" is removed because "+ dt.getActivities()+" doesn't contain "+selectedActivity);
-                        daytripList.remove(dt);
-                    } else System.out.println(dt.getTitle()+" is in the list because "+ dt.getActivities()+" contains "+selectedActivity);
+                for(int i = 0; i < filteredResult.size(); i++){
+                    Daytrip dt = filteredResult.get(i);
+                    if(dt.getActivities().containsAll(selectedActivity)) daytripList.add(dt);
                 }
             }
-            myListView.setItems(daytripList);
+            if(daytripList.isEmpty()) myListView.setPlaceholder(EMPTY);
+            else myListView.setItems(daytripList);
             myListView.setCellFactory(param -> new DaytripListCell());
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Tengja við gagnagrunn, finna allar staðsetningar sem eru í boði, setja það í ComboBox
+     */
     private void populateComboBox() {
-        ObservableList<String> list = FXCollections.observableArrayList();
+        ObservableList<String> locationList = FXCollections.observableArrayList();
         try {
-            list = dbm.fetchAvailableLocations();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            locationList = dbm.fetchAvailableLocations();
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         locationPicker.getItems().removeAll(locationPicker.getItems());
-        locationPicker.getItems().addAll(list);
+        locationPicker.getItems().addAll(locationList);
     }
 
+    /**
+     * Tengja við gagnagrunn, finna allar afþreyingar sem eru í boði, setja það í CheckBox og lista af CheckBox
+     */
     private void populateCheckBox() {
-        ObservableList<String> list;
+        ObservableList<String> activityList;
         try {
-            list = dbm.fetchAvailableActivities();
-            for(String act : list){
+            activityList = dbm.fetchAvailableActivities();
+            cbList = FXCollections.observableArrayList();
+            for(String activity : activityList){
                 CheckBox cb = new CheckBox();
-                cb.setText(act);
-                cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldv, Boolean newv) {
-                        if(newv)  selectedActivity.add(cb.getText());
-                    }
-                });
+                cb.setText(activity);
+                cbList.add(cb);
                 activityBox.getChildren().add(cb);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -229,10 +235,27 @@ public class Controller extends DaytripController implements Initializable {
      * @param threngjaEvent sér um að sía út og raða dagsferðunum.
      */
     public void threngjaLeit(ActionEvent threngjaEvent){
+        getSelectedActivities();
         updateListView();
-        System.out.println("selected activity: "+selectedActivity);
+        selectedActivity.clear();
     }
 
+    /**
+     * Skoða lista af CheckBox til að athuga hverja eru valdir
+     */
+    public void getSelectedActivities(){
+        int m = cbList.size();
+        for(int i = 0; i<m ; i++){
+            CheckBox c = cbList.get(i);
+            if(c.isSelected()) selectedActivity.add(c.getText());
+        }
+    }
+
+    /**
+     * Aðferð til að setja ferð sem notandinn er að skoða í nýja glugganum í körfu
+     * @param d Daytrip hlut
+     * @param num fjölda sæti
+     */
     public void setToCart(Daytrip d, int num){
         d.setBooked_seats(num);
         cartList.add(d);
