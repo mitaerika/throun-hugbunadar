@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,7 +50,8 @@ public class Controller extends DaytripController implements Initializable {
     private VBox activityBox;
 
     private final Label EMPTY = new Label("Engar niðurstöður fundust fyrir gefnar kröfur");
-    private ObservableList<Daytrip> daytripList;
+    private final Label EMPTYCART = new Label("Engar ferðir í körfu, veldu ferð til að bóka");
+    private ObservableList<Daytrip> daytripList = FXCollections.observableArrayList();
     private ObservableList<Daytrip> cartList = FXCollections.observableArrayList();
     private ObservableList<CheckBox> cbList;
     private DatabaseManager dbm;
@@ -70,13 +72,13 @@ public class Controller extends DaytripController implements Initializable {
      * Tengja ListView við ObservableList
      */
     private void populateListView(){
-        cartListView.setItems(cartList);
+        cartListView.setPlaceholder(EMPTYCART);
         cartListView.setCellFactory(param -> new DaytripListCell(){
             @Override
             protected void updateItem(Daytrip d, boolean empty) {
                 super.updateItem(d, empty);
                 if (!empty || d!=null) {
-                    int pax = d.getBooked_seats();
+                    int pax = d.getBookedSeats();
                     int p = d.getPrice();
                     title.setText(d.getTitle() + " x "+ pax +" sæti");
                     date.setText(d.getDate());
@@ -88,6 +90,7 @@ public class Controller extends DaytripController implements Initializable {
         }});
         myListView.setCellFactory(param -> new DaytripListCell());
         try {
+            daytripList.clear();
             daytripList = dbm.fetchAvailableDaytrips();
             myListView.setItems(daytripList);
         } catch (SQLException | ClassNotFoundException e) {
@@ -147,6 +150,7 @@ public class Controller extends DaytripController implements Initializable {
                 CheckBox cb = new CheckBox();
                 cb.setText(activity);
                 cbList.add(cb);
+                VBox.setMargin(cb, new Insets(3,3,3,3));
                 activityBox.getChildren().add(cb);
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -257,7 +261,7 @@ public class Controller extends DaytripController implements Initializable {
      * @param num fjölda sæti
      */
     public void setToCart(Daytrip d, int num){
-        d.setBooked_seats(num);
+        d.setBookedSeats(num);
         cartList.add(d);
         cartListView.setItems(cartList);
     }
@@ -269,7 +273,6 @@ public class Controller extends DaytripController implements Initializable {
     public void daytripSelected(MouseEvent mouseEvent) {
         try {
             Daytrip selected = myListView.getSelectionModel().getSelectedItem();
-            dbm.populateRatingForDaytrip(selected);
             dbm.populateReviewForDaytrip(selected);
             dbm.populateHotelsForDaytrip(selected);
             URL url = new File("src/sample/details.fxml").toURI().toURL();

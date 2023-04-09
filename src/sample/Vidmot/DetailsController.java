@@ -76,7 +76,7 @@ public class DetailsController implements Initializable{
         String activity = "";
         for(String act: daytrip.getActivities()) activity = activity+act+", ";
         activityText.setText("Afþreyingar: "+activity);
-        int max = daytrip.getAvailable_seats();
+        int max = daytrip.getAvailableSeats();
         seatsText.setText("Velja lausa sæti");
         ObservableList<Integer> seats = FXCollections.observableArrayList();
         for(int i = 1; i <= max; i++){
