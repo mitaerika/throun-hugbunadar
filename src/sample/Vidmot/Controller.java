@@ -112,7 +112,7 @@ public class Controller extends DaytripController implements Initializable {
                     Daytrip dt = filteredResult.get(i);
                     if(dt.getActivities().containsAll(selectedActivity)) daytripList.add(dt);
                 }
-            }
+            } else daytripList = filteredResult;
             if(daytripList.isEmpty()) myListView.setPlaceholder(EMPTY);
             else myListView.setItems(daytripList);
             myListView.setCellFactory(param -> new DaytripListCell());
