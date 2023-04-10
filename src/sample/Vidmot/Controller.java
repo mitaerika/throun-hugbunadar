@@ -283,7 +283,7 @@ public class Controller extends DaytripController implements Initializable {
             detailsController.setController(this);
             Stage stage = new Stage();
             stage.setTitle(selected.getTitle());
-            stage.setScene(new Scene(root, 650, 450));
+            stage.setScene(new Scene(root, 650, 500));
             stage.show();
         }
         catch (IOException | SQLException | ClassNotFoundException e) {
