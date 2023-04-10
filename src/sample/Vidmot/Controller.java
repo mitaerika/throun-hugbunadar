@@ -293,6 +293,8 @@ public class Controller extends DaytripController implements Initializable {
     }
 
     public void finalizeBooking(ActionEvent actionEvent) {
-
+        BookingController bc = new BookingController();
+        bc.addBooking()
+        cartList
     }
 }
