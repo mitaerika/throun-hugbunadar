@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
@@ -85,7 +86,7 @@ public class Controller extends DaytripController implements Initializable {
                     price.setText("Verð: "+ p +" x "+ pax + " = " + pax*p);
                     time.setText(" kl. "+d.getStartTime());
                     extra.setText("Sótt frá: "+d.getPickupLocation());
-                    setGraphic(layout);
+                    setGraphic(new VBox(title, new HBox(left,right)));
                 }
         }});
         myListView.setCellFactory(param -> new DaytripListCell());
