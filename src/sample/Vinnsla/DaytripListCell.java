@@ -1,5 +1,6 @@
 package sample.Vinnsla;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
@@ -13,7 +14,8 @@ public class DaytripListCell extends ListCell<Daytrip> {
     public final HBox dateTime = new HBox(date,time);
     public final HBox main = new HBox(title);
     public final Label extra = new Label();
-    public final VBox layout = new VBox(main, dateTime, price, extra);
+    public final VBox left = new VBox(main, dateTime, price, extra);
+    public final HBox layout = new HBox(left);
 
     public DaytripListCell() {
         super();

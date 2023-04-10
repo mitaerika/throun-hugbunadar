@@ -152,7 +152,7 @@ public class DetailsController implements Initializable{
         c = controller;
     }
 
-    //!! Does not work yet
+    //!! Does not work yet, size of window remains the same
     public void openReviews(ContextMenuEvent contextMenuEvent) {
         //adjust size of window according to TitledPane
         Stage stage = (Stage) reviewText.getScene().getWindow();

@@ -290,4 +290,8 @@ public class Controller extends DaytripController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void finalizeBooking(ActionEvent actionEvent) {
+
+    }
 }
