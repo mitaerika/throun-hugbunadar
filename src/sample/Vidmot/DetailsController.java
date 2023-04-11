@@ -49,7 +49,6 @@ public class DetailsController implements Initializable{
     private int seats;
     private Controller c;
     private Daytrip daytrip;
-    private String selectedHotel;
     private double width;
     private boolean hotelIsSelected;
     private boolean seatIsSelected;
@@ -70,11 +69,11 @@ public class DetailsController implements Initializable{
         tripDesc.setText(daytrip.getDescription());
         tripPhoto.setImage(new Image(daytrip.getPhoto()));
         dateText.setText("Ferðadagsetning: "+daytrip.getDate());
-        timeText.setText("Ferðatími: "+daytrip.getStartTime()+" ~ "+daytrip.getEnd_time());
+        timeText.setText("Ferðatími: "+daytrip.getStartTime()+" ~ "+daytrip.getEndTime());
         locationText.setText("Landshluta: "+daytrip.getLocation());
         priceText.setText("Verð: "+daytrip.getPrice()+" per mann");
-        String activity = "";
-        for(String act: daytrip.getActivities()) activity = activity+act+", ";
+        StringBuilder activity = new StringBuilder();
+        for(String act: daytrip.getActivities()) activity.append(act).append(", ");
         activityText.setText("Afþreyingar: "+activity);
         int max = daytrip.getAvailableSeats();
         seatsText.setText("Velja lausa sæti");
@@ -122,8 +121,7 @@ public class DetailsController implements Initializable{
      * @param actionEvent sér um val hótel
      */
     public void selectHotel(ActionEvent actionEvent) {
-        selectedHotel = hotelPicker.getSelectionModel().getSelectedItem();
-        daytrip.setPickupLocation(selectedHotel);
+        daytrip.setPickupLocation(hotelPicker.getSelectionModel().getSelectedItem());
         hotelIsSelected = true;
         if(seatIsSelected) bookSeatsButton.setDisable(false);
     }

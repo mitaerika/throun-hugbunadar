@@ -60,6 +60,7 @@ public class Controller extends DaytripController implements Initializable {
     private String selectedLocation;
     private LocalDate selectedDate;
     private String selectedTime;
+    private int bookedSeats;
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -300,7 +301,7 @@ public class Controller extends DaytripController implements Initializable {
         bookingController.setDaytripList(cartList);
         Stage stage = new Stage();
         stage.setTitle("Bóka ferðir");
-        stage.setScene(new Scene(root, 600, 400));
+        stage.setScene(new Scene(root, 650, 400));
         stage.show();
     }
 }

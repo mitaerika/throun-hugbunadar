@@ -9,8 +9,8 @@ import java.time.LocalTime;
 public class Daytrip extends DaytripController {
     private String title;
     private LocalDate date;
-    private LocalTime start_time;
-    private LocalTime end_time;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private String description;
     private int price;
     private String photo;
@@ -24,11 +24,11 @@ public class Daytrip extends DaytripController {
     private ObservableList<String> ratings;
     private ObservableList<String> reviews;
 
-    public Daytrip(String title, LocalDate date, LocalTime start_time, LocalTime end_time, String description, int price, String photo, int availableSeats, String location) {
+    public Daytrip(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String description, int price, String photo, int availableSeats, String location) {
         this.title = title;
         this.date = date;
-        this.start_time = start_time;
-        this.end_time = end_time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.description = description;
         this.price = price;
         this.photo = photo;
@@ -51,10 +51,10 @@ public class Daytrip extends DaytripController {
         return this.price;
     }
     public String getStartTime() {
-        return this.start_time.toString();
+        return this.startTime.toString();
     }
-    public String getEnd_time() {
-        return this.end_time.toString();
+    public String getEndTime() {
+        return this.endTime.toString();
     }
     public String getDescription() {
         return this.description;
@@ -88,8 +88,7 @@ public class Daytrip extends DaytripController {
             case 12 -> "desember";
             default -> "";
         };
-        String ret = this.date.getDayOfMonth()+". "+mon+" "+this.date.getYear();
-        return ret;
+        return this.date.getDayOfMonth()+". "+mon+" "+this.date.getYear();
     }
 
     public String getPhoto(){
@@ -130,14 +129,18 @@ public class Daytrip extends DaytripController {
     public ObservableList<String> getRatings() {
         return this.ratings;
     }
+
     public void setActivities(ObservableList<String> activities){
         this.activities = activities;
     }
+
     public ObservableList<String> getActivities(){
         return this.activities;
     }
+
     public void reduceAvailableSeats(){
         availableSeats -= bookedSeats;
+        bookedSeats = 0;
     }
 }
 

@@ -18,6 +18,7 @@ import sample.Vinnsla.Daytrip;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class BookingController implements Initializable {
@@ -57,6 +58,7 @@ public class BookingController implements Initializable {
     public void createBooking(ActionEvent actionEvent) {
         for(Daytrip d : cartList){
             d.reduceAvailableSeats();
+            System.out.println(d.getTitle()+", current availability: "+d.getAvailableSeats());
         }
     }
 
@@ -89,6 +91,10 @@ public class BookingController implements Initializable {
         dateCol.setCellValueFactory(new PropertyValueFactory<Daytrip,LocalDate>("date"));
         TableColumn<Daytrip,String> hotelCol = new TableColumn<Daytrip,String>("Sótt frá");
         hotelCol.setCellValueFactory(new PropertyValueFactory<Daytrip,String>("pickupLocation"));
+        TableColumn<Daytrip, LocalTime> startCol = new TableColumn<Daytrip,LocalTime>("Brottför");
+        startCol.setCellValueFactory(new PropertyValueFactory<Daytrip,LocalTime>("startTime"));
+        TableColumn<Daytrip, LocalTime> endCol = new TableColumn<Daytrip,LocalTime>("Koma");
+        endCol.setCellValueFactory(new PropertyValueFactory<Daytrip,LocalTime>("endTime"));
         TableColumn<Daytrip,Integer> seatsCol = new TableColumn<Daytrip,Integer>("Fjölda sæti");
         seatsCol.setCellValueFactory(new PropertyValueFactory<Daytrip,Integer>("bookedSeats"));
         TableColumn<Daytrip,Integer> priceCol = new TableColumn<Daytrip,Integer>("Verð per mann");
@@ -104,6 +110,6 @@ public class BookingController implements Initializable {
             return null;
         });
 
-        bookingTable.getColumns().addAll(titleCol, dateCol, seatsCol, priceCol,costCol);
+        bookingTable.getColumns().addAll(titleCol, dateCol, hotelCol, startCol, endCol, seatsCol, priceCol,costCol);
     }
 }

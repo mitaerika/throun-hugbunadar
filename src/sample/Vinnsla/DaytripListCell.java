@@ -33,7 +33,7 @@ public class DaytripListCell extends ListCell<Daytrip> {
             setGraphic(null);
         } else {
             String avgRating = String.format("%.1f",trip.getAvgRating());
-            title.setText(trip.getTitle());
+            title.setText(trip.getTitle()+" : "+trip.getAvailableSeats()+" sæti laus");
             date.setText(trip.getDate());
             price.setText("Verð: "+trip.getPrice());
             time.setText(" kl. "+trip.getStartTime());
