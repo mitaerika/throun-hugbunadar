@@ -292,9 +292,15 @@ public class Controller extends DaytripController implements Initializable {
         }
     }
 
-    public void finalizeBooking(ActionEvent actionEvent) {
-        BookingController bc = new BookingController();
-        bc.addBooking()
-        cartList
+    public void finalizeBooking(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/sample/booking.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        BookingController bookingController = loader.getController();
+        bookingController.setDaytripList(cartList);
+        Stage stage = new Stage();
+        stage.setTitle("Bóka ferðir");
+        stage.setScene(new Scene(root, 600, 400));
+        stage.show();
     }
 }
