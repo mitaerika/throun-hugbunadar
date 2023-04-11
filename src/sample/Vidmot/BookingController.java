@@ -35,6 +35,7 @@ public class BookingController implements Initializable {
     private TableView<Daytrip> bookingTable;
 
     private boolean phoneInputIsCorrect;
+    private ObservableList<Daytrip> cartList;
     private Booking customer;
 
     public Booking addBooking(Daytrip daytrip, Customer customer){
@@ -46,11 +47,17 @@ public class BookingController implements Initializable {
     }
 
     public void setDaytripList(ObservableList<Daytrip> cartList) {
+        this.cartList = cartList;
         bookingTable.setItems(cartList);
     }
 
+    //reduce available seats per daytrip
+    //create new Booking per daytrip
+    //create new Customer
     public void createBooking(ActionEvent actionEvent) {
-        System.out.println("create booking");
+        for(Daytrip d : cartList){
+            d.reduceAvailableSeats();
+        }
     }
 
 
@@ -80,6 +87,8 @@ public class BookingController implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<Daytrip,String>("title"));
         TableColumn<Daytrip,LocalDate> dateCol = new TableColumn<Daytrip,LocalDate>("Dagsetning");
         dateCol.setCellValueFactory(new PropertyValueFactory<Daytrip,LocalDate>("date"));
+        TableColumn<Daytrip,String> hotelCol = new TableColumn<Daytrip,String>("Sótt frá");
+        hotelCol.setCellValueFactory(new PropertyValueFactory<Daytrip,String>("pickupLocation"));
         TableColumn<Daytrip,Integer> seatsCol = new TableColumn<Daytrip,Integer>("Fjölda sæti");
         seatsCol.setCellValueFactory(new PropertyValueFactory<Daytrip,Integer>("bookedSeats"));
         TableColumn<Daytrip,Integer> priceCol = new TableColumn<Daytrip,Integer>("Verð per mann");

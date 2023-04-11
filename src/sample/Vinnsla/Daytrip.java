@@ -136,6 +136,9 @@ public class Daytrip extends DaytripController {
     public ObservableList<String> getActivities(){
         return this.activities;
     }
+    public void reduceAvailableSeats(){
+        availableSeats -= bookedSeats;
+    }
 }
 
 
