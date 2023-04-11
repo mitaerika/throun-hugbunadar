@@ -1,5 +1,6 @@
 package sample.Vinnsla;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
@@ -10,10 +11,12 @@ public class DaytripListCell extends ListCell<Daytrip> {
     public final Label date = new Label();
     public final Label time = new Label();
     public final Label price = new Label();
-    public final HBox dateTime = new HBox(date,time);
-    public final HBox main = new HBox(title);
     public final Label extra = new Label();
-    public final VBox layout = new VBox(main, dateTime, price, extra);
+    public final Button edit = new Button("Breyta/Eyða");
+
+    public final VBox right = new VBox(edit);
+    public VBox left = new VBox();
+    public final VBox layoutB = new VBox(title, new HBox(left,right));
 
     public DaytripListCell() {
         super();
@@ -22,7 +25,6 @@ public class DaytripListCell extends ListCell<Daytrip> {
     @Override
     protected void updateItem(Daytrip trip, boolean empty) {
         super.updateItem(trip, empty);
-        //setText(null);
         if (empty || trip == null) {
             title.setText(null);
             date.setText(null);
@@ -36,7 +38,8 @@ public class DaytripListCell extends ListCell<Daytrip> {
             price.setText("Verð: "+trip.getPrice());
             time.setText(" kl. "+trip.getStartTime());
             extra.setText("Einkunn: "+ avgRating +"/10");
-            setGraphic(layout);
+            left = new VBox(new HBox(date,time),price, extra);
+            setGraphic(new VBox(title, left));
         }
     }
 }

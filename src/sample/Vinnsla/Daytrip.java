@@ -14,8 +14,8 @@ public class Daytrip extends DaytripController {
     private String description;
     private int price;
     private String photo;
-    private int available_seats;
-    private int booked_seats = 0;
+    private int availableSeats;
+    private int bookedSeats = 0;
     private String location;
     private double avgRating;
     private String pickupLocation;
@@ -24,17 +24,16 @@ public class Daytrip extends DaytripController {
     private ObservableList<String> ratings;
     private ObservableList<String> reviews;
 
-    public Daytrip(String title, LocalDate date, LocalTime start_time1, LocalTime end_time1, String description1, int price1, String photo1, int available_seats1, String location1, double avgRating) {
+    public Daytrip(String title, LocalDate date, LocalTime start_time, LocalTime end_time, String description, int price, String photo, int availableSeats, String location) {
         this.title = title;
         this.date = date;
-        this.start_time = start_time1;
-        this.end_time = end_time1;
-        this.description = description1;
-        this.price = price1;
-        this.photo = photo1;
-        this.available_seats = available_seats1;
-        this.location = location1;
-        this.avgRating = avgRating;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.description = description;
+        this.price = price;
+        this.photo = photo;
+        this.availableSeats = availableSeats;
+        this.location = location;
     }
 
     public String getTitle() {
@@ -60,8 +59,8 @@ public class Daytrip extends DaytripController {
     public String getDescription() {
         return this.description;
     }
-    public int getAvailable_seats() {
-        return this.available_seats;
+    public int getAvailableSeats() {
+        return this.availableSeats;
     }
     public void setHotels(ObservableList<String> hotels) {
         this.hotels = hotels;
@@ -98,12 +97,12 @@ public class Daytrip extends DaytripController {
     }
 
     //only register booked_seats, not taking away the seats from available_seats
-    public void setBooked_seats(int n){
-        booked_seats = n;
+    public void setBookedSeats(int n){
+        bookedSeats = n;
     }
 
-    public int getBooked_seats(){
-        return booked_seats;
+    public int getBookedSeats(){
+        return bookedSeats;
     }
 
     public void setPickupLocation(String pickupLocation){
@@ -115,7 +114,19 @@ public class Daytrip extends DaytripController {
     }
     public void setRatings(ObservableList<String> ratings) {
         this.ratings = ratings;
+        calculateAverageRating();
     }
+
+    private void calculateAverageRating(){
+        double rating = 0.0;
+        int n = 0;
+        for(String r: ratings){
+            rating += Double.parseDouble(r);
+            n++;
+        }
+        this.avgRating = rating/n;
+    }
+
     public ObservableList<String> getRatings() {
         return this.ratings;
     }
