@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Label text="Nafn" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-                  <Label text="Símanúmer" GridPane.rowIndex="1" />
+                  <Label text="Símanúmer" fx:id="phoneLabel" GridPane.rowIndex="1" />
                   <Label text="Netfang" GridPane.rowIndex="2" />
                   <TextField fx:id="nameInput" GridPane.columnIndex="1" />
                   <TextField fx:id="phoneInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />

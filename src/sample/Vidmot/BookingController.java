@@ -2,6 +2,9 @@ package sample.Vidmot;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +22,8 @@ import java.util.ResourceBundle;
 
 public class BookingController implements Initializable {
     @FXML
+    private Label phoneLabel;
+    @FXML
     private TextField nameInput;
     @FXML
     private TextField phoneInput;
@@ -29,6 +34,7 @@ public class BookingController implements Initializable {
     @FXML
     private TableView<Daytrip> bookingTable;
 
+    private boolean phoneInputIsCorrect;
     private Booking customer;
 
     public Booking addBooking(Daytrip daytrip, Customer customer){
@@ -54,9 +60,22 @@ public class BookingController implements Initializable {
         confirmButton.setDisable(true);
         confirmButton.disableProperty().bind(
                 Bindings.createBooleanBinding( () -> nameInput.getText().trim().isEmpty(), nameInput.textProperty())
-                .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().isEmpty(),phoneInput.textProperty())
+                .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().trim().isEmpty() || phoneInputIsCorrect, phoneInput.textProperty())
                         .or ( Bindings.createBooleanBinding( () -> emailInput.getText().isEmpty(),emailInput.textProperty())
         )));
+
+        phoneInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String old, String s) {
+                if (!s.matches("\\d{7}")) {
+                    phoneInputIsCorrect = false;
+                    phoneLabel.setText("Símanúmer þarf að vera 7 stafa númer");
+                } else {
+                    phoneInputIsCorrect = true;
+                    phoneLabel.setText("Símanúmer");
+                }
+            }
+        });
         TableColumn<Daytrip,String> titleCol = new TableColumn<Daytrip,String>("Ferð");
         titleCol.setCellValueFactory(new PropertyValueFactory<Daytrip,String>("title"));
         TableColumn<Daytrip,LocalDate> dateCol = new TableColumn<Daytrip,LocalDate>("Dagsetning");
