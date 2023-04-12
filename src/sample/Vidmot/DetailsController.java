@@ -10,12 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
-import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
-import sample.Vinnsla.DaytripListCell;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
@@ -47,7 +44,7 @@ public class DetailsController implements Initializable{
     private Label tripTitle;
 
     private int seats;
-    private Controller c;
+    private MainController c;
     private Daytrip daytrip;
     private String selectedHotel;
     private double width;
@@ -65,7 +62,7 @@ public class DetailsController implements Initializable{
     }
 
     /**
-     * Aðferðin setDaytrip sér um að sækja gögnin sem notandinn valdi í sample.fxml yfir í að birta þau
+     * Aðferðin setDaytrip sér um að sækja gögnin sem notandinn valdi í main.fxml yfir í að birta þau
      * í detail.fxml
      * @param selectedItem er dagsferðin sem var valin.
      */
@@ -153,7 +150,7 @@ public class DetailsController implements Initializable{
         stage.close();
     }
 
-    public void setController(Controller controller) {
+    public void setController(MainController controller) {
         c = controller;
     }
 
