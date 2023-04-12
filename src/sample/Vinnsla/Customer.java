@@ -14,6 +14,4 @@ public class Customer {
     this.phone = phone;
     this.bookings = bookings;
     }
-
-
 }

@@ -292,6 +292,11 @@ public class Controller extends DaytripController implements Initializable {
         }
     }
 
+    /**
+     * Handler sem að mun fínisera bókunarferlið og að ganga frá bókun. Þetta er handlerinn fyrir
+     * "Ganga frá bókun" hnappinn.
+     * @param actionEvent sér um að ganga frá bókun.
+     */
     public void finalizeBooking(ActionEvent actionEvent) throws IOException {
         URL url = new File("src/sample/booking.fxml").toURI().toURL();
         FXMLLoader loader = new FXMLLoader(url);

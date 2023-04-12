@@ -61,7 +61,7 @@ public class BookingController implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<Daytrip,String>("title"));
         TableColumn<Daytrip,LocalDate> dateCol = new TableColumn<Daytrip,LocalDate>("Dagsetning");
         dateCol.setCellValueFactory(new PropertyValueFactory<Daytrip,LocalDate>("date"));
-        TableColumn<Daytrip,Integer> seatsCol = new TableColumn<Daytrip,Integer>("Fjölda sæti");
+        TableColumn<Daytrip,Integer> seatsCol = new TableColumn<Daytrip,Integer>("Fjöldi sæta");
         seatsCol.setCellValueFactory(new PropertyValueFactory<Daytrip,Integer>("bookedSeats"));
         TableColumn<Daytrip,Integer> priceCol = new TableColumn<Daytrip,Integer>("Verð per mann");
         priceCol.setCellValueFactory(new PropertyValueFactory<Daytrip,Integer>("price"));

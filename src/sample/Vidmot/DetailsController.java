@@ -64,6 +64,11 @@ public class DetailsController implements Initializable{
         width = reviewText.getWidth();
     }
 
+    /**
+     * Aðferðin setDaytrip sér um að sækja gögnin sem notandinn valdi í sample.fxml yfir í að birta þau
+     * í detail.fxml
+     * @param selectedItem er dagsferðin sem var valin.
+     */
     public void setDaytrip(Daytrip selectedItem) {
         daytrip = selectedItem;
         tripTitle.setText(daytrip.getTitle());
