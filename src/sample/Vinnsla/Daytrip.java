@@ -142,6 +142,9 @@ public class Daytrip extends DaytripController {
         availableSeats -= bookedSeats;
         bookedSeats = 0;
     }
+    public String getLocalDate(){
+        return this.date.toString();
+    }
 }
 
 

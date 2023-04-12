@@ -301,7 +301,7 @@ public class Controller extends DaytripController implements Initializable {
         bookingController.setDaytripList(cartList);
         Stage stage = new Stage();
         stage.setTitle("Bóka ferðir");
-        stage.setScene(new Scene(root, 650, 400));
+        stage.setScene(new Scene(root, 680, 400));
         stage.show();
     }
 }

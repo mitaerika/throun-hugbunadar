@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import sample.Vinnsla.Booking;
 import sample.Vinnsla.Customer;
+import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
 import java.net.URL;
@@ -45,21 +46,6 @@ public class BookingController implements Initializable {
 
     public Booking removeBooking(Daytrip daytrip){
         return this.customer;
-    }
-
-    public void setDaytripList(ObservableList<Daytrip> cartList) {
-        this.cartList = cartList;
-        bookingTable.setItems(cartList);
-    }
-
-    //reduce available seats per daytrip
-    //create new Booking per daytrip
-    //create new Customer
-    public void createBooking(ActionEvent actionEvent) {
-        for(Daytrip d : cartList){
-            d.reduceAvailableSeats();
-            System.out.println(d.getTitle()+", current availability: "+d.getAvailableSeats());
-        }
     }
 
 
@@ -112,4 +98,30 @@ public class BookingController implements Initializable {
 
         bookingTable.getColumns().addAll(titleCol, dateCol, hotelCol, startCol, endCol, seatsCol, priceCol,costCol);
     }
+
+    public void setDaytripList(ObservableList<Daytrip> cartList) {
+        this.cartList = cartList;
+        bookingTable.setItems(cartList);
+    }
+
+    //create new Customer
+    //reduce available seats per daytrip
+    //create new Booking per daytrip
+    public void createBooking(ActionEvent actionEvent) {
+        DatabaseManager dbm = new DatabaseManager();
+        Customer cust = new Customer(nameInput.getText(),emailInput.getText(),phoneInput.getText());
+        dbm.registerCustomer(cust);
+        for(Daytrip d : cartList){
+            Booking booking = new Booking(d.getBookedSeats(),d.getBookedSeats()*d.getPrice(), d);
+            booking.setCustomer(cust);
+            dbm.registerBooking(booking);
+            dbm.registerBookingInCustomer(booking,cust);
+            d.reduceAvailableSeats();
+            dbm.updateDaytripAvailability(d);
+        }
+        bookingTable.getColumns().clear();
+        bookingTable.setPlaceholder(new Button("Hlaða niður bókun"));
+        confirmButton.setDisable(true);
+    }
+
 }

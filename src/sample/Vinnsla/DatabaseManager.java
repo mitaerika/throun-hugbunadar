@@ -234,4 +234,29 @@ public class DatabaseManager implements IDatabaseManager{
         }
         return dtList;               //skilum fylkinu.
     }
+
+    public void updateDaytripAvailability(Daytrip d) {
+        String update = "UPDATE Daytrip SET available_seats = "+d.getAvailableSeats();
+        String where = " WHERE title = '"+d.getTitle()+"' AND date_trip = '"+d.getLocalDate()+"' AND start_time = '"+d.getStartTime()+"'";
+        String query = update+where;
+        System.out.println(query);
+    }
+
+    public void registerCustomer(Customer c) {
+        String query = "INSERT INTO Customer VALUES ('"+c.getID()+"','"+c.getName()+"','"+c.getEmail()+"','"+c.getPhone()+"',null)";
+        System.out.println(query);
+    }
+
+    public void registerBookingInCustomer(Booking b, Customer c) {
+        String query = "UPDATE Customer SET booking_number = '"+b.getID()+"' WHERE id = '"+c.getID()+"'";
+        System.out.println(query);
+    }
+
+    public void registerBooking(Booking b) {
+        String start = "INSERT INTO Booking VALUES ('"+b.getID()+"',"+b.getBookedSeats()+",'";
+        String where = b.getTitle()+"','"+b.getLocalDate()+"','"+b.getStartTime()+"','"+b.getEndTime()+"','"+b.getHotel()+"',"+b.getTotalCost()+",'"+b.getCustomerId();
+        String end = "')";
+        String query = start+where+end;
+        System.out.println(query);
+    }
 }
