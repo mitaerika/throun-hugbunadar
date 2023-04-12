@@ -1,36 +1,38 @@
 package sample.Vidmot;
 
-import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
-
+import sample.Vinnsla.DaytripListCell;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
-public class Controller implements Initializable {
-    @FXML
-    private RadioButton morning;
-    @FXML
-    private RadioButton afternoon;
-    @FXML
-    private RadioButton night;
-
+public class Controller extends DaytripController implements Initializable {
     @FXML
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> locationPicker;
-
-    @FXML
-    private Button filterButton;
-
     @FXML
     private RadioButton priceDescending;
     @FXML
@@ -39,36 +41,122 @@ public class Controller implements Initializable {
     private RadioButton ratingDescending;
     @FXML
     private RadioButton ratingAscending;
-
     @FXML
     private Button finalizeBooking;
-
     @FXML
-    private ListView<String> myListView;
+    private ListView<Daytrip> myListView;
+    @FXML
+    private ListView<Daytrip> cartListView;
+    @FXML
+    private VBox activityBox;
 
-
-    private Daytrip dagsferd;
+    private final Label EMPTY = new Label("Engar niðurstöður fundust fyrir gefnar kröfur");
+    private final Label EMPTYCART = new Label("Engar ferðir í körfu, veldu ferð til að bóka");
+    private ObservableList<Daytrip> daytripList = FXCollections.observableArrayList();
+    private ObservableList<Daytrip> cartList = FXCollections.observableArrayList();
+    private ObservableList<CheckBox> cbList;
+    private DatabaseManager dbm;
+    private final ObservableList<String> selectedActivity = FXCollections.observableArrayList();
+    private String selectedLocation;
+    private LocalDate selectedDate;
+    private String selectedTime;
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
-            DatabaseManager dbm = new DatabaseManager();
-            ObservableList<String> list = FXCollections.observableArrayList();
-            ;//hér tengjum við gagnagrunninn við okkar forrit og náum í allar upplýsingar um daytrip. Við fáum til baka result set í main og færum það yfir í database managerinn.
-            try {
-                ObservableList<Daytrip> trips = dbm.fetchAvailableDaytrips();
-                for (Daytrip trip : trips) {
-                   // System.err.println(trip.getLocation());
-                    list.add(trip.getTitle());
+            dbm = new DatabaseManager();
+            populateListView();
+            populateComboBox();
+            populateCheckBox();
+    }
+
+    /**
+     * Tengja ListView við ObservableList
+     */
+    private void populateListView(){
+        cartListView.setPlaceholder(EMPTYCART);
+        cartListView.setCellFactory(param -> new DaytripListCell(){
+            @Override
+            protected void updateItem(Daytrip d, boolean empty) {
+                super.updateItem(d, empty);
+                if (!empty || d!=null) {
+                    int pax = d.getBookedSeats();
+                    int p = d.getPrice();
+                    title.setText(d.getTitle() + " x "+ pax +" sæti");
+                    date.setText(d.getDate());
+                    price.setText("Verð: "+ p +" x "+ pax + " = " + pax*p);
+                    time.setText(" kl. "+d.getStartTime());
+                    extra.setText("Sótt frá: "+d.getPickupLocation());
+                    setGraphic(new VBox(title, new HBox(left,right)));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+        }});
+        myListView.setCellFactory(param -> new DaytripListCell());
+        try {
+            daytripList.clear();
+            daytripList = dbm.fetchAvailableDaytrips();
+            myListView.setItems(daytripList);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Uppfæra leitarniðurstöður eftir að notandinn valdi dagsetningu, landshluta, tegund afþreyingar og/eða tímasetningu
+     * 1. Tengja við gagnagrunn og fá niðurstöðu úr sql skipuninni
+     * 2. Setja ferðir sem passar við tegund afþreyingar
+     * 3. Ef ekkert fannst fyrir leitarkröfur, setja skilaboð sem segir svo
+     * Annars, sýna leitar niðurstöðurnar
+     */
+    private void updateListView(){
+        try {
+            myListView.setPlaceholder(null);
+            ObservableList<Daytrip> filteredResult = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);
+            daytripList.clear();
+            if(!selectedActivity.isEmpty()) {
+                for(int i = 0; i < filteredResult.size(); i++){
+                    Daytrip dt = filteredResult.get(i);
+                    if(dt.getActivities().containsAll(selectedActivity)) daytripList.add(dt);
+                }
+            } else daytripList = filteredResult;
+            if(daytripList.isEmpty()) myListView.setPlaceholder(EMPTY);
+            else myListView.setItems(daytripList);
+            myListView.setCellFactory(param -> new DaytripListCell());
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Tengja við gagnagrunn, finna allar staðsetningar sem eru í boði, setja það í ComboBox
+     */
+    private void populateComboBox() {
+        ObservableList<String> locationList = FXCollections.observableArrayList();
+        try {
+            locationList = dbm.fetchAvailableLocations();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        locationPicker.getItems().removeAll(locationPicker.getItems());
+        locationPicker.getItems().addAll(locationList);
+    }
+
+    /**
+     * Tengja við gagnagrunn, finna allar afþreyingar sem eru í boði, setja það í CheckBox og lista af CheckBox
+     */
+    private void populateCheckBox() {
+        ObservableList<String> activityList;
+        try {
+            activityList = dbm.fetchAvailableActivities();
+            cbList = FXCollections.observableArrayList();
+            for(String activity : activityList){
+                CheckBox cb = new CheckBox();
+                cb.setText(activity);
+                cbList.add(cb);
+                VBox.setMargin(cb, new Insets(3,3,3,3));
+                activityBox.getChildren().add(cb);
             }
-            myListView.setItems(list);
-        System.out.println("list populated");
-            locationPicker.getItems().removeAll(locationPicker.getItems());
-            locationPicker.getItems().addAll("Norðaustur","Norðvestur", "Suður", "Suðvestur");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -77,9 +165,9 @@ public class Controller implements Initializable {
      */
     public void verdAscend(ActionEvent priceEventA) {
         if(priceAscending.isSelected()){
-            System.err.println("ascend verd alert");
+            ObservableList<Daytrip> sortedByPriceAscending = sortByPrice(daytripList, false);
+            myListView.setItems(sortedByPriceAscending);
         }
-
     }
 
     /**
@@ -88,7 +176,8 @@ public class Controller implements Initializable {
      */
     public void verdDescend(ActionEvent verdEventD) {
         if(priceDescending.isSelected()){
-            System.err.println("descend verd alert");
+            ObservableList<Daytrip> sortedByPriceDescending = sortByPrice(daytripList, true);
+            myListView.setItems(sortedByPriceDescending);
         }
     }
 
@@ -98,7 +187,8 @@ public class Controller implements Initializable {
      */
     public void einkunnDescend(ActionEvent einkunnEventD) {
         if(ratingDescending.isSelected()){
-            System.err.println("descend einkunn alert");
+            ObservableList<Daytrip> sortedByRatingDescending = sortByRating(daytripList, true);
+            myListView.setItems(sortedByRatingDescending);
         }
     }
 
@@ -108,9 +198,9 @@ public class Controller implements Initializable {
      */
     public void einkunnAscend(ActionEvent einkunnEventA) {
         if(ratingAscending.isSelected()){
-            System.err.println("rating ascend alert");
+            ObservableList<Daytrip> sortedByRatingAscending = sortByRating(daytripList, false);
+            myListView.setItems(sortedByRatingAscending);
         }
-
     }
 
     /**
@@ -118,10 +208,31 @@ public class Controller implements Initializable {
      * @param filterEvent sér um að breyta dagsferðunum.
      */
     public void filterLocation(ActionEvent filterEvent){
-        if(locationPicker.isPressed()){
-            System.err.println("Nú á að fara að velja einhverja staðsetningu");
-        }
+        selectedLocation = locationPicker.getValue();
     }
+
+    /**
+     * Þetta er handler fyrir að velja dagsferðir útfrá dagsetningu sem notandinn valdi.
+     * @param actionEvent sér um breytingar sem var gerðar á datePicker.
+     */
+    public void filterDate(ActionEvent actionEvent) {
+        selectedDate = datePicker.getValue();
+    }
+
+    /**
+     * Handler fyrir RadioButton sem sér um tímasetningu
+     * @param actionEvent sér um að setja tímasetningu sem notandinn valdi
+     */
+    public void morningSelected(ActionEvent actionEvent) {
+        selectedTime = "morning";
+    }
+    public void afternoonSelected(ActionEvent actionEvent) {
+        selectedTime = "afternoon";
+    }
+    public void eveningSelected(ActionEvent actionEvent) {
+        selectedTime = "evening";
+    }
+
 
     /**
      * Þetta er handler sem að mun sjá um allt sem hinir handlerarnir eru að gera, nema að
@@ -129,8 +240,67 @@ public class Controller implements Initializable {
      * @param threngjaEvent sér um að sía út og raða dagsferðunum.
      */
     public void threngjaLeit(ActionEvent threngjaEvent){
-        if(filterButton.isPressed()){
-            System.err.println("Allir handlerar sameinast hér. ");
+        getSelectedActivities();
+        updateListView();
+        selectedActivity.clear();
+    }
+
+    /**
+     * Skoða lista af CheckBox til að athuga hverja eru valdir
+     */
+    public void getSelectedActivities(){
+        int m = cbList.size();
+        for(int i = 0; i<m ; i++){
+            CheckBox c = cbList.get(i);
+            if(c.isSelected()) selectedActivity.add(c.getText());
         }
+    }
+
+    /**
+     * Aðferð til að setja ferð sem notandinn er að skoða í nýja glugganum í körfu
+     * @param d Daytrip hlut
+     * @param num fjölda sæti
+     */
+    public void setToCart(Daytrip d, int num){
+        d.setBookedSeats(num);
+        cartList.add(d);
+        cartListView.setItems(cartList);
+    }
+
+    /**
+     * Handler sem að mun opna nýjan glugga til að skoða frekari upplýsingar um valin ferð
+     * @param mouseEvent sér um að opna glugga þegar notandinn valdi ferðina úr ListView
+     */
+    public void daytripSelected(MouseEvent mouseEvent) {
+        try {
+            Daytrip selected = myListView.getSelectionModel().getSelectedItem();
+            dbm.populateReviewForDaytrip(selected);
+            dbm.populateHotelsForDaytrip(selected);
+            URL url = new File("src/sample/details.fxml").toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            DetailsController detailsController = loader.getController();
+            detailsController.setDaytrip(selected);
+            detailsController.setController(this);
+            Stage stage = new Stage();
+            stage.setTitle(selected.getTitle());
+            stage.setScene(new Scene(root, 650, 500));
+            stage.show();
+        }
+        catch (IOException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void finalizeBooking(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/sample/booking.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        BookingController bookingController = loader.getController();
+        bookingController.setDaytripList(cartList);
+        Stage stage = new Stage();
+        stage.setTitle("Bóka ferðir");
+        stage.setScene(new Scene(root, 600, 400));
+        stage.show();
     }
 }

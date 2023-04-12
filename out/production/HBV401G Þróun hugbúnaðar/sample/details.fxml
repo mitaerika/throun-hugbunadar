@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.DetailsController">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="650.0">
+         <children>
+            <Label fx:id="tripTitle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="279.0" prefWidth="619.0">
+               <children>
+                  <ImageView fx:id="tripPhoto" fitHeight="273.0" fitWidth="275.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox maxWidth="1.7976931348623157E308" prefHeight="224.0" prefWidth="396.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="tripDesc" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="224.0" prefWidth="365.0" text="Label" textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="locationText" maxWidth="1.7976931348623157E308" text="Label">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="70.0" prefWidth="619.0" VBox.vgrow="NEVER">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="164.0">
+                     <children>
+                        <Label fx:id="dateText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="timeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="priceText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <Label fx:id="activityText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="131.0" text="Label" wrapText="true" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="272.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="63.0" prefWidth="308.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Hótel" HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding></Label>
+                                    <ComboBox fx:id="hotelPicker" onAction="#selectHotel" prefHeight="35.0" prefWidth="173.0" promptText="Veldu hótel" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="seatsText" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="74.0" text="Label" HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding></Label>
+                                    <ComboBox fx:id="seatPicker" onAction="#selectSeats" prefHeight="55.0" prefWidth="98.0" promptText="Fjöldi sæti" />
+                                    <Button fx:id="bookSeatsButton" mnemonicParsing="false" onAction="#bookSeats" prefHeight="55.0" prefWidth="75.0" text="Bóka sæti" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <TitledPane fx:id="reviewText" animated="false" onContextMenuRequested="#openReviews" prefHeight="95.0" prefWidth="619.0" text="Athugasemdir" VBox.vgrow="NEVER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TitledPane>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
