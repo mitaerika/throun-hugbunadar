@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class DatabaseManager implements IDatabaseManager{
     private static final String JDBCdriver = "org.sqlite.JDBC";
     private static Connection conn = null;
-    private static final String url = "jdbc:sqlite:daytrip.db";
+    private static final String url = "jdbc:sqlite:test.db";
 
     public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {
@@ -70,6 +70,26 @@ public class DatabaseManager implements IDatabaseManager{
             disconnectFromDatabase();
         }
         return temp;
+    }
+
+    public void runQuery(String queryStmt) throws SQLException, ClassNotFoundException {
+        //Declare statement, resultSet as null
+        Statement stmt = null;
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            stmt.executeUpdate(queryStmt);
+        } catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
     }
 
     public ObservableList<String> fetchAvailableLocations() throws SQLException, ClassNotFoundException {
@@ -235,28 +255,44 @@ public class DatabaseManager implements IDatabaseManager{
         return dtList;               //skilum fylkinu.
     }
 
-    public void updateDaytripAvailability(Daytrip d) {
+    public void updateDaytripAvailability(Daytrip d) throws SQLException, ClassNotFoundException {
         String update = "UPDATE Daytrip SET available_seats = "+d.getAvailableSeats();
         String where = " WHERE title = '"+d.getTitle()+"' AND date_trip = '"+d.getLocalDate()+"' AND start_time = '"+d.getStartTime()+"'";
         String query = update+where;
-        System.out.println(query);
+        runQuery(query);
     }
 
-    public void registerCustomer(Customer c) {
-        String query = "INSERT INTO Customer VALUES ('"+c.getID()+"','"+c.getName()+"','"+c.getEmail()+"','"+c.getPhone()+"',null)";
-        System.out.println(query);
+    private ObservableList<String> getNextNumber(String x) throws SQLException, ClassNotFoundException {
+        String query = "SELECT COUNT(*) FROM "+x;
+        return dbToObservableList(query);
     }
 
-    public void registerBookingInCustomer(Booking b, Customer c) {
-        String query = "UPDATE Customer SET booking_number = '"+b.getID()+"' WHERE id = '"+c.getID()+"'";
-        System.out.println(query);
+    public void registerCustomer(Customer c) throws SQLException, ClassNotFoundException {
+        int id = Integer.parseInt(getNextNumber("Customer").get(0))+1 ;
+        String cID = String.format("%04d", id);
+        String query = "INSERT INTO Customer VALUES ('"+cID+"','"+c.getName()+"','"+c.getEmail()+"','"+c.getPhone()+"',null)";
+        runQuery(query);
     }
 
-    public void registerBooking(Booking b) {
-        String start = "INSERT INTO Booking VALUES ('"+b.getID()+"',"+b.getBookedSeats()+",'";
-        String where = b.getTitle()+"','"+b.getLocalDate()+"','"+b.getStartTime()+"','"+b.getEndTime()+"','"+b.getHotel()+"',"+b.getTotalCost()+",'"+b.getCustomerId();
-        String end = "')";
-        String query = start+where+end;
-        System.out.println(query);
+    public void registerBookingInCustomer(int bookingID, Customer c) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE Customer SET booking_number = '"+bookingID+"' WHERE name = '"+c.getName()+"' AND email = '"+c.getEmail()+"'";
+        runQuery(query);
+    }
+
+    public void registerCustomerInBooking(Booking b, Customer c) throws SQLException, ClassNotFoundException {
+        String query = "SELECT id FROM Customer WHERE name ='"+c.getName()+"' AND email = '"+c.getEmail()+"'";
+        String id = dbToObservableList(query).get(0);
+        String update = "UPDATE Booking SET cust_id = '"+id+"'";
+        runQuery(update);
+    }
+
+    public void registerBooking(Booking b, Customer c) throws SQLException, ClassNotFoundException {
+        int id = Integer.parseInt(getNextNumber("Booking").get(0))+1;
+        String bID = String.format("%03d",id);
+        String start = "INSERT INTO Booking VALUES ('"+bID+"',"+b.getBookedSeats()+",'";
+        String where = b.getTitle()+"','"+b.getLocalDate()+"','"+b.getStartTime()+"','"+b.getEndTime()+"',"+b.getPrice()+",'"+b.getHotel()+"',"+b.getTotalCost()+",null)";
+        String query = start+where;
+        runQuery(query);
+        registerBookingInCustomer(id,c);
     }
 }

@@ -299,9 +299,14 @@ public class Controller extends DaytripController implements Initializable {
         Parent root = loader.load();
         BookingController bookingController = loader.getController();
         bookingController.setDaytripList(cartList);
+        bookingController.setController(this);
         Stage stage = new Stage();
         stage.setTitle("Bóka ferðir");
         stage.setScene(new Scene(root, 680, 400));
         stage.show();
+    }
+
+    public ObservableList<Daytrip> getCartList(){
+        return cartList;
     }
 }

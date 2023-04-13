@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.BookingController">
    <children>
-      <VBox prefHeight="400.0" prefWidth="680.0">
+      <VBox fx:id="mainVBox" prefHeight="400.0" prefWidth="680.0">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Label text="Nafn" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-                  <Label text="Símanúmer" fx:id="phoneLabel" GridPane.rowIndex="1" />
+                  <Label fx:id="phoneLabel" text="Símanúmer" GridPane.rowIndex="1" />
                   <Label text="Netfang" GridPane.rowIndex="2" />
                   <TextField fx:id="nameInput" GridPane.columnIndex="1" />
                   <TextField fx:id="phoneInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
