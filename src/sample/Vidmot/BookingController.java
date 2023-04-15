@@ -126,9 +126,6 @@ public class BookingController implements Initializable {
             dbm.updateDaytripAvailability(d);
         }
         ObservableList<Booking> bl = dbm.fetchBookingsForCustomer(cust);
-        for (Booking b : bl){
-            b.setCustomer(cust);
-        }
         cust.setBookings(bl);
         displayBooking(cust);
         controller.getCartList().clear();

@@ -14,9 +14,9 @@ public class DaytripListCell extends ListCell<Daytrip> {
     public final Label extra = new Label();
     public final Button edit = new Button("Breyta/Eyða");
 
-    public final VBox right = new VBox(edit);
-    public VBox left = new VBox();
-    public final VBox layoutB = new VBox(title, new HBox(left,right));
+    public VBox right = new VBox(edit);
+    public VBox left = new VBox(new HBox(date,time),price, extra);
+
 
     public DaytripListCell() {
         super();
@@ -38,7 +38,6 @@ public class DaytripListCell extends ListCell<Daytrip> {
             price.setText("Verð: "+trip.getPrice());
             time.setText(" kl. "+trip.getStartTime());
             extra.setText("Einkunn: "+ avgRating +"/10");
-            left = new VBox(new HBox(date,time),price, extra);
             setGraphic(new VBox(title, left));
         }
     }

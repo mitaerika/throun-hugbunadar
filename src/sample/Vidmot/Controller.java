@@ -6,10 +6,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +25,7 @@ import sample.Vinnsla.Daytrip;
 import sample.Vinnsla.DaytripListCell;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -86,7 +89,6 @@ public class Controller extends DaytripController implements Initializable {
                     price.setText("Verð: "+ p +" x "+ pax + " = " + pax*p);
                     time.setText(" kl. "+d.getStartTime());
                     extra.setText("Sótt frá: "+d.getPickupLocation());
-                    setGraphic(new VBox(title, new HBox(left,right)));
                 }
         }});
         myListView.setCellFactory(param -> new DaytripListCell());
@@ -271,7 +273,7 @@ public class Controller extends DaytripController implements Initializable {
      * Handler sem að mun opna nýjan glugga til að skoða frekari upplýsingar um valin ferð
      * @param mouseEvent sér um að opna glugga þegar notandinn valdi ferðina úr ListView
      */
-    public void daytripSelected(MouseEvent mouseEvent) {
+    public void selectDaytrip(MouseEvent mouseEvent) {
         try {
             Daytrip selected = myListView.getSelectionModel().getSelectedItem();
             dbm.populateReviewForDaytrip(selected);
@@ -307,5 +309,21 @@ public class Controller extends DaytripController implements Initializable {
 
     public ObservableList<Daytrip> getCartList(){
         return cartList;
+    }
+
+    public ListView<Daytrip> getCartListView() { return cartListView; }
+
+    public void editCart(MouseEvent mouseEvent) throws IOException {
+        Daytrip selected = cartListView.getSelectionModel().getSelectedItem();
+        URL url = new File("src/sample/details.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        DetailsController detailsController = loader.getController();
+        detailsController.setDaytripFromCart(selected);
+        detailsController.setController(this);
+        Stage stage = new Stage();
+        stage.setTitle(selected.getTitle());
+        stage.setScene(new Scene(root, 650, 500));
+        stage.show();
     }
 }

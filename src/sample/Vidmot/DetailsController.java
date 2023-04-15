@@ -3,12 +3,14 @@ package sample.Vidmot;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
@@ -19,6 +21,8 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
+    @FXML
+    private HBox header;
     @FXML
     private Label locationText;
     @FXML
@@ -114,6 +118,33 @@ public class DetailsController implements Initializable{
             }
         });
         reviewText.setContent(ls);
+    }
+
+    public void setDaytripFromCart(Daytrip d){
+        setDaytrip(d);
+        Button removeDaytripButton = new Button();
+        removeDaytripButton.setText("Eyða/Fjarlægja ferð");
+        removeDaytripButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                c.getCartListView().getItems().remove(d);
+                Stage stage = (Stage) bookSeatsButton.getScene().getWindow();
+                stage.close();
+            }
+        });
+        header.getChildren().add(removeDaytripButton);
+        seatPicker.getSelectionModel().select(d.getBookedSeats()-1);
+        hotelPicker.getSelectionModel().select(d.getPickupLocation());
+        bookSeatsButton.setText("Breyta");
+        bookSeatsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                c.getCartListView().getItems().remove(d);
+                c.setToCart(daytrip, seats);
+                Stage stage = (Stage) bookSeatsButton.getScene().getWindow();
+                stage.close();
+            }
+        });
     }
 
     /**
