@@ -1,19 +1,24 @@
 package sample.Vidmot;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,6 +27,10 @@ import sample.Vinnsla.Customer;
 import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
 
+import javax.imageio.ImageIO;
+import java.awt.print.Book;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -47,7 +56,7 @@ public class BookingController implements Initializable {
     private boolean phoneInputIsCorrect;
     private ObservableList<Daytrip> cartList;
     private Controller controller;
-    private Button downloadButton = new Button();
+    private DatabaseManager dbm;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,16 +104,7 @@ public class BookingController implements Initializable {
             }
             return null;
         });
-
         bookingTable.getColumns().addAll(titleCol, dateCol, hotelCol, startCol, endCol, seatsCol, priceCol,costCol);
-
-        downloadButton.setText("Hlaða niður bókun");
-        downloadButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Something happens here");
-            }
-        });
     }
 
     public void setDaytripList(ObservableList<Daytrip> cartList) {
@@ -116,30 +116,65 @@ public class BookingController implements Initializable {
     //reduce available seats per daytrip
     //create new Booking per daytrip
     public void createBooking(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        DatabaseManager dbm = new DatabaseManager();
+        dbm = new DatabaseManager();
         Customer cust = new Customer(nameInput.getText(),emailInput.getText(),phoneInput.getText());
         dbm.registerCustomer(cust);
-        ObservableList<Booking> bl = FXCollections.observableArrayList();
         for(Daytrip d : cartList){
-            Booking booking = new Booking(d.getBookedSeats(),d.getBookedSeats()*d.getPrice(), d);
-            booking.setCustomer(cust);
-            bl.add(booking);
-            dbm.registerBooking(booking,cust);
-            dbm.registerCustomerInBooking(booking,cust);
+            String bookingNum = dbm.registerBooking(d,cust);
+            dbm.registerCustomerInBooking(bookingNum,cust);
             d.reduceAvailableSeats();
             dbm.updateDaytripAvailability(d);
         }
+        ObservableList<Booking> bl = dbm.fetchBookingsForCustomer(cust);
+        for (Booking b : bl){
+            b.setCustomer(cust);
+        }
         cust.setBookings(bl);
-        mainVBox.getChildren().clear();
-        Label name = new Label("Nafn: "+cust.getName());
-        Label phone = new Label("Símanúmer: "+cust.getPhone());
-        Label email = new Label("Netfang: "+cust.getEmail());
-        TableView<Booking> tv = new TableView<>();
-        mainVBox.getChildren().addAll(name, phone, email, tv, downloadButton);
+        displayBooking(cust);
         controller.getCartList().clear();
+        controller.updateListView();
     }
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public void displayBooking(Customer c) throws SQLException, ClassNotFoundException {
+        mainVBox.getChildren().clear();
+        Label name = new Label("Nafn: "+c.getName());
+        Label phone = new Label("Símanúmer: "+c.getPhone());
+        Label email = new Label("Netfang: "+c.getEmail());
+        TableView<Booking> tv = new TableView<>();
+        TableColumn<Booking,String> titleCol = new TableColumn<Booking,String>("Ferð");
+        titleCol.setCellValueFactory(new PropertyValueFactory<Booking,String>("title"));
+        TableColumn<Booking,LocalDate> dateCol = new TableColumn<Booking,LocalDate>("Dagsetning");
+        dateCol.setCellValueFactory(new PropertyValueFactory<Booking,LocalDate>("date"));
+        TableColumn<Booking,String> hotelCol = new TableColumn<Booking,String>("Sótt frá");
+        hotelCol.setCellValueFactory(new PropertyValueFactory<Booking,String>("hotel"));
+        TableColumn<Booking, LocalTime> startCol = new TableColumn<Booking,LocalTime>("Brottför");
+        startCol.setCellValueFactory(new PropertyValueFactory<Booking,LocalTime>("startTime"));
+        TableColumn<Booking, LocalTime> endCol = new TableColumn<Booking,LocalTime>("Koma");
+        endCol.setCellValueFactory(new PropertyValueFactory<Booking,LocalTime>("endTime"));
+        TableColumn<Booking,Integer> seatsCol = new TableColumn<Booking,Integer>("Fjölda sæti");
+        seatsCol.setCellValueFactory(new PropertyValueFactory<Booking,Integer>("bookedSeats"));
+        TableColumn<Booking,Integer> costCol = new TableColumn<Booking,Integer>("Kostnaður");
+        costCol.setCellValueFactory(new PropertyValueFactory<Booking,Integer>("totalCost"));
+        tv.getColumns().addAll(titleCol,seatsCol,dateCol,hotelCol,startCol,endCol,costCol);
+        tv.setItems(dbm.fetchBookingsForCustomer(c));
+        Button downloadButton = new Button();
+        downloadButton.setText("Hlaða niður bókun");
+        downloadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                WritableImage image = mainVBox.snapshot(new SnapshotParameters(), null);
+                File file = new File("bookings.png");
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        mainVBox.getChildren().addAll(name, phone, email, tv, downloadButton);
     }
 }

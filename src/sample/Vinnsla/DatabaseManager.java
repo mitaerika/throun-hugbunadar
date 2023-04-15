@@ -257,7 +257,7 @@ public class DatabaseManager implements IDatabaseManager{
 
     public void updateDaytripAvailability(Daytrip d) throws SQLException, ClassNotFoundException {
         String update = "UPDATE Daytrip SET available_seats = "+d.getAvailableSeats();
-        String where = " WHERE title = '"+d.getTitle()+"' AND date_trip = '"+d.getLocalDate()+"' AND start_time = '"+d.getStartTime()+"'";
+        String where = " WHERE title = '"+d.getTitle()+"' AND date_trip = '"+d.getLocalDate()+"' AND start_time = '"+d.getStartTime()+":00'";
         String query = update+where;
         runQuery(query);
     }
@@ -279,20 +279,76 @@ public class DatabaseManager implements IDatabaseManager{
         runQuery(query);
     }
 
-    public void registerCustomerInBooking(Booking b, Customer c) throws SQLException, ClassNotFoundException {
+    public void registerCustomerInBooking(String bookingNum, Customer c) throws SQLException, ClassNotFoundException {
         String query = "SELECT id FROM Customer WHERE name ='"+c.getName()+"' AND email = '"+c.getEmail()+"'";
         String id = dbToObservableList(query).get(0);
-        String update = "UPDATE Booking SET cust_id = '"+id+"'";
+        String update = "UPDATE Booking SET cust_id = '"+id+"' WHERE num = "+bookingNum;
         runQuery(update);
     }
 
-    public void registerBooking(Booking b, Customer c) throws SQLException, ClassNotFoundException {
+    public String registerBooking(Daytrip d, Customer c) throws SQLException, ClassNotFoundException {
         int id = Integer.parseInt(getNextNumber("Booking").get(0))+1;
         String bID = String.format("%03d",id);
-        String start = "INSERT INTO Booking VALUES ('"+bID+"',"+b.getBookedSeats()+",'";
-        String where = b.getTitle()+"','"+b.getLocalDate()+"','"+b.getStartTime()+"','"+b.getEndTime()+"',"+b.getPrice()+",'"+b.getHotel()+"',"+b.getTotalCost()+",null)";
+        String start = "INSERT INTO Booking VALUES ('"+bID+"',"+d.getBookedSeats()+",'";
+        int totalCost = d.getBookedSeats()*d.getPrice();
+        String where = d.getTitle()+"','"+d.getLocalDate()+"','"+d.getStartTime()+":00','"+d.getEndTime()+":00',"+d.getPrice()+",'"+d.getPickupLocation()+"',"+totalCost+",null)";
         String query = start+where;
         runQuery(query);
         registerBookingInCustomer(id,c);
+        return bID;
+    }
+
+    public ObservableList<Booking> fetchBookingsForCustomer(Customer c) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM Booking, Customer WHERE cust_id = id AND ";
+        String add = "Customer.name = '"+c.getName()+"' AND Customer.email = '"+c.getEmail()+"' AND Customer.phone = "+c.getPhone();
+        Statement stmt = null;
+        ResultSet rs = null;
+        ObservableList<Booking> bookingList;
+        try {
+            //Connect to DB, create statement, and execute statement
+            connectToDatabase();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query+add);
+            bookingList = createBookingObservableList(rs);
+        } catch (SQLException e) {
+            System.out.println("Problem occurred at executeQuery operation : " + e);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            //Close connection
+            disconnectFromDatabase();
+        }
+        return bookingList;
+    }
+
+    public ObservableList<Booking> createBookingObservableList(ResultSet rs) throws SQLException {
+        //finnum út hve mörg daytrip fyrlki við þurfum að búa til.
+        ObservableList<Booking> bList = FXCollections.observableArrayList();
+        while (rs.next()) {
+            int bookedSeats = rs.getInt(2);
+            String title = rs.getString(3);
+            //náum í upplýsingar úr resultset línu.
+            String tempDate = rs.getString(4);
+            String tempStartTime = rs.getString(5);
+            String tempEndtime = rs.getString(6);
+
+            // convert String to LocalDate and LocalTime
+            LocalDate date = toLocalDate(tempDate);
+            LocalTime starttime = toLocalTime(tempStartTime);
+            LocalTime endtime = toLocalTime(tempEndtime);
+
+            int price = rs.getInt(7);
+            String hotel = rs.getString(8);
+            int totalCost = rs.getInt(9);
+
+            Booking tempB = new Booking(bookedSeats, title, date, starttime, endtime, price, hotel, totalCost);
+            bList.add(tempB);        //setjum daytrip inn í lista dtList
+        }
+        return bList;               //skilum fylkinu.
     }
 }

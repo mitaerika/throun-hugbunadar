@@ -42,7 +42,7 @@ public class Controller extends DaytripController implements Initializable {
     @FXML
     private RadioButton ratingAscending;
     @FXML
-    private Button finalizeBooking;
+    private Button finalizeBookingButton;
     @FXML
     private ListView<Daytrip> myListView;
     @FXML
@@ -60,7 +60,6 @@ public class Controller extends DaytripController implements Initializable {
     private String selectedLocation;
     private LocalDate selectedDate;
     private String selectedTime;
-    private int bookedSeats;
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,7 +106,7 @@ public class Controller extends DaytripController implements Initializable {
      * 3. Ef ekkert fannst fyrir leitarkröfur, setja skilaboð sem segir svo
      * Annars, sýna leitar niðurstöðurnar
      */
-    private void updateListView(){
+    public void updateListView(){
         try {
             myListView.setPlaceholder(null);
             ObservableList<Daytrip> filteredResult = dbm.fetchFilteredDaytrips(selectedDate,selectedLocation,selectedTime);

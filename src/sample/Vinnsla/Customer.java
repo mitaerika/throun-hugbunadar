@@ -29,4 +29,8 @@ public class Customer {
     public String getPhone(){
         return phone;
     }
+
+    public ObservableList<Booking> getBookings() {
+        return this.bookings;
+    }
 }
