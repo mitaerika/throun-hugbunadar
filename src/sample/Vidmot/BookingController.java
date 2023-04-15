@@ -14,14 +14,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sample.Vinnsla.Booking;
 import sample.Vinnsla.Customer;
 import sample.Vinnsla.DatabaseManager;
@@ -30,6 +35,8 @@ import sample.Vinnsla.Daytrip;
 import javax.imageio.ImageIO;
 import java.awt.print.Book;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -170,6 +177,22 @@ public class BookingController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                FileInputStream inputstream = null;
+                try {
+                    inputstream = new FileInputStream("bookings.png");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Image receipt = new Image(inputstream);
+                ImageView imageView = new ImageView(receipt);
+
+                imageView.setPreserveRatio(true);
+                Group root = new Group(imageView);
+                Scene scene = new Scene(root, imageView.getFitWidth(), imageView.getFitHeight());
+                Stage stage = new Stage();
+                stage.setTitle("Kvittun");
+                stage.setScene(scene);
+                stage.show();
             }
         });
         mainVBox.getChildren().addAll(name, phone, email, tv, downloadButton);

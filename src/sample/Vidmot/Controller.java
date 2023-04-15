@@ -1,23 +1,16 @@
 package sample.Vidmot;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Vinnsla.DatabaseManager;
@@ -25,7 +18,6 @@ import sample.Vinnsla.Daytrip;
 import sample.Vinnsla.DaytripListCell;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -137,6 +129,7 @@ public class Controller extends DaytripController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        locationList.add("Allir landshlutar");
         locationPicker.getItems().removeAll(locationPicker.getItems());
         locationPicker.getItems().addAll(locationList);
     }
@@ -303,7 +296,7 @@ public class Controller extends DaytripController implements Initializable {
         bookingController.setController(this);
         Stage stage = new Stage();
         stage.setTitle("Bóka ferðir");
-        stage.setScene(new Scene(root, 680, 400));
+        stage.setScene(new Scene(root, 710, 400));
         stage.show();
     }
 

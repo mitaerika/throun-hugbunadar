@@ -161,7 +161,7 @@ public class DatabaseManager implements IDatabaseManager{
         String dateQuery = "";
         if(day != null) dateQuery = " AND date_trip = '"+day+"'";
         String locationQuery = "";
-        if(location != null) locationQuery = " AND location_name = '"+location+"'";
+        if(location != null && !location.equals("Allir landshlutar")) locationQuery = " AND location_name = '"+location+"'";
         String timeQuery = "";
         if (departure != null) timeQuery = " AND start_time "+time;
         String query = "SELECT * FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title"+dateQuery+locationQuery+timeQuery;
