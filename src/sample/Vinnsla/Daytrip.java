@@ -2,11 +2,12 @@ package sample.Vinnsla;
 
 
 import javafx.collections.ObservableList;
-import sample.Vidmot.DaytripController;
+import sample.Vidmot.MainController;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Daytrip extends DaytripController {
+public class Daytrip extends MainController {
     private String title;
     private LocalDate date;
     private LocalTime startTime;

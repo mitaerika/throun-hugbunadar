@@ -62,7 +62,7 @@ public class BookingController implements Initializable {
 
     private boolean phoneInputIsCorrect;
     private ObservableList<Daytrip> cartList;
-    private Controller controller;
+    private MainController controller;
     private DatabaseManager dbm;
 
     @Override
@@ -139,7 +139,7 @@ public class BookingController implements Initializable {
         controller.updateListView();
     }
 
-    public void setController(Controller controller) {
+    public void setController(MainController controller) {
         this.controller = controller;
     }
 

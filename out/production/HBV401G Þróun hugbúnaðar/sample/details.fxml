@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.DetailsController">
+<AnchorPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Vidmot.DetailsController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="650.0">
          <children>
@@ -86,7 +86,7 @@
                   </HBox>
                </children>
             </HBox>
-            <TitledPane fx:id="reviewText" animated="false" onContextMenuRequested="#openReviews" prefHeight="95.0" prefWidth="619.0" text="Athugasemdir" VBox.vgrow="NEVER">
+            <TitledPane fx:id="reviewText" animated="false" prefHeight="95.0" prefWidth="619.0" text="Athugasemdir" VBox.vgrow="NEVER">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>

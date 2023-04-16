@@ -12,12 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import sample.Vinnsla.DatabaseManager;
 import sample.Vinnsla.Daytrip;
-import sample.Vinnsla.DaytripListCell;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class DetailsController implements Initializable{
@@ -51,7 +48,7 @@ public class DetailsController implements Initializable{
     private Label tripTitle;
 
     private int seats;
-    private Controller c;
+    private MainController c;
     private Daytrip daytrip;
     private double width;
     private boolean hotelIsSelected;
@@ -67,6 +64,11 @@ public class DetailsController implements Initializable{
         width = reviewText.getWidth();
     }
 
+    /**
+     * Aðferðin setDaytrip sér um að sækja gögnin sem notandinn valdi í main.fxml yfir í að birta þau
+     * í detail.fxml
+     * @param selectedItem er dagsferðin sem var valin.
+     */
     public void setDaytrip(Daytrip selectedItem) {
         daytrip = selectedItem;
         tripTitle.setText(daytrip.getTitle());
@@ -178,14 +180,8 @@ public class DetailsController implements Initializable{
         stage.close();
     }
 
-    public void setController(Controller controller) {
+    public void setController(MainController controller) {
         c = controller;
     }
 
-    //!! Does not work yet, size of window remains the same
-    public void openReviews(ContextMenuEvent contextMenuEvent) {
-        //adjust size of window according to TitledPane
-        Stage stage = (Stage) reviewText.getScene().getWindow();
-        reviewText.expandedProperty().addListener((obs, oldHeight, newHeight) -> stage.sizeToScene());
-    }
 }
