@@ -177,24 +177,27 @@ public class BookingController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                FileInputStream inputstream = null;
-                try {
-                    inputstream = new FileInputStream("bookings.png");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Image receipt = new Image(inputstream);
-                ImageView imageView = new ImageView(receipt);
-
-                imageView.setPreserveRatio(true);
-                Group root = new Group(imageView);
-                Scene scene = new Scene(root, imageView.getFitWidth(), imageView.getFitHeight());
-                Stage stage = new Stage();
-                stage.setTitle("Kvittun");
-                stage.setScene(scene);
-                stage.show();
+                showReceipt();
             }
         });
         mainVBox.getChildren().addAll(name, phone, email, tv, downloadButton);
+    }
+
+    private void showReceipt(){
+        FileInputStream inputstream = null;
+        try {
+            inputstream = new FileInputStream("bookings.png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Image receipt = new Image(inputstream);
+        ImageView imageView = new ImageView(receipt);
+        imageView.setPreserveRatio(true);
+        Group root = new Group(imageView);
+        Scene scene = new Scene(root, imageView.getFitWidth(), imageView.getFitHeight());
+        Stage stage = new Stage();
+        stage.setTitle("Kvittun");
+        stage.setScene(scene);
+        stage.show();
     }
 }

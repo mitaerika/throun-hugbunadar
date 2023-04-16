@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class DatabaseManager implements IDatabaseManager{
     private static final String JDBCdriver = "org.sqlite.JDBC";
     private static Connection conn = null;
-    private static final String url = "jdbc:sqlite:test.db";
+    private static final String url = "jdbc:sqlite:daytrip.db";
 
     public void connectToDatabase() throws SQLException, ClassNotFoundException {
         try {

@@ -135,6 +135,7 @@ public class DetailsController implements Initializable{
         header.getChildren().add(removeDaytripButton);
         seatPicker.getSelectionModel().select(d.getBookedSeats()-1);
         hotelPicker.getSelectionModel().select(d.getPickupLocation());
+        bookSeatsButton.setDisable(false);
         bookSeatsButton.setText("Breyta");
         bookSeatsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
