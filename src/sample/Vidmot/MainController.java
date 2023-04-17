@@ -58,6 +58,16 @@ public class MainController implements Initializable {
 
     Comparator<Daytrip> comparatorPrice = Comparator.comparingInt(Daytrip::getPrice);
     Comparator<Daytrip> comparatorRating = Comparator.comparingDouble(Daytrip::getAvgRating);
+    Comparator<Daytrip> comparatorDate = Comparator.comparing(Daytrip::getDate);
+    Comparator<Daytrip> comparatorTime = Comparator.comparing(Daytrip::getStartTime);
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        dbm = new DatabaseManager();
+        populateListView();
+        populateComboBox();
+        populateCheckBox();
+    }
 
     /**
      * Þetta er handler fyrir að raða dagsferðum frá hæsta verði í það lægsta.
@@ -95,15 +105,6 @@ public class MainController implements Initializable {
     public ObservableList<Daytrip> filterByLocation(ObservableList<Daytrip> daytrips, String location){
         // Filter ObservableList by the search query
         return daytrips.filtered((daytrip) -> daytrip.getLocation().toLowerCase().equals(location.toLowerCase()));
-    }
-
-
-        @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
-            dbm = new DatabaseManager();
-            populateListView();
-            populateComboBox();
-            populateCheckBox();
     }
 
     /**
@@ -295,13 +296,31 @@ public class MainController implements Initializable {
 
     /**
      * Aðferð til að setja ferð sem notandinn er að skoða í nýja glugganum í körfu
+     * Ferðir eru raðaðar með dagsetningu á hækkandi röð
      * @param d Daytrip hlut
      * @param num fjölda sæti
      */
     public void setToCart(Daytrip d, int num){
         d.setBookedSeats(num);
         cartList.add(d);
-        cartListView.setItems(cartList);
+        ObservableList<Daytrip> sortedByDate = sortByDate(cartList,false);
+        cartListView.setItems(sortedByDate);
+    }
+
+    private ObservableList<Daytrip> sortByDate(ObservableList<Daytrip> daytrips, boolean descending) {
+        if (descending) {
+            daytrips.sort(comparatorDate.reversed());
+        }
+        else daytrips.sort(comparatorDate);
+        return daytrips;
+    }
+
+    private ObservableList<Daytrip> sortByTime(ObservableList<Daytrip> daytrips, boolean descending) {
+        if (descending) {
+            daytrips.sort(comparatorTime.reversed());
+        }
+        else daytrips.sort(comparatorTime);
+        return daytrips;
     }
 
     /**
