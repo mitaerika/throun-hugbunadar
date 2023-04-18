@@ -46,6 +46,8 @@ import java.util.ResourceBundle;
 
 public class BookingController implements Initializable {
     @FXML
+    private Label emailLabel;
+    @FXML
     private VBox mainVBox;
     @FXML
     private Label phoneLabel;
@@ -60,7 +62,6 @@ public class BookingController implements Initializable {
     @FXML
     private TableView<Daytrip> bookingTable;
 
-    private boolean phoneInputIsCorrect;
     private ObservableList<Daytrip> cartList;
     private MainController controller;
     private DatabaseManager dbm;
@@ -68,22 +69,33 @@ public class BookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bookingTable.getColumns().clear();
-        confirmButton.setDisable(true);
+        //confirmButton.setDisable(true);
         confirmButton.disableProperty().bind(
                 Bindings.createBooleanBinding( () -> nameInput.getText().trim().isEmpty(), nameInput.textProperty())
-                .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().trim().isEmpty() || phoneInputIsCorrect, phoneInput.textProperty())
-                        .or ( Bindings.createBooleanBinding( () -> emailInput.getText().isEmpty(),emailInput.textProperty())
-        )));
+                .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().trim().isEmpty(), phoneInput.textProperty())
+                .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().matches("\\d{6}"), phoneInput.textProperty())
+                .or ( Bindings.createBooleanBinding( () -> emailInput.getText().isEmpty(), emailInput.textProperty())
+                .or ( Bindings.createBooleanBinding( () -> !emailInput.getText().matches(".*@.+\\..+"), emailInput.textProperty())
+        )))));
+
+        emailInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (s.matches(".*@.+\\..*")) {
+                    emailLabel.setText("Netfáng");
+                } else {
+                    emailLabel.setText("Netfáng þarf að vera í formi notendanafn@lén.ext");
+                }
+            }
+        });
 
         phoneInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String old, String s) {
-                if (!s.matches("\\d{7}")) {
-                    phoneInputIsCorrect = false;
-                    phoneLabel.setText("Símanúmer þarf að vera 7 stafa númer");
-                } else {
-                    phoneInputIsCorrect = true;
+                if (s.matches("\\d{7}")) {
                     phoneLabel.setText("Símanúmer");
+                } else {
+                    phoneLabel.setText("Símanúmer þarf að vera 7 stafa númer");
                 }
             }
         });

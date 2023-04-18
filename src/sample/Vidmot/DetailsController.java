@@ -130,6 +130,7 @@ public class DetailsController implements Initializable{
             @Override
             public void handle(ActionEvent actionEvent) {
                 c.getCartListView().getItems().remove(d);
+                if(c.getCartList().isEmpty()) c.enableBookingButton(false);
                 Stage stage = (Stage) bookSeatsButton.getScene().getWindow();
                 stage.close();
             }

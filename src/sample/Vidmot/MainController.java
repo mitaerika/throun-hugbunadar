@@ -67,6 +67,7 @@ public class MainController implements Initializable {
         populateListView();
         populateComboBox();
         populateCheckBox();
+        enableBookingButton(false);
     }
 
     /**
@@ -305,6 +306,10 @@ public class MainController implements Initializable {
         cartList.add(d);
         ObservableList<Daytrip> sortedByDate = sortByDate(cartList,false);
         cartListView.setItems(sortedByDate);
+    }
+
+    public void enableBookingButton(boolean f){
+        finalizeBookingButton.setDisable(f);
     }
 
     private ObservableList<Daytrip> sortByDate(ObservableList<Daytrip> daytrips, boolean descending) {
