@@ -271,7 +271,7 @@ public class MainController implements Initializable {
     public void eveningSelected(ActionEvent actionEvent) {
         selectedTime = "evening";
     }
-
+    public void wheneverSelected(ActionEvent actionEvent) { selectedTime = "whenever"; }
 
     /**
      * Þetta er handler sem að mun sjá um allt sem hinir handlerarnir eru að gera, nema að
@@ -390,4 +390,6 @@ public class MainController implements Initializable {
         stage.setScene(new Scene(root, 650, 500));
         stage.show();
     }
+
+
 }

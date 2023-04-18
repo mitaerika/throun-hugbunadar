@@ -153,8 +153,11 @@ public class DatabaseManager implements IDatabaseManager{
                 case "afternoon":
                     time = "> '12:01:00'";
                     break;
-                default:
+                case "morning":
                     time = "< '12:00:00'";
+                    break;
+                default:
+                    time = "";
                     break;
             }
         }
@@ -163,7 +166,7 @@ public class DatabaseManager implements IDatabaseManager{
         String locationQuery = "";
         if(location != null && !location.equals("Allir landshlutar")) locationQuery = " AND location_name = '"+location+"'";
         String timeQuery = "";
-        if (departure != null) timeQuery = " AND start_time "+time;
+        if (departure != null && !departure.equals("whenever")) timeQuery = " AND start_time "+time;
         String query = "SELECT * FROM Daytrip, Review WHERE available_seats>0 AND title = daytrip_title"+dateQuery+locationQuery+timeQuery;
         ObservableList<Daytrip> daytripList;
         try {
