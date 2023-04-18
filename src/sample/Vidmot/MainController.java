@@ -67,7 +67,7 @@ public class MainController implements Initializable {
         populateListView();
         populateComboBox();
         populateCheckBox();
-        enableBookingButton(false);
+        disableBookingButton(true);
     }
 
     /**
@@ -308,7 +308,7 @@ public class MainController implements Initializable {
         cartListView.setItems(sortedByDate);
     }
 
-    public void enableBookingButton(boolean f){
+    public void disableBookingButton(boolean f){
         finalizeBookingButton.setDisable(f);
     }
 

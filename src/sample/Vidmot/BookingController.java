@@ -69,7 +69,6 @@ public class BookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bookingTable.getColumns().clear();
-        //confirmButton.setDisable(true);
         confirmButton.disableProperty().bind(
                 Bindings.createBooleanBinding( () -> nameInput.getText().trim().isEmpty(), nameInput.textProperty())
                 .or ( Bindings.createBooleanBinding( () -> phoneInput.getText().trim().isEmpty(), phoneInput.textProperty())
